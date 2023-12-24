@@ -8,7 +8,7 @@
 3，支持多需求叠加<br>
 4，支持把计算结果进行保存（多方案）<br>
 5，开源，纯前端，只需要会点Javascript就能修改代码<br>
-6，<a href="https://gitee.com/svlik/DysonSphereProgramTool/issues">Issues</a>中的待办事项，有能力有时间的小伙伴也可以进行修复。<br>
+6，<a href="https://github.com/122474363/DSQ/issues">Issues</a>中的待办事项，有能力有时间的小伙伴也可以进行修复。<br>
 7，如果提交PR长时间未处理，可以QQ艾特122474363进行合并。<br>
 8，戴森球计划工具交流讨论QQ群：<a href="http://qm.qq.com/cgi-bin/qm/qr?_wv=1027&k=UzzPv3ic7Fk9EDCyHo_4gkWQLR3WEA9Y&authKey=ysjOY0JQOSpT2ZCLkttSzI73sXyzu%2FXEqJXMmY2O645LpO6GOD5lRBrjdalqpO5k&noverify=0&group_code=53309723" target="_blank">53309723</a>
 <br>
