@@ -42,7 +42,7 @@
 		</button>
 		<!--<button id="btnReset3">
         重置速度
-    </button>-->
+		</button>-->
 		<button id="btnReset4">
 			重置配方
 		</button>
@@ -105,40 +105,31 @@
 	<div id="MoreSetting" style="display:none;">
 		<p><span class="label">分馏塔每分钟产量： </span><input id="fractionatorSpeed" class="textbox" type="number" value="18" />
 		</p>
-		<p><span class="label">运输站集装物流：</span> <input id="speed1_5" class="textbox" type="number" value="1" /> </p>
+		<p><span class="label">运输站集装物流：</span> <input id="speed1_5" class="textbox" type="number" min="1" max="4" value="1" /> </p>
 		<p><span class="label">大型采矿机：</span> <input id="speed1_6" class="textbox" type="number" value="100" /> </p>
 		<p><span class="label">原油速度：</span> <input id="oilSpeed" class="textbox" type="number" value="4" /> </p>
-		<p><span class="label">轨道采集-重氢：</span> <input data-name="重氢" id="speed1_2" class="speed1 textbox" type="number"
-				value="0.02" /> </p>
-		<p><span class="label">轨道采集-可燃冰：</span> <input data-name="可燃冰" id="speed1_3" class="speed1 textbox" type="number"
-				value="0.5" /> </p>
-		<p><span class="label">轨道采集-氢(巨冰)：</span> <input data-name="氢" id="speed1_4" class="speed1 textbox" type="number"
-				value="0.5" /> </p>
-		<p><span class="label">轨道采集-氢(气态)：</span> <input data-name="氢" id="speed1_1" class="speed1 textbox" type="number"
-				value="1" /> </p>
+		<p><span class="label">轨道采集-重氢：</span> <input data-name="重氢" id="speed1_2" class="speed1 textbox" type="number" step="0.01" value="0.02" /> </p>
+		<p><span class="label">轨道采集-可燃冰：</span> <input data-name="可燃冰" id="speed1_3" class="speed1 textbox" type="number" step="0.1" value="0.5" /> </p>
+		<p><span class="label">轨道采集-氢(巨冰)：</span> <input data-name="氢" id="speed1_4" class="speed1 textbox" type="number" step="0.1" value="0.5" /> </p>
+		<p><span class="label">轨道采集-氢(气态)：</span> <input data-name="氢" id="speed1_1" class="speed1 textbox" type="number" step="0.1" value="1" /> </p>
 		<p><span class="label">临界光子每分钟产量： </span><input id="gzSpeed" class="textbox" type="number" value="5" /> </p>
 		<p><span class="label">小数点后保留： </span><input id="pointLength" class="textbox" type="number" value="3" /> 位</p>
+		
 		<p>蓝图配置：</p>
 		<div style="margin-left: 1%">
-			<!--				<span class="label">紧凑布局</span><input type="checkbox" id="compactLayout"><br/>-->
-			<!--						<input type="checkbox" id="upgradeConveyorBelt"><label for="upgradeConveyorBelt">临界运力传送带自升级</label>-->
+			<!-- <span class="label">紧凑布局</span><input type="checkbox" id="compactLayout">（高纬度可能出现碰撞）<br/> -->
+			<!-- <span class="label">临界运力传送带自升级</span><input type="checkbox" id="upgradeConveyorBelt"><br /> -->
 			<span class="label">只使用三级传送带</span><input type="checkbox" id="onlyConveyorBeltMk3"><br />
-			<!--				<label for="onlySorterMk3">只使用三级分拣器</label><input type="checkbox" id="onlySorterMk3"><br/>-->
 			<span class="label">只使用三级分拣器</span><input type="checkbox" id="onlySorterMk3"><br />
-			<!--				<span class="label">三级传送带运力降级</span><input type="checkbox" id="onlyConveyorBeltMk3Downgrade">（三级传送带运力锁定在1680/min，可在一定程度上解决蓝图产量低于预期的问题）<br/>-->
+			<!-- <span class="label">三级传送带运力降级</span><input type="checkbox" id="onlyConveyorBeltMk3Downgrade">（三级传送带运力锁定在1680/min，可在一定程度上解决蓝图产量低于预期的问题）<br/> -->
 			<span class="label">自动插入电力感应塔</span><input type="checkbox" id="generateTeslaTower" checked="checked"><br />
-			<!--				<label for="conveyorBeltStackLayer">传送带物品堆叠层数</label><input type="number" id="conveyorBeltStackLayer" min="1" max="4" value="4" class="textbox"><br/>-->
-			<span class="label">电力感应塔间隔排数</span><input type="number" id="teslaTowerLineInterval" min="1" max="2" value="1"
-				class="textbox">（建议取值1或2）<br />
-			<span class="label">传送带物品堆叠层数</span><input type="number" id="conveyorBeltStackLayer" min="1" max="4" value="4"
-				class="textbox"><br />
-			<span class="label">研究站层数</span><input type="number" id="maxLabLayers" min="1" max="15" value="15"
-				class="textbox"><br />
-			<!--				<span class="label">电线杆间隔</span><input type="number" id="teslaTowerInterval" min="1" max="15" value="15" class="textbox"><br/>-->
-			<!--				<label for="x_y_ratio">蓝图长宽比</label><input type="number" id="x_y_ratio" min="1" step="0.1" value="2" class="textbox"><br/>-->
-			<span class="label">蓝图长宽比</span><input type="number" id="x_y_ratio" min="1" step="0.1" value="2"
-				class="textbox"><br />
+			<span class="label">电力感应塔间隔排数</span><input type="number" id="teslaTowerLineInterval" min="1" max="2" value="1" class="textbox">（建议取值1或2）<br />
+			<span class="label">传送带物品堆叠层数</span><input type="number" id="conveyorBeltStackLayer" min="1" max="4" value="4" class="textbox"><br />
+			<span class="label">研究站层数</span><input type="number" id="maxLabLayers" min="1" max="15" value="15" class="textbox"><br />
+			<!-- <span class="label">电线杆间隔</span><input type="number" id="teslaTowerInterval" min="1" max="15" value="15" class="textbox"><br/> -->
+			<span class="label">蓝图长宽比</span><input type="number" id="x_y_ratio" min="1" step="0.1" value="2" class="textbox"><br />
 		</div>
+		
 	</div>
 	<div id="result">
 		<div class="list">
@@ -163,24 +154,28 @@
 					重置
 				</button>
 				<button onclick="f_save()">保存方案</button>
-				<!--					<button-->
-				<!--							onclick="let configSpan = document.getElementById('blueprintConfig'); if(configSpan.style.display === 'none'){configSpan.style.display='block'}else {configSpan.style.display='none'}"-->
-				<!--					>蓝图配置</button>-->
+				
+				<!-- <button	onclick="let configSpan = document.getElementById('blueprintConfig'); if(configSpan.style.display === 'none'){configSpan.style.display='block'}else {configSpan.style.display='none'}">蓝图配置</button> -->
+				
 				<button onclick="generateBlueprint()">生成蓝图</button>
-				&nbsp&nbsp蓝图功能的传送带问题为历史遗留，只是该功能未作删除。</span>
-				<!--					<br/>-->
-				<!--					<span id="blueprintConfig" style="display: none">蓝图配置：-->
-				<!--						<div style="margin-left: 2%">-->
-				<!--						<input type="checkbox" id="compactLayout"><label for="compactLayout">紧凑布局（高纬度可能出现碰撞）</label>-->
-				<!--&lt;!&ndash;						<input type="checkbox" id="upgradeConveyorBelt"><label for="upgradeConveyorBelt">临界运力传送带自升级</label>&ndash;&gt;-->
-				<!--						<input type="checkbox" id="onlyConveyorBeltMk3"><label for="onlyConveyorBeltMk3">只使用三级传送带</label>-->
-				<!--						<input type="checkbox" id="onlySorterMk3"><label for="onlySorterMk3">只使用三级分拣器</label>-->
-				<!--						<br/>-->
-				<!--						<label for="conveyorBeltStackLayer">传送带物品堆叠层数</label><input type="number" id="conveyorBeltStackLayer" min="1" max="4" value="4">-->
-				<!--						<label for="x_y_ratio">蓝图长宽比</label><input type="number" id="x_y_ratio" min="1" step="0.1" value="2">-->
-				<!--						</div>-->
-				<!--					</span>-->
+				&nbsp&nbsp
+				戴森球计划工具交流讨论QQ群：<a href="http://qm.qq.com/cgi-bin/qm/qr?_wv=1027&k=UzzPv3ic7Fk9EDCyHo_4gkWQLR3WEA9Y&authKey=ysjOY0JQOSpT2ZCLkttSzI73sXyzu%2FXEqJXMmY2O645LpO6GOD5lRBrjdalqpO5k&noverify=0&group_code=53309723" target="_blank">53309723</a>
+			
+				<!-- <br/> -->
+				<!-- <span id="blueprintConfig" style="display: none">蓝图配置： -->
+				<!-- <div style="margin-left: 2%"> -->
+				<!-- <input type="checkbox" id="compactLayout"><label for="compactLayout">紧凑布局（高纬度可能出现碰撞）</label> -->
+				<!-- <input type="checkbox" id="upgradeConveyorBelt"><label for="upgradeConveyorBelt">临界运力传送带自升级</label> -->
+				<!-- <input type="checkbox" id="onlyConveyorBeltMk3"><label for="onlyConveyorBeltMk3">只使用三级传送带</label> -->
+				<!-- <input type="checkbox" id="onlySorterMk3"><label for="onlySorterMk3">只使用三级分拣器</label> -->
+				<!-- <br/> -->
+				<!-- <label for="conveyorBeltStackLayer">传送带物品堆叠层数</label><input type="number" id="conveyorBeltStackLayer" min="1" max="4" value="4"> -->
+				<!-- <label for="x_y_ratio">蓝图长宽比</label><input type="number" id="x_y_ratio" min="1" step="0.1" value="2"> -->
+				<!-- </div> -->
+				<!-- </span> -->
+				
 				<br /><small>(右键可取消单项需求；单击数字可编辑数量)</small>
+			</span>
 			</span>
 		</div>
 		<div class="list" v-if="ig_names && ig_names.length">
@@ -206,7 +201,10 @@
 							每分钟需求
 							<br /><span style="font-size:12px">(负数代表多余)</span>
 						</td>
-						<td style="width:100px;">设备数量</td>
+						<td style="width:100px;">
+							设备数量
+							<br /><span style="font-size:12px">(点击数字修改)</span>
+						</td>
 						<td>
 							配方
 							<br /><span style="font-size:12px">(可选)</span>
@@ -224,8 +222,6 @@
 							制作于
 							<br /><span style="font-size:12px">(可选)</span>
 						</td>
-						<!--<td>设备制作速度<br /><span style="font-size:12px">(可自定义)</span></td>-->
-						<!--<td style="width:150px;">最终速度(秒)</td>-->
 					</tr>
 
 					<tr v-for="item in items0" v-bind:class="item.rowClass">
