@@ -149,6 +149,12 @@
 				<span class="name" v-else=v-else>{{x.item.name}}</span>
 				*
 				<span class="item_number" @click="onClickNumber(index)">
+					<span>{{x.number.toFixed(2)}}</span>
+					<div v-if="xps_editor_index === index" class="xps_editor_container">
+						<input ref="'input-' + index" class="number_editor" type="number" v-model.number="xps_editor_number"
+							@blur="submitEditorNumber()" @focus="event.target.select()"
+							@change="submitEditorNumber()"
+
 					<span>{{x.number}}</span>
 					<div v-if="number_editor_index === index" class="number_editor_container">
 						<input ref="input" class="number_editor" type="number" v-model.number="number_editor_number"
@@ -245,7 +251,7 @@
 							<a class="m selected"> {{item.mName}}</a>
 						</td>
 					</tr>
-					<tr v-for="item in items" v-bind:class="item.rowClass">
+					<tr v-for="(item, index_item) in items" v-bind:class="item.rowClass">
 						<td class="opcell">
 							<a href="javascript:void(0)" v-bind:data-name="item.name" onclick="f_ig(this)">排除</a>
 							<a href="javascript:void(0)" v-if=" item.pf &&  item.pf.length > 1" v-bind:data-name="item.name"
@@ -259,8 +265,18 @@
 						</td>
 						<td><span class="number1">{{item.number1}}</span></td>
 						<td>
-							<span class="number2" v-html="item.number2full"></span>
-							<span v-if="item.numberOther" v-html="item.numberOther"></span>
+							<span class="number2" v-html="item.number2img"></span>
+							<span class="item_number" @click="onClickNumberItem(index_item)">
+								<span class="number2">{{item.number2}}</span>
+								<div v-if="items_editor_index === index_item" class="number_editor_container">
+									<input ref="'input-item-' + index_item" class="number_editor" type="number" v-model.number="items_editor_number"
+										@blur="submitEditorNumberItem()" @focus="event.target.select()"
+										@change="submitEditorNumberItem()"
+										@keydown="if (event.key === 'Enter') submitEditorNumberItem(); else if (event.key === 'Escape') cancelEditorNumberItem();" />
+								</div>
+							</span>
+
+<!--							<span v-if="item.numberOther" v-html="item.numberOther"></span>-->
 						</td>
 						<td>
 							<div class="pfs">
