@@ -2943,7 +2943,7 @@ spaceData["粒子对撞机"] = 45;
 var defaultAccType = "增产剂Mk.Ⅰ";
 var defaultAccValue = "无";
 
-var version = "081";
+var version = "20231225"; //版本号，用来更新data.json的缓存
 
 function f_initData() {
   $(data).each(function (i, item) {
