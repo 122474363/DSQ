@@ -3022,7 +3022,8 @@ function f_initData() {
   });
   // console.log(data);
 }
-var pointLength = 3;
+// 这里决定所有数字保留小数的位数，设为2
+var pointLength = 2;
 var settingsLocal = {}; //不存储cookie
 var settings = {};
 function saveData(key, value) {
@@ -3448,6 +3449,7 @@ function addItem(item, number) {
 // }
 
 var app = null;
+// 这里加入了一些用法和一些变量，用于处理“设备数量”处的输入框
 function f_init() {
   app = new Vue({
     el: "#result",
@@ -3462,8 +3464,10 @@ function f_init() {
       items2: [],
       items0: [],
       ig_names: [],
-      number_editor_index: -1,
-      number_editor_number: 0,
+      xps_editor_index: -1,
+      xps_editor_number: 0,
+      items_editor_index: -1,
+      items_editor_number: 0,
     },
     methods: {
       speedChange: function (item) {
@@ -3474,8 +3478,8 @@ function f_init() {
 
       onClickNumber: function (index) {
         if (this.xqs && this.xqs[index]) {
-          this.number_editor_index = index;
-          this.number_editor_number = this.xqs[index].number;
+          this.xps_editor_index = index;
+          this.xps_editor_number = this.xqs[index].number;
           Vue.nextTick(() => {
             if (this.$refs.input && this.$refs.input[0]) {
               let input = this.$refs.input[0];
@@ -3485,22 +3489,57 @@ function f_init() {
         }
       },
 
+      onClickNumberItem: function (index_item) {
+        if (this.items && this.items[index_item]) {
+          this.items_editor_index = index_item;
+          this.items_editor_number = this.items[index_item].number2;
+          Vue.nextTick(() => {
+            if (this.$refs.input && this.$refs.input[0]) {
+              let input = this.$refs.input[0];
+              input.focus();
+            }
+          });
+        }
+      },
+
+
       submitEditorNumber: function () {
-        if (this.xqs && this.xqs[this.number_editor_index]) {
+        if (this.xqs && this.xqs[this.xps_editor_index]) {
           if (
-            Number.isInteger(this.number_editor_number) &&
-            this.number_editor_number > 0
+            //   去掉了检查输入为整数的逻辑
+            // Number.isInteger(this.number_editor_number) &&
+            this.xps_editor_number > 0
           ) {
-            this.xqs[this.number_editor_index].number =
-              this.number_editor_number;
+            this.xqs[this.xps_editor_index].number =
+              this.xps_editor_number;
             update_all();
           }
-          this.number_editor_index = -1;
+          this.xps_editor_index = -1;
+        }
+      },
+
+      submitEditorNumberItem: function () {
+        if (this.items && this.items[this.items_editor_index]) {
+          if (
+            // Number.isInteger(this.number_editor_number) &&
+            this.items_editor_number > 0
+          ) {
+              multiple = this.items_editor_number / this.items[this.items_editor_index].number2
+
+            for (var i = 0; i < this.xqs.length; i++) {
+                this.xqs[i].number *= multiple;
+            }
+            update_all();
+          }
+          this.items_editor_index = -1;
         }
       },
 
       cancelEditorNumber: function () {
-        this.number_editor_index = -1;
+        this.xps_editor_index = -1;
+      },
+      cancelEditorNumberItem: function () {
+        this.items_editor_index = -1;
       },
 
       removeItem: function (index) {
@@ -4109,7 +4148,9 @@ function update_all() {
     var item = data[singleMake[m].id]; //配方
     var info = getValue(item);
     var times =
-      (60 * parseInt(singleMake[m].number) * info.speed) / (item.t || 1);
+      parseFloat((60 * parseInt(singleMake[m].number) * info.speed / (item.t || 1)).toFixed(1));
+      // (60 * parseInt(singleMake[m].number) * info.speed) / (item.t || 1);
+
 
     for (var i = 0; i < item.s.length; i++) {
       single_list.push({
@@ -4244,10 +4285,12 @@ function update_all() {
     // 当生产精炼油/氢/石墨烯/重氢的生产设施为空时，显示0生产设施以跳过“存在生产设施为空的配方”检验
     var outitem = {
       name: xh_list[i].name,
-      number1: xh_list[i].value.toFixed(0),
+      number1: xh_list[i].value.toFixed(2),
       number2: xh_list[i].value2 ? xh_list[i].value2.toFixed(pointLength) : (["精炼油", "氢", "石墨烯", "重氢"].includes(xh_list[i].name) ? 0.0.toFixed(pointLength) : ""),
       number2full:
         img + (xh_list[i].value2 ? xh_list[i].value2.toFixed(pointLength) : (["精炼油", "氢", "石墨烯", "重氢"].includes(xh_list[i].name) ? 0.0.toFixed(pointLength) : "")),
+      number2img:
+        img,
       time: info.time.toFixed(pointLength),
       t: info.t.toFixed(pointLength),
       speed: info.speed.toFixed(pointLength),
@@ -4440,7 +4483,9 @@ function f_ig_acc() {
 function f_reset() {
   xqs = [];
   singleMake = [];
-  app.number_editor_index = -1;
+  app.xps_editor_index = -1;
+  app.items_editor_index = -1;
+
   update_all();
 }
 function f_reset_ig() {
