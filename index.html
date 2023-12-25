@@ -152,7 +152,7 @@
 					<span>{{x.number}}</span>
 					<div v-if="number_editor_index === index" class="number_editor_container">
 						<input ref="input" class="number_editor" type="number" v-model.number="number_editor_number"
-							@blur="submitEditorNumber()" @focus="event.target.select()"
+							@blur="submitEditorNumber()" @focus="event.target.select()" @change="submitEditorNumber()"
 							@keydown="if (event.key === 'Enter') submitEditorNumber(); else if (event.key === 'Escape') cancelEditorNumber();" />
 					</div>
 				</span>
