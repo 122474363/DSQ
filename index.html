@@ -256,6 +256,7 @@
 						</td>
 						<td><span class="number1">{{item.number1}}</span></td>
 						<td class="cell-infra">
+							<span class="number2" v-html="item.number2full" style="display: none;"></span>
 							<span class="number2" v-html="item.number2img"></span>
 							<span class="item_number" @click="onClickNumberItem(index_item)">
 								<span class="number2">{{item.number2}}</span>
