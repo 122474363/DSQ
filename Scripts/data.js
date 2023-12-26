@@ -3521,7 +3521,7 @@ function f_init() {
           this.xps_editor_index = -1;
         }
       },
-
+      // 运行两遍可以防止1.999或2.001这种数值错误
       submitEditorNumberItem: function () {
         if (this.items && this.items[this.items_editor_index]) {
           if (
@@ -3534,6 +3534,13 @@ function f_init() {
                 this.xqs[i].number *= multiple;
             }
             update_all();
+              multiple = this.items_editor_number / this.items[this.items_editor_index].number2
+
+            for (var i = 0; i < this.xqs.length; i++) {
+                this.xqs[i].number *= multiple;
+            }
+            update_all();
+
           }
           this.items_editor_index = -1;
         }
@@ -4152,7 +4159,7 @@ function update_all() {
     var item = data[singleMake[m].id]; //配方
     var info = getValue(item);
     var times =
-      parseFloat((60 * parseInt(singleMake[m].number) * info.speed / (item.t || 1)).toFixed(1));
+      parseFloat((60 * parseInt(singleMake[m].number) * info.speed / (item.t || 1)).toFixed(6));
       // (60 * parseInt(singleMake[m].number) * info.speed) / (item.t || 1);
 
 
