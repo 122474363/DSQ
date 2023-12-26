@@ -3573,17 +3573,7 @@ function f_init() {
 
   projectsUpdate();
 
-  $("#btnReset2").click(function () {
-    settings = {};
-    saveSetting();
-    update_all();
-  });
 
-  $("#btnReset3").click(function () {
-    settings_time = {};
-    saveSettingTime();
-    update_all();
-  });
   $("#speed1_6").change(function () {
     $(data).each(function () {
       if (this.m) {
@@ -3749,7 +3739,43 @@ function f_init() {
     doSpeed1();
     update_all();
   });
+  
+  $("#btnReset1").click(function () {
+	if(confirm('该操作将清除配方并刷新页面！')){
+		//重置设备
+		settings = {};
+		saveSetting();
+		//重置速度
+		settings_time = {};
+		saveSettingTime();
+		//重置配方
+		settings_pf = {};
+		saveSettingPf();
+		//刷新数据
+		update_all();
+		//清空localStorage
+		localStorage.clear()
+		localStorage
+		//刷新页面
+		location.reload()
+		return true;
+	}
+		return false;
 
+  });
+  
+  $("#btnReset2").click(function () {
+    settings = {};
+    saveSetting();
+    update_all();
+  });
+
+  $("#btnReset3").click(function () {
+    settings_time = {};
+    saveSettingTime();
+    update_all();
+  });
+  
   $("#btnReset4").click(function () {
     settings_pf = {};
     saveSettingPf();

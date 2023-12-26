@@ -336,7 +336,7 @@
 
         /* Style for the dropdown button */
         .custom-dropdown button {
-            width: 12rem;
+            /* width: 12rem; */
             border: 1px solid #333;
             cursor: pointer;
             background-color: #e5e5e5;

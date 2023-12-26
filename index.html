@@ -25,28 +25,31 @@
 	</select>
 	<a href="javascript:f_add()" style="margin-left:10px;margin-right:10px;"><img
 			src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAZVJREFUWEftl89VwkAQh3+DBRjTgHpYrtKBdCB0gEfDRSsQK5AL8YgdiB1gB3gll1CAMRTgjm9XCZslIf7Je8khe0y+N5m3mfl2h1Dxooq/jyQB5yHothhPAJx0UhxKRj8ethfquTNZdlqkODqxko8loR9fibnmdDyeFnFJAq4fxAAOs3aEgJc3T3TVO9cPQgDHOTsXR544KuY4jLz2qeLMBHjf74g8oVnXD0rlmgRqtQO5xcWM5/eh6H3XgOqGs5x6WUWe0N1RUKwJt23DybJzQDRm4NwMrj7O4JHZhgQaEeHC5FSnfDBfm1xWPJurj4iqMmLqF+QYbiGZL9MmpCmATrExizmzC8oowsaE+K2yayWiUg+Znx5aZRfhOvKEvk/8yYQtokdbs1mGy+IAvErmgdWuO/FsrjFhyoREdE+AvnptFgMzZr5LHUZEtwTo09FYO8bMiTdn5ptNvJKLcHvXc/1gz7Hd3AmRGLMxYdmDyT9M+DWaKXPZU89KMvcsw80yuLUk9JLRTI9wlMWtJGGw4RoTfgKyI5kwSL6MMgAAAABJRU5ErkJggg==" /></a>
-<!--	<select id="seldata"></select>-->
+
 	<div class="custom-dropdown" id="customDropdown">
-		<button onclick="toggleDropdown()">增加需求</button>
+		<button onclick="toggleDropdown()"style="width: 200px;">增加需求</button>
 		<div class="custom-dropdown-content" id="dropdownContent">
 		</div>
 	</div>
-
-	<button id="btnSetting">
-		参数设置
-	</button>
-
+	<div class="custom-dropdown">
+		<button id="btnSetting">
+			参数设置
+		</button>
+		<button id="btnReset1">
+			修复计算空白
+		</button>
+	</div>
 	<div style="margin-top:5px;">
-		<button id="btnReset2">
-			重置设备
-		</button>
-		<!--<button id="btnReset3">
-        重置速度
-		</button>-->
-		<button id="btnReset4">
-			重置配方
-		</button>
-		<!--<input type="checkbox" id="isMerge" checked />合并同配方多产物-->
+		<!-- <button id="btnReset2"> -->
+			<!-- 重置设备 -->
+		<!-- </button> -->
+		<!-- <button id="btnReset3"> -->
+			<!-- 重置速度 -->
+		<!-- </button> -->
+		<!-- <button id="btnReset4"> -->
+			<!-- 重置配方 -->
+		<!-- </button> -->
+		<!-- <input type="checkbox" id="isMerge" checked />合并同配方多产物 -->
 		<input type="checkbox" id="hideSource" /><label for="hideSource">隐藏原料</label>
 		<select id="selmodein">
 			<option value="制作台Mk.Ⅰ">制作台Mk.Ⅰ</option>
