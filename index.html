@@ -140,7 +140,7 @@
 				<span class="name" v-else=v-else>{{x.item.name}}</span>
 				*
 				<span class="item_number" @click="onClickNumber(index)">
-					<span>{{x.number.toFixed(2)}}</span>
+       		 		<span v-if="xps_editor_index !== index">{{ x.number.toFixed(pointLength) }}</span>
 					<div v-if="xps_editor_index === index" class="xps_editor_container">
 						<input ref="'input-' + index" class="number_editor" type="number" v-model.number="xps_editor_number"
 							@blur="submitEditorNumber()" @focus="event.target.select()"

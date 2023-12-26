@@ -3027,7 +3027,7 @@ function f_initData() {
   // console.log(data);
 }
 // 这里决定所有数字保留小数的位数，设为2
-var pointLength = 2;
+var pointLength = 3;
 var settingsLocal = {}; //不存储cookie
 var settings = {};
 function saveData(key, value) {
@@ -4289,7 +4289,7 @@ function update_all() {
     // 当生产精炼油/氢/石墨烯/重氢的生产设施为空时，显示0生产设施以跳过“存在生产设施为空的配方”检验
     var outitem = {
       name: xh_list[i].name,
-      number1: xh_list[i].value.toFixed(2),
+      number1: xh_list[i].value.toFixed(pointLength),
       number2: xh_list[i].value2 ? xh_list[i].value2.toFixed(pointLength) : (["精炼油", "氢", "石墨烯", "重氢"].includes(xh_list[i].name) ? 0.0.toFixed(pointLength) : ""),
       number2full:
         img + (xh_list[i].value2 ? xh_list[i].value2.toFixed(pointLength) : (["精炼油", "氢", "石墨烯", "重氢"].includes(xh_list[i].name) ? 0.0.toFixed(pointLength) : "")),
