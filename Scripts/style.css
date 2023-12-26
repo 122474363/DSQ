@@ -185,6 +185,15 @@
             white-space: nowrap;
         }
 
+        td.cell-infra {
+            white-space: nowrap;
+        }
+
+        .number2 {
+                margin: 0;
+                padding: 0;
+        }
+        
         table {
             width: 100%;
             border-collapse: collapse;

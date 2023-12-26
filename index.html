@@ -149,8 +149,8 @@
 				<span class="name" v-else=v-else>{{x.item.name}}</span>
 				*
 				<span class="item_number" @click="onClickNumber(index)">
-       		 		<span v-if="xps_editor_index !== index">{{ x.number.toFixed(pointLength) }}</span>
-					<div v-if="xps_editor_index === index" class="xps_editor_container">
+       		 		<span>{{ x.number.toFixed(pointLength) }}</span>
+					<div v-if="xps_editor_index === index" class="number_editor_container">
 						<input ref="'input-' + index" class="number_editor" type="number" v-model.number="xps_editor_number"
 							@blur="submitEditorNumber()" @focus="event.target.select()"
 							@change="submitEditorNumber()"
@@ -259,7 +259,7 @@
 							<span class="name" v-else=v-else>{{item.name}}</span>
 						</td>
 						<td><span class="number1">{{item.number1}}</span></td>
-						<td>
+						<td class="cell-infra">
 							<span class="number2" v-html="item.number2img"></span>
 							<span class="item_number" @click="onClickNumberItem(index_item)">
 								<span class="number2">{{item.number2}}</span>
@@ -270,8 +270,7 @@
 										@keydown="if (event.key === 'Enter') submitEditorNumberItem(); else if (event.key === 'Escape') cancelEditorNumberItem();" />
 								</div>
 							</span>
-
-<!--							<span v-if="item.numberOther" v-html="item.numberOther"></span>-->
+							<span v-if="item.numberOther" v-html="item.numberOther"></span>
 						</td>
 						<td>
 							<div class="pfs">
