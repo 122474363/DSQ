@@ -151,7 +151,7 @@
 				<span class="item_number" @click="onClickNumber(index)">
        		 		<span>{{ x.number.toFixed(pointLength) }}</span>
 					<div v-if="xps_editor_index === index" class="number_editor_container">
-						<input ref="'input-' + index" class="number_editor" type="number" v-model.number="xps_editor_number"
+						<input ref="input" class="number_editor" type="number" v-model.number="xps_editor_number"
 							@blur="submitEditorNumber()" @focus="event.target.select()"
 							@change="submitEditorNumber()"
 							@keydown="if (event.key === 'Enter') submitEditorNumber(); else if (event.key === 'Escape') cancelEditorNumber();" />
@@ -264,7 +264,7 @@
 							<span class="item_number" @click="onClickNumberItem(index_item)">
 								<span class="number2">{{item.number2}}</span>
 								<div v-if="items_editor_index === index_item" class="number_editor_container">
-									<input ref="'input-item-' + index_item" class="number_editor" type="number" v-model.number="items_editor_number"
+									<input ref="input" class="number_editor" type="number" v-model.number="items_editor_number"
 										@blur="submitEditorNumberItem()" @focus="event.target.select()"
 										@change="submitEditorNumberItem()"
 										@keydown="if (event.key === 'Enter') submitEditorNumberItem(); else if (event.key === 'Escape') cancelEditorNumberItem();" />
