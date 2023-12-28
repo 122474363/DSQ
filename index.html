@@ -1,408 +1,366 @@
 <html>
 
-<head>
-	<title>戴森球计划量产量化计算器工具</title>
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<meta name="keywords" content="戴森球计划,量产量化工具,量产量化计算器,自动化工具,生产工具" />
-	<meta name="description" content="《戴森球计划》自动化量产计算器，可以全自动计算量产某个产品的具体产能需求。" />
+  <head>
+    <title>戴森球计划量产量化计算器工具</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="keywords" content="戴森球计划,量产量化工具,量产量化计算器,自动化工具,生产工具" />
+    <meta name="description" content="《戴森球计划》自动化量产计算器，可以全自动计算量产某个产品的具体产能需求。" />
+    <script src="./Scripts/jquery.min.2.1.4.js"></script>
+    <script src="./Scripts/jquery.cookie.min.1.4.1.js"></script>
+    <script src="./Scripts/vue.min.2.5.16.js"></script>
+    <script src="./Scripts/jquery.tips.js"></script>
+    <script src="./Scripts/cocoMessage.js"></script>
+    <script src="./Scripts/data.js"></script>
+    <script src="./Scripts/pako.js"></script>
+    <script src="./Scripts/blueprint.js"></script>
+    <link rel="stylesheet" type="text/css" href="./Scripts/style.css">
+  </head>
 
- 		<script src="./Scripts/jquery.min.2.1.4.js"></script>
-		<script src="./Scripts/jquery.cookie.min.1.4.1.js"></script>
-		<script src="./Scripts/vue.min.2.5.16.js"></script>
-		<script src="./Scripts/jquery.tips.js"></script>
-		<script src="./Scripts/cocoMessage.js"></script>
-		<script src="./Scripts/data.js"></script>
-		<script src="./Scripts/pako.js"></script>
-		<script src="./Scripts/blueprint.js"></script>
-		<link rel="stylesheet" type="text/css" href="./Scripts/style.css">
-
-</head>
-
-<body style="padding:5px;">
-	每分钟数量：<input type="text" id="txtnumber" value="60" />
-	或者： <select id="selmaince">
-		<option value="">选择设备数量</option>
-	</select>
-	<a href="javascript:f_add()" style="margin-left:10px;margin-right:10px;"><img
-			src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAZVJREFUWEftl89VwkAQh3+DBRjTgHpYrtKBdCB0gEfDRSsQK5AL8YgdiB1gB3gll1CAMRTgjm9XCZslIf7Je8khe0y+N5m3mfl2h1Dxooq/jyQB5yHothhPAJx0UhxKRj8ethfquTNZdlqkODqxko8loR9fibnmdDyeFnFJAq4fxAAOs3aEgJc3T3TVO9cPQgDHOTsXR544KuY4jLz2qeLMBHjf74g8oVnXD0rlmgRqtQO5xcWM5/eh6H3XgOqGs5x6WUWe0N1RUKwJt23DybJzQDRm4NwMrj7O4JHZhgQaEeHC5FSnfDBfm1xWPJurj4iqMmLqF+QYbiGZL9MmpCmATrExizmzC8oowsaE+K2yayWiUg+Znx5aZRfhOvKEvk/8yYQtokdbs1mGy+IAvErmgdWuO/FsrjFhyoREdE+AvnptFgMzZr5LHUZEtwTo09FYO8bMiTdn5ptNvJKLcHvXc/1gz7Hd3AmRGLMxYdmDyT9M+DWaKXPZU89KMvcsw80yuLUk9JLRTI9wlMWtJGGw4RoTfgKyI5kwSL6MMgAAAABJRU5ErkJggg==" /></a>
-
-	<div class="custom-dropdown" id="customDropdown">
-		<button onclick="toggleDropdown()"style="width: 200px;">增加需求</button>
-		<div class="custom-dropdown-content" id="dropdownContent">
-		</div>
-	</div>
-	<div class="custom-dropdown">
-		<button id="btnSetting">
-			参数设置
-		</button>
-		<button id="btnReset1">
-			修复计算空白
-		</button>
-	</div>
-	<div style="margin-top:5px;">
-		<!-- <button id="btnReset2"> -->
-			<!-- 重置设备 -->
-		<!-- </button> -->
-		<!-- <button id="btnReset3"> -->
-			<!-- 重置速度 -->
-		<!-- </button> -->
-		<!-- <button id="btnReset4"> -->
-			<!-- 重置配方 -->
-		<!-- </button> -->
-		<!-- <input type="checkbox" id="isMerge" checked />合并同配方多产物 -->
-		<input type="checkbox" id="hideSource" /><label for="hideSource">隐藏原料</label>
-		<select id="selmodein">
-			<option value="制作台Mk.Ⅰ">制作台Mk.Ⅰ</option>
-			<option value="制作台Mk.Ⅱ">制作台Mk.Ⅱ</option>
-			<option value="制作台Mk.Ⅲ">制作台Mk.Ⅲ</option>
-			<option value="重组式制造台">重组式制造台</option>
-		</select>
-		<select id="furnace">
-			<option value="电弧熔炉">电弧熔炉</option>
-			<option value="位面熔炉">位面熔炉</option>
-			<option value="负熵熔炉">负熵熔炉</option>
-		</select>
-		<select id="chemical">
-			<option value="化工厂">化工厂</option>
-			<option value="量子化工厂">量子化工厂</option>
-		</select>
-		<select id="accType">
-			<option value="增产剂Mk.Ⅰ">增产剂Mk.Ⅰ</option>
-			<option value="增产剂Mk.Ⅱ">
-				增产剂Mk.Ⅱ
-			</option>
-			<option value="增产剂Mk.Ⅲ">增产剂Mk.Ⅲ</option>
-		</select>
-		<select id="accValue">
-			<option value="无">无</option>
-			<option value="加速">加速</option>
-			<option value="增产">增产</option>
-		</select>
-		<select id="research">
-			<option value="矩阵研究站">矩阵研究站</option>
-			<option value="自演化研究站">自演化研究站</option>
-		</select>
-		<input type="checkbox" id="selfAcc" checked /><label for="selfAcc">自喷涂增产剂</label>
-		<label for="selore">采矿作业速度：</label>
-		<input type="text" class="textbox" id="selore" value="100" style="width:40px;" />%
-		<input type="checkbox" id="showMaxOneBelt" /><label for="showMaxOneBelt">1条传送带最高支持设备数量</label>
-
-		<span id="projectdiv" style="display:none;">
-			<select id="selprojects"></select>
-			<button id="btnLoadProject">
-				加载方案
-			</button>
-			<button id="btnReset5">
-				重置方案
-			</button>
-		</span>
-	</div>
-	<div id="Split" style="display:none;">
-
-	</div>
-	<div id="UIselector" style="display:none;">
-
-	</div>
-
-
-	<div id="MoreSetting" style="display:none;">
-		<p><span class="label">分馏塔每分钟产量： </span><input id="fractionatorSpeed" class="textbox" type="number" value="18" />
-		</p>
-		<p><span class="label">运输站集装物流：</span> <input id="speed1_5" class="textbox" type="number" min="1" max="4" value="1" /> </p>
-		<p><span class="label">大型采矿机：</span> <input id="speed1_6" class="textbox" type="number" value="100" /> </p>
-		<p><span class="label">原油速度：</span> <input id="oilSpeed" class="textbox" type="number" value="4" /> </p>
-		<p><span class="label">轨道采集-重氢：</span> <input data-name="重氢" id="speed1_2" class="speed1 textbox" type="number" step="0.01" value="0.02" /> </p>
-		<p><span class="label">轨道采集-可燃冰：</span> <input data-name="可燃冰" id="speed1_3" class="speed1 textbox" type="number" step="0.1" value="0.5" /> </p>
-		<p><span class="label">轨道采集-氢(巨冰)：</span> <input data-name="氢" id="speed1_4" class="speed1 textbox" type="number" step="0.1" value="0.5" /> </p>
-		<p><span class="label">轨道采集-氢(气态)：</span> <input data-name="氢" id="speed1_1" class="speed1 textbox" type="number" step="0.1" value="1" /> </p>
-		<p><span class="label">临界光子每分钟产量： </span><input id="gzSpeed" class="textbox" type="number" value="5" /> </p>
-		<p><span class="label">小数点后保留： </span><input id="pointLength" class="textbox" type="number" value="3" /> 位</p>
-		
-		<p>蓝图配置：</p>
-		<div style="margin-left: 1%">
-			<!-- <span class="label">紧凑布局</span><input type="checkbox" id="compactLayout">（高纬度可能出现碰撞）<br/> -->
-			<!-- <span class="label">临界运力传送带自升级</span><input type="checkbox" id="upgradeConveyorBelt"><br /> -->
-			<span class="label">只使用三级传送带</span><input type="checkbox" id="onlyConveyorBeltMk3"><br />
-			<span class="label">只使用三级分拣器</span><input type="checkbox" id="onlySorterMk3"><br />
-			<!-- <span class="label">三级传送带运力降级</span><input type="checkbox" id="onlyConveyorBeltMk3Downgrade">（三级传送带运力锁定在1680/min，可在一定程度上解决蓝图产量低于预期的问题）<br/> -->
-			<span class="label">自动插入电力感应塔</span><input type="checkbox" id="generateTeslaTower" checked="checked"><br />
-			<span class="label">电力感应塔间隔排数</span><input type="number" id="teslaTowerLineInterval" min="1" max="2" value="1" class="textbox">（建议取值1或2）<br />
-			<span class="label">传送带物品堆叠层数</span><input type="number" id="conveyorBeltStackLayer" min="1" max="4" value="4" class="textbox"><br />
-			<span class="label">研究站层数</span><input type="number" id="maxLabLayers" min="1" max="15" value="15" class="textbox"><br />
-			<!-- <span class="label">电线杆间隔</span><input type="number" id="teslaTowerInterval" min="1" max="15" value="15" class="textbox"><br/> -->
-			<span class="label">蓝图长宽比</span><input type="number" id="x_y_ratio" min="1" step="0.1" value="2" class="textbox"><br />
-		</div>
-		
-	</div>
-	<div id="result">
-		<div class="list">
-			<span v-for="(x,index) in xqs">
-				<img v-bind:src="'data:image/png;base64,' + icons[x.item.name]" style="width:40px;height:40px;"
-					v-if="icons[x.item.name]" v-bind:title="x.item.name"
-					@contextmenu="removeItem(index);event.preventDefault();" />
-				<span class="name" v-else=v-else>{{x.item.name}}</span>
-				*
-				<span class="item_number" @click="onClickNumber(index)">
-       		 		<span>{{ x.number.toFixed(pointLength) }}</span>
-					<div v-if="xps_editor_index === index" class="number_editor_container">
-						<input ref="input" class="number_editor" type="number" v-model.number="xps_editor_number"
-							@blur="submitEditorNumber()" @focus="event.target.select()"
-							@change="submitEditorNumber()"
-							@keydown="if (event.key === 'Enter') submitEditorNumber(); else if (event.key === 'Escape') cancelEditorNumber();" />
-					</div>
-				</span>
-			</span>
-			<span v-if="xqs && xqs.length">
-				<button onclick="f_reset()">
-					重置
-				</button>
-				<button onclick="f_save()">保存方案</button>
-				
-				<!-- <button	onclick="let configSpan = document.getElementById('blueprintConfig'); if(configSpan.style.display === 'none'){configSpan.style.display='block'}else {configSpan.style.display='none'}">蓝图配置</button> -->
-				
-				<button onclick="generateBlueprint()">生成蓝图</button>
-				&nbsp&nbsp
-				戴森球计划工具交流讨论QQ群：<a href="http://qm.qq.com/cgi-bin/qm/qr?_wv=1027&k=UzzPv3ic7Fk9EDCyHo_4gkWQLR3WEA9Y&authKey=ysjOY0JQOSpT2ZCLkttSzI73sXyzu%2FXEqJXMmY2O645LpO6GOD5lRBrjdalqpO5k&noverify=0&group_code=53309723" target="_blank">53309723</a>
-			
-				<!-- <br/> -->
-				<!-- <span id="blueprintConfig" style="display: none">蓝图配置： -->
-				<!-- <div style="margin-left: 2%"> -->
-				<!-- <input type="checkbox" id="compactLayout"><label for="compactLayout">紧凑布局（高纬度可能出现碰撞）</label> -->
-				<!-- <input type="checkbox" id="upgradeConveyorBelt"><label for="upgradeConveyorBelt">临界运力传送带自升级</label> -->
-				<!-- <input type="checkbox" id="onlyConveyorBeltMk3"><label for="onlyConveyorBeltMk3">只使用三级传送带</label> -->
-				<!-- <input type="checkbox" id="onlySorterMk3"><label for="onlySorterMk3">只使用三级分拣器</label> -->
-				<!-- <br/> -->
-				<!-- <label for="conveyorBeltStackLayer">传送带物品堆叠层数</label><input type="number" id="conveyorBeltStackLayer" min="1" max="4" value="4"> -->
-				<!-- <label for="x_y_ratio">蓝图长宽比</label><input type="number" id="x_y_ratio" min="1" step="0.1" value="2"> -->
-				<!-- </div> -->
-				<!-- </span> -->
-				
-				<br /><small>(右键可取消单项需求；单击数字可编辑数量)</small>
-			</span>
-			</span>
-		</div>
-		<div class="list" v-if="ig_names && ig_names.length">
-			排除计算：
-			<span v-for="name in ig_names">
-				<img v-bind:src="'data:image/png;base64,' + icons[name]" style="width:40px;height:40px;" v-if="icons[name]"
-					v-bind:title="name" v-bind:oncontextmenu="'f_remove_ig(\'' + name + '\'); return false'" />
-				<span class="name" v-else=v-else>{{name}}</span>
-			</span>
-			<button onclick="f_reset_ig()">重置</button>
-			<br /><small>(右键可取消单项排除)</small>
-		</div>
-		<div class="list">
-			<table border="0" cellspacing="0" cellpadding="0">
-				<tbody>
-					<tr class="header">
-						<td style="width:100px;">操作</td>
-						<td style="width:100px;">
-							物品
-							<br /><span style="font-size:12px">(点击图标显示详情)</span>
-						</td>
-						<td style="width:100px;">
-							每分钟需求
-							<br /><span style="font-size:12px">(负数代表多余)</span>
-						</td>
-						<td style="width:100px;">
-							设备数量
-							<br /><span style="font-size:12px">(点击数字修改)</span>
-						</td>
-						<td>
-							配方
-							<br /><span style="font-size:12px">(可选)</span>
-						</td>
-						<td>
-							增产剂等级
-							<br /><span style="font-size:12px">(可选)</span>
-						</td>
-						<td>
-							增产剂效果
-							<br /><span style="font-size:12px">(可选)</span>
-						</td>
-
-						<td>
-							制作于
-							<br /><span style="font-size:12px">(可选)</span>
-						</td>
-					</tr>
-
-					<tr v-for="item in items0" v-bind:class="item.rowClass">
-						<td></td>
-						<td class="cell-name" v-bind:data-name="item.name">
-							<span class="name">
-								<img v-bind:src="'data:image/png;base64,' + icons[item.name]" style="width:40px;height:40px;"
-									v-if="icons[item.name]" v-bind:title="item.name" />
-								<span class="name" v-else=v-else>{{item.name}}</span>
-							</span>
-						</td>
-						<td><span class="number1">{{item.number1}}</span></td>
-						<td><span class="number2">{{item.number2}}</span></td>
-						<td>
-							<a class="pf selected" v-html="item.pfTitle"></a>
-						</td>
-						<td>
-							<a class="m selected"> {{item.mName}}</a>
-						</td>
-					</tr>
-					<tr v-for="(item, index_item) in items" v-bind:class="item.rowClass">
-						<td class="opcell">
-							<a href="javascript:void(0)" v-bind:data-name="item.name" onclick="f_ig(this)">排除</a>
-							<a href="javascript:void(0)" v-if=" item.pf &&  item.pf.length > 1" v-bind:data-name="item.name"
-								onclick="f_split(this)">多配方</a>
-							<a href="javascript:void(0)" v-bind:data-name="item.name" onclick="f_tag(this)">标注</a>
-						</td>
-						<td class="cell-name" v-bind:data-name="item.name">
-							<img v-bind:src="'data:image/png;base64,' + icons[item.name]" style="width:40px;height:40px;"
-								v-if="icons[item.name]" v-bind:title="item.name" />
-							<span class="name" v-else=v-else>{{item.name}}</span>
-						</td>
-						<td><span class="number1">{{item.number1}}</span></td>
-						<td class="cell-infra">
-							<span class="number2" v-html="item.number2full" style="display: none;"></span>
-							<span class="number2" v-html="item.number2img"></span>
-							<span class="item_number" @click="onClickNumberItem(index_item)">
-								<span class="number2">{{item.number2}}</span>
-								<div v-if="items_editor_index === index_item" class="number_editor_container">
-									<input ref="input" class="number_editor" type="number" v-model.number="items_editor_number"
-										@blur="submitEditorNumberItem()" @focus="event.target.select()"
-										@change="submitEditorNumberItem()"
-										@keydown="if (event.key === 'Enter') submitEditorNumberItem(); else if (event.key === 'Escape') cancelEditorNumberItem();" />
-								</div>
-							</span>
-							<span v-if="item.numberOther" v-html="item.numberOther"></span>
-						</td>
-						<td>
-							<div class="pfs">
-								<a v-for="pf in item.pf" v-bind:class="pf.class" v-bind:href='pf.href' v-html="pf.title"></a>
-							</div>
-						</td>
-						<td>
-							<div class="ms">
-								<a v-bind:data-modein="a.name" v-bind:data-name="a.itemName" v-for="a in item.accType"
-									v-bind:title="a.title" v-bind:class="a.class" v-bind:href='a.href'>
-									<img :src="'data:image/png;base64,' + icons[a.name]" />
-									{{a.showName}}
-								</a>
-							</div>
-						</td>
-						<td>
-							<div class="ms">
-								<a v-bind:data-modein="a.name" v-bind:data-name="a.itemName" v-for="a in item.accValue"
-									v-bind:title="a.title" v-bind:class="a.class" v-bind:href='a.href'>
-									{{a.showName}}
-								</a>
-							</div>
-							<span class="number1">需求：{{item.accTotal}}</span>
-						</td>
-						</td>
-						<td>
-							<div class="ms">
-								<a v-bind:data-modein="m.name" v-bind:data-name="m.itemName" v-for="m in item.m" v-bind:title="m.title"
-									v-bind:class="m.class" v-bind:href='m.href'>
-									<img :src="'data:image/png;base64,' + icons[m.name]" v-if="icons[m.name]" />
-									{{m.showName}}
-								</a>
-							</div>
-						</td>
-						<!--<td>
-                            <input type="text" v-bind:class="item.speedClass" v-on:change="speedChange(item)" v-model="item.speed" />
-                        </td>
-                        <td>
-                            {{item.time}}
-                        </td>-->
-
-
-					</tr>
-
-
-					<tr class="total">
-						<td colspan="3" align="right">合计： </td>
-						<td colspan="5">
-							<span v-for="item in total"> {{item.name}}*{{item.value}} </span>
-							<br />
-							<span title="包含自喷涂所需">总喷涂增产剂数量：{{totalAcc}}</span> <a href="javascript:f_ig_acc()">排除增产剂产线</a><br />
-							<span>占地格子数：{{totalSpace}}</span><br />
-							<span>
-								耗能估算：{{totalEnergy}}M
-							</span>
-						</td>
-					</tr>
-					<tr class="" v-if="items2 && items2.length">
-						<td colspan="8" align="left">多余产物 <br />(负数代表多余、正数代表缺少，如1000则需要额外补齐，-1000则需要额外消耗) </td>
-					</tr>
-					<tr v-for="item in items2" v-bind:class="item.rowClass">
-						<td></td>
-
-						<td>
-							<span class="name">
-								<img v-bind:src="'data:image/png;base64,' + icons[item.name]" style="width:40px;height:40px;"
-									v-if="icons[item.name]" v-bind:title="item.name" />
-								<span class="name" v-else=v-else>{{item.name}}</span>
-							</span>
-						</td>
-						<td><span class="number1">{{item.number1}}</span></td>
-						<td>
-							<span class="number2">{{item.number2}}</span>
-						</td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-					</tr>
-
-
-					<tr class="">
-						<td colspan="1" align="right">更新说明 </td>
-						<td colspan="7">
-							<!-- 更新说明开始 -->
-							<div data-include="updata"></div>
-							<!-- 更新说明结束 -->
-						</td>
-					</tr>
-					<tr class="">
-						<td colspan="1" align="right">使用说明 </td>
-						<td colspan="7">
-							<!-- 使用说明开始 -->
-							<div data-include="explanation"></div>
-							<!-- 使用说明结束 -->
-						</td>
-					</tr>
-					<!-- 广告开始 -->
-					<tr class="">
-						<td colspan="8">
-							<!-- 广告内容开始 -->
-							<div data-include="advertise"></div>
-							<!-- 广告内容结束 -->
-						</td>
-					</tr>
-					<!-- 广告结束 -->
-				</tbody>
-			</table>
-		</div>
-	</div>
-	<div style="text-align:center;">
-		<p>
-			<!-- 底部内容开始 -->
-<a href="https://www.svlik.com/" target="_blank">Svlik's Blog</a> |
-<a href="https://122474363.github.io/DSQ/" target="_blank">备用站</a> |
-<a href="https://github.com/122474363/DSQ" target="_blank">源代码</a> |
-<script charset="UTF-8" id="LA_COLLECT" src="//sdk.51.la/js-sdk-pro.min.js"></script>
-<script>LA.init({ id: "JhZJOw4SXkYdrNrB", ck: "JhZJOw4SXkYdrNrB", autoTrack: true })</script><a
-  href="https://v6.51.la/s/mxZ3hcb6pXsWbgp" target="_blank">网站统计</a> | <a href="//www.svlik.com/t/dsq/img/ZSM.jpg"
-  target="_blank">赞赏码</a>
-		<!-- 底部内容结束 -->
-		</p>
-		<div>
-			<script>
-				$(function () {
-					var includes = $('[data-include]');
-					jQuery.each(includes, function () {
-						var file = 'quote/' + $(this).data('include') + '.html';
-						$(this).load(file);
-					});
-				});
-			</script>
-</body>
+  <body style="padding:5px;">
+    每分钟数量：<input type="text" id="txtnumber" value="60" />
+    或者：<select id="selmaince">
+      <option value="">选择设备数量</option>
+    </select>
+    <a href="javascript:f_add()" style="margin-left:10px;margin-right:10px;"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAZVJREFUWEftl89VwkAQh3+DBRjTgHpYrtKBdCB0gEfDRSsQK5AL8YgdiB1gB3gll1CAMRTgjm9XCZslIf7Je8khe0y+N5m3mfl2h1Dxooq/jyQB5yHothhPAJx0UhxKRj8ethfquTNZdlqkODqxko8loR9fibnmdDyeFnFJAq4fxAAOs3aEgJc3T3TVO9cPQgDHOTsXR544KuY4jLz2qeLMBHjf74g8oVnXD0rlmgRqtQO5xcWM5/eh6H3XgOqGs5x6WUWe0N1RUKwJt23DybJzQDRm4NwMrj7O4JHZhgQaEeHC5FSnfDBfm1xWPJurj4iqMmLqF+QYbiGZL9MmpCmATrExizmzC8oowsaE+K2yayWiUg+Znx5aZRfhOvKEvk/8yYQtokdbs1mGy+IAvErmgdWuO/FsrjFhyoREdE+AvnptFgMzZr5LHUZEtwTo09FYO8bMiTdn5ptNvJKLcHvXc/1gz7Hd3AmRGLMxYdmDyT9M+DWaKXPZU89KMvcsw80yuLUk9JLRTI9wlMWtJGGw4RoTfgKyI5kwSL6MMgAAAABJRU5ErkJggg==" /></a>
+    <div class="custom-dropdown" id="customDropdown">
+      <button onclick="toggleDropdown()" style="width: 200px;">增加需求</button>
+      <div class="custom-dropdown-content" id="dropdownContent"></div>
+    </div>
+    <div class="custom-dropdown">
+      <button id="btnSetting">
+        参数设置
+      </button>
+      <button id="btnReset1">
+        修复计算空白
+      </button>
+    </div>
+    <div style="margin-top:5px;">
+      <!-- <button id="btnReset2">重置设备</button> -->
+      <!-- <button id="btnReset3">重置速度</button> -->
+      <!-- <button id="btnReset4">重置配方</button> -->
+      <!-- <input type="checkbox" id="isMerge" checked />合并同配方多产物 -->
+      <input type="checkbox" id="hideSource" /><label for="hideSource">隐藏原料</label>
+      <select id="selmodein">
+        <option value="制作台Mk.Ⅰ">制作台Mk.Ⅰ</option>
+        <option value="制作台Mk.Ⅱ">制作台Mk.Ⅱ</option>
+        <option value="制作台Mk.Ⅲ">制作台Mk.Ⅲ</option>
+        <option value="重组式制造台">重组式制造台</option>
+      </select>
+      <select id="furnace">
+        <option value="电弧熔炉">电弧熔炉</option>
+        <option value="位面熔炉">位面熔炉</option>
+        <option value="负熵熔炉">负熵熔炉</option>
+      </select>
+      <select id="chemical">
+        <option value="化工厂">化工厂</option>
+        <option value="量子化工厂">量子化工厂</option>
+      </select>
+      <select id="accType">
+        <option value="增产剂Mk.Ⅰ">增产剂Mk.Ⅰ</option>
+        <option value="增产剂Mk.Ⅱ">增产剂Mk.Ⅱ</option>
+        <option value="增产剂Mk.Ⅲ">增产剂Mk.Ⅲ</option>
+      </select>
+      <select id="accValue">
+        <option value="无">无</option>
+        <option value="加速">加速</option>
+        <option value="增产">增产</option>
+      </select>
+      <select id="research">
+        <option value="矩阵研究站">矩阵研究站</option>
+        <option value="自演化研究站">自演化研究站</option>
+      </select>
+      <input type="checkbox" id="selfAcc" checked /><label for="selfAcc">自喷涂增产剂</label>
+      <label for="selore">采矿作业速度：</label>
+      <input type="text" class="textbox" id="selore" value="100" style="width:40px;" />%
+      <input type="checkbox" id="showMaxOneBelt" /><label for="showMaxOneBelt">1条传送带最高支持设备数量</label>
+      <span id="projectdiv" style="display:none;">
+        <select id="selprojects"></select>
+        <button id="btnLoadProject">
+          加载方案
+        </button>
+        <button id="btnReset5">
+          重置方案
+        </button>
+      </span>
+    </div>
+    <div id="Split" style="display:none;">
+    </div>
+    <div id="UIselector" style="display:none;">
+    </div>
+    <div id="MoreSetting" style="display:none;">
+      <p><span class="label">分馏塔每分钟产量： </span><input id="fractionatorSpeed" class="textbox" type="number" value="18" /> </p>
+      <p><span class="label">运输站集装物流：</span> <input id="speed1_5" class="textbox" type="number" min="1" max="4" value="1" /> </p>
+      <p><span class="label">大型采矿机：</span> <input id="speed1_6" class="textbox" type="number" value="100" /> </p>
+      <p><span class="label">原油速度：</span> <input id="oilSpeed" class="textbox" type="number" value="4" /> </p>
+      <p><span class="label">轨道采集-重氢：</span> <input data-name="重氢" id="speed1_2" class="speed1 textbox" type="number" step="0.01" value="0.02" /> </p>
+      <p><span class="label">轨道采集-可燃冰：</span> <input data-name="可燃冰" id="speed1_3" class="speed1 textbox" type="number" step="0.1" value="0.5" /> </p>
+      <p><span class="label">轨道采集-氢(巨冰)：</span> <input data-name="氢" id="speed1_4" class="speed1 textbox" type="number" step="0.1" value="0.5" /> </p>
+      <p><span class="label">轨道采集-氢(气态)：</span> <input data-name="氢" id="speed1_1" class="speed1 textbox" type="number" step="0.1" value="1" /> </p>
+      <p><span class="label">临界光子每分钟产量： </span><input id="gzSpeed" class="textbox" type="number" value="5" /> </p>
+      <p><span class="label">小数点后保留： </span><input id="pointLength" class="textbox" type="number" value="3" /> 位</p>
+      <p>蓝图配置：</p>
+      <div style="margin-left: 1%">
+        <!-- <span class="label">紧凑布局</span><input type="checkbox" id="compactLayout">（高纬度可能出现碰撞）<br/> -->
+        <!-- <span class="label">临界运力传送带自升级</span><input type="checkbox" id="upgradeConveyorBelt"><br /> -->
+        <span class="label">只使用三级传送带</span><input type="checkbox" id="onlyConveyorBeltMk3"><br />
+        <span class="label">只使用三级分拣器</span><input type="checkbox" id="onlySorterMk3"><br />
+        <!-- <span class="label">三级传送带运力降级</span><input type="checkbox" id="onlyConveyorBeltMk3Downgrade">（三级传送带运力锁定在1680/min，可在一定程度上解决蓝图产量低于预期的问题）<br/> -->
+        <span class="label">自动插入电力感应塔</span><input type="checkbox" id="generateTeslaTower" checked="checked"><br />
+        <span class="label">电力感应塔间隔排数</span><input type="number" id="teslaTowerLineInterval" min="1" max="2" value="1" class="textbox">（建议取值1或2）<br />
+        <span class="label">传送带物品堆叠层数</span><input type="number" id="conveyorBeltStackLayer" min="1" max="4" value="4" class="textbox"><br />
+        <span class="label">研究站层数</span><input type="number" id="maxLabLayers" min="1" max="15" value="15" class="textbox"><br />
+        <!-- <span class="label">电线杆间隔</span><input type="number" id="teslaTowerInterval" min="1" max="15" value="15" class="textbox"><br/> -->
+        <span class="label">蓝图长宽比</span><input type="number" id="x_y_ratio" min="1" step="0.1" value="2" class="textbox"><br />
+      </div>
+    </div>
+    <div id="result">
+      <div class="list">
+        <span v-for="(x,index) in xqs">
+          <img v-bind:src="'data:image/png;base64,' + icons[x.item.name]" style="width:40px;height:40px;"
+               v-if="icons[x.item.name]" v-bind:title="x.item.name"
+               @contextmenu="removeItem(index);event.preventDefault();" />
+          <span class="name" v-else=v-else>{{x.item.name}}</span>
+          *
+          <span class="item_number" @click="onClickNumber(index)">
+            <span>{{ x.number.toFixed(pointLength) }}</span>
+            <div v-if="xps_editor_index === index" class="number_editor_container">
+              <input ref="input" class="number_editor" type="number" v-model.number="xps_editor_number" @blur="submitEditorNumber()" @focus="event.target.select()" @change="submitEditorNumber()" @keydown="if (event.key === 'Enter') submitEditorNumber(); else if (event.key === 'Escape') cancelEditorNumber();" />
+            </div>
+          </span>
+        </span>
+        <span v-if="xqs && xqs.length">
+          <button onclick="f_reset()">
+            重置
+          </button>
+          <button onclick="f_save()">保存方案</button>
+          <!-- <button onclick="let configSpan = document.getElementById('blueprintConfig'); if(configSpan.style.display === 'none'){configSpan.style.display='block'}else {configSpan.style.display='none'}">蓝图配置</button> -->
+          <button onclick="generateBlueprint()">生成蓝图</button>
+          &nbsp&nbsp
+          戴森球计划工具交流讨论QQ群：<a href="http://qm.qq.com/cgi-bin/qm/qr?_wv=1027&k=UzzPv3ic7Fk9EDCyHo_4gkWQLR3WEA9Y&authKey=ysjOY0JQOSpT2ZCLkttSzI73sXyzu%2FXEqJXMmY2O645LpO6GOD5lRBrjdalqpO5k&noverify=0&group_code=53309723" target="_blank">53309723</a>
+          <!-- <br/> -->
+          <!-- <span id="blueprintConfig" style="display: none">蓝图配置： -->
+          <!-- <div style="margin-left: 2%"> -->
+          <!-- <input type="checkbox" id="compactLayout"><label for="compactLayout">紧凑布局（高纬度可能出现碰撞）</label> -->
+          <!-- <input type="checkbox" id="upgradeConveyorBelt"><label for="upgradeConveyorBelt">临界运力传送带自升级</label> -->
+          <!-- <input type="checkbox" id="onlyConveyorBeltMk3"><label for="onlyConveyorBeltMk3">只使用三级传送带</label> -->
+          <!-- <input type="checkbox" id="onlySorterMk3"><label for="onlySorterMk3">只使用三级分拣器</label> -->
+          <!-- <br/> -->
+          <!-- <label for="conveyorBeltStackLayer">传送带物品堆叠层数</label><input type="number" id="conveyorBeltStackLayer" min="1" max="4" value="4"> -->
+          <!-- <label for="x_y_ratio">蓝图长宽比</label><input type="number" id="x_y_ratio" min="1" step="0.1" value="2"> -->
+          <!-- </div> -->
+          <!-- </span> -->
+          <br /><small>(右键可取消单项需求；单击数字可编辑数量)</small>
+        </span>
+        </span>
+      </div>
+      <div class="list" v-if="ig_names && ig_names.length">
+        排除计算：
+        <span v-for="name in ig_names">
+          <img v-bind:src="'data:image/png;base64,' + icons[name]" style="width:40px;height:40px;" v-if="icons[name]" v-bind:title="name" v-bind:oncontextmenu="'f_remove_ig(\'' + name + '\'); return false'" />
+          <span class="name" v-else=v-else>{{name}}</span>
+        </span>
+        <button onclick="f_reset_ig()">重置</button>
+        <br /><small>(右键可取消单项排除)</small>
+      </div>
+      <div class="list">
+        <table border="0" cellspacing="0" cellpadding="0">
+          <tbody>
+            <tr class="header">
+              <td style="width:100px;">
+                操作
+              </td>
+              <td style="width:100px;">
+                物品
+                <br /><span style="font-size:12px">(点击图标显示详情)</span>
+              </td>
+              <td style="width:100px;">
+                每分钟需求
+                <br /><span style="font-size:12px">(负数代表多余)</span>
+              </td>
+              <td style="width:100px;">
+                设备数量
+                <br /><span style="font-size:12px">(点击数字修改)</span>
+              </td>
+              <td>
+                配方
+                <br /><span style="font-size:12px">(可选)</span>
+              </td>
+              <td>
+                增产剂等级
+                <br /><span style="font-size:12px">(可选)</span>
+              </td>
+              <td>
+                增产剂效果
+                <br /><span style="font-size:12px">(可选)</span>
+              </td>
+              <td>
+                制作于
+                <br /><span style="font-size:12px">(可选)</span>
+              </td>
+            </tr>
+            <tr v-for="item in items0" v-bind:class="item.rowClass">
+              <td></td>
+              <td class="cell-name" v-bind:data-name="item.name">
+                <span class="name">
+                  <img v-bind:src="'data:image/png;base64,' + icons[item.name]" style="width:40px;height:40px;"
+                       v-if="icons[item.name]" v-bind:title="item.name" />
+                  <span class="name" v-else=v-else>{{item.name}}</span>
+                </span>
+              </td>
+              <td><span class="number1">{{item.number1}}</span></td>
+              <td><span class="number2">{{item.number2}}</span></td>
+              <td>
+                <a class="pf selected" v-html="item.pfTitle"></a>
+              </td>
+              <td>
+                <a class="m selected"> {{item.mName}}</a>
+              </td>
+            </tr>
+            <tr v-for="(item, index_item) in items" v-bind:class="item.rowClass">
+              <td class="opcell">
+                <a href="javascript:void(0)" v-bind:data-name="item.name" onclick="f_ig(this)">排除</a>
+                <a href="javascript:void(0)" v-if=" item.pf &&  item.pf.length > 1" v-bind:data-name="item.name" onclick="f_split(this)">多配方</a>
+                <a href="javascript:void(0)" v-bind:data-name="item.name" onclick="f_tag(this)">标注</a>
+              </td>
+              <td class="cell-name" v-bind:data-name="item.name">
+                <img v-bind:src="'data:image/png;base64,' + icons[item.name]" style="width:40px;height:40px;" v-if="icons[item.name]" v-bind:title="item.name" />
+                <span class="name" v-else=v-else>{{item.name}}</span>
+              </td>
+              <td><span class="number1">{{item.number1}}</span></td>
+              <td class="cell-infra">
+                <span class="number2" v-html="item.number2full" style="display: none;"></span>
+                <span class="number2" v-html="item.number2img"></span>
+                <span class="item_number" @click="onClickNumberItem(index_item)">
+                  <span class="number2">{{item.number2}}</span>
+                  <div v-if="items_editor_index === index_item" class="number_editor_container">
+                    <input ref="input" class="number_editor" type="number" v-model.number="items_editor_number" @blur="submitEditorNumberItem()" @focus="event.target.select()" @change="submitEditorNumberItem()" @keydown="if (event.key === 'Enter') submitEditorNumberItem(); else if (event.key === 'Escape') cancelEditorNumberItem();" />
+                  </div>
+                </span>
+                <span v-if="item.numberOther" v-html="item.numberOther"></span>
+              </td>
+              <td>
+                <div class="pfs">
+                  <a v-for="pf in item.pf" v-bind:class="pf.class" v-bind:href='pf.href' v-html="pf.title"></a>
+                </div>
+              </td>
+              <td>
+                <div class="ms">
+                  <a v-bind:data-modein="a.name" v-bind:data-name="a.itemName" v-for="a in item.accType"
+                     v-bind:title="a.title" v-bind:class="a.class" v-bind:href='a.href'>
+                    <img :src="'data:image/png;base64,' + icons[a.name]" />
+                    {{a.showName}}
+                  </a>
+                </div>
+              </td>
+              <td>
+                <div class="ms">
+                  <a v-bind:data-modein="a.name" v-bind:data-name="a.itemName" v-for="a in item.accValue"
+                     v-bind:title="a.title" v-bind:class="a.class" v-bind:href='a.href'>
+                    {{a.showName}}
+                  </a>
+                </div>
+                <span class="number1">需求：{{item.accTotal}}</span>
+              </td>
+              </td>
+              <td>
+                <div class="ms">
+                  <a v-bind:data-modein="m.name" v-bind:data-name="m.itemName" v-for="m in item.m" v-bind:title="m.title"
+                     v-bind:class="m.class" v-bind:href='m.href'>
+                    <img :src="'data:image/png;base64,' + icons[m.name]" v-if="icons[m.name]" />
+                    {{m.showName}}
+                  </a>
+                </div>
+              </td>
+              <!-- <td> -->
+              <!-- <input type="text" v-bind:class="item.speedClass" v-on:change="speedChange(item)" v-model="item.speed" /> -->
+              <!-- </td> -->
+              <!-- <td> -->
+              <!-- {{item.time}} -->
+              <!-- </td> -->
+            </tr>
+            <tr class="total">
+              <td colspan="3" align="right">合计： </td>
+              <td colspan="5">
+                <span v-for="item in total"> {{item.name}}*{{item.value}} </span>
+                <br />
+                <span title="包含自喷涂所需">总喷涂增产剂数量：{{totalAcc}}</span>
+                <a href="javascript:f_ig_acc()">排除增产剂产线</a><br />
+                <span>占地格子数：{{totalSpace}}</span><br />
+                <span>耗能估算：{{totalEnergy}}M</span>
+              </td>
+            </tr>
+            <tr class="" v-if="items2 && items2.length">
+              <td colspan="8" align="left">多余产物 <br />(负数代表多余、正数代表缺少，如1000则需要额外补齐，-1000则需要额外消耗) </td>
+            </tr>
+            <tr v-for="item in items2" v-bind:class="item.rowClass">
+              <td></td>
+              <td>
+                <span class="name">
+                  <img v-bind:src="'data:image/png;base64,' + icons[item.name]" style="width:40px;height:40px;"
+                       v-if="icons[item.name]" v-bind:title="item.name" />
+                  <span class="name" v-else=v-else>{{item.name}}</span>
+                </span>
+              </td>
+              <td><span class="number1">{{item.number1}}</span></td>
+              <td>
+                <span class="number2">{{item.number2}}</span>
+              </td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+            </tr>
+            <tr class="">
+              <td colspan="1" align="right">更新说明 </td>
+              <td colspan="7">
+                <!-- 更新说明开始 -->
+                <div data-include="updata"></div>
+                <!-- 更新说明结束 -->
+              </td>
+            </tr>
+            <tr class="">
+              <td colspan="1" align="right">使用说明 </td>
+              <td colspan="7">
+                <!-- 使用说明开始 -->
+                <div data-include="explanation"></div>
+                <!-- 使用说明结束 -->
+              </td>
+            </tr>
+            <!-- 广告开始 -->
+            <tr class="">
+              <td colspan="8">
+                <!-- 广告内容开始 -->
+                <div data-include="advertise"></div>
+                <!-- 广告内容结束 -->
+              </td>
+            </tr>
+            <!-- 广告结束 -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div style="text-align:center;">
+      <p>
+        <!-- 底部内容开始 -->
+        <a href="https://www.svlik.com/" target="_blank">Svlik's Blog</a> |
+        <a href="https://122474363.github.io/DSQ/" target="_blank">备用站</a> |
+        <a href="https://github.com/122474363/DSQ" target="_blank">源代码</a> |
+        <script charset="UTF-8" id="LA_COLLECT" src="//sdk.51.la/js-sdk-pro.min.js"></script>
+        <script>
+          LA.init({ id: "JhZJOw4SXkYdrNrB", ck: "JhZJOw4SXkYdrNrB", autoTrack: true })
+        </script><a href="https://v6.51.la/s/mxZ3hcb6pXsWbgp" target="_blank">网站统计</a> | <a href="//www.svlik.com/t/dsq/img/ZSM.jpg" target="_blank">赞赏码</a>
+        <!-- 底部内容结束 -->
+      </p>
+      <div>
+        <script>
+          $(function () {
+          	var includes = $('[data-include]');
+          	jQuery.each(includes, function () {
+          		var file = 'quote/' + $(this).data('include') + '.html';
+          		$(this).load(file);
+          	});
+          });
+        </script>
+  </body>
 
 </html>
