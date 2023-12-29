@@ -17,11 +17,14 @@
 ## 项目结构
 
 ```
-├── <DSQ> ---> (主目录)
-   ├── <img> ---> (素材目录)
+┌── <DSQ> ---> (主目录)
+   ┌── <img> ---> (素材目录)
    ├── <quote> ---> (页眉页脚目录)
+      ┌── advertise.html ---> (广告文件)
+      ├── explanation.html ---> (底部说明)
+      └── updata.html ---> (更新信息)
    ├── <Scripts> ---> (核心数据目录)
-      ├── blueprint.js ---> (蓝图核心库)
+      ┌── blueprint.js ---> (蓝图核心库)
       ├── cocoMessage.js ---> (消息提示框插件)
       ├── data.js ---> (核心库)
       ├── data.json ---> (图标库)
@@ -30,11 +33,11 @@
       ├── jquery.tips.js ---> (提示框插件)
       ├── pako.js ---> (压缩/解压插件)
       ├── style.css ---> (样式文件)
-      ├── vue.min.2.5.16.js ---> (vue库)
+      └── vue.min.2.5.16.js ---> (vue库)
    ├── favicon.ico ---> (网页图标)
    ├── index.html ---> (首页)
    ├── LICENSE ---> (开源协议)
-   ├── README.md ---> (自述文件)
+   └── README.md ---> (自述文件)
 ```
 
 ## 使用说明
