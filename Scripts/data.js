@@ -2943,7 +2943,7 @@ spaceData["粒子对撞机"] = 45;
 var defaultAccType = "增产剂Mk.Ⅰ";
 var defaultAccValue = "无";
 
-var version = "20231228"; //版本号，用来更新data.json的缓存
+var version = "20231229"; //版本号，用来更新data.json的缓存
 
 function f_initData() {
   $(data).each(function (i, item) {
@@ -4965,7 +4965,7 @@ function getRecipe() {
     let buildingName = nodeList[3].getElementsByTagName("img")[0];
 	//console.log(buildingName);
     if (!buildingName) {
-      cocoMessage.warning("存在生产设施为空的配方，请检查配方列表（请排除黑雾掉落的产物）", 4000);
+      cocoMessage.warning("存在生产设施为空的配方，请检查配方列表", 4000);
       throw `unsupported recipe combination`;
     } else {
       buildingName = buildingName.getAttribute("title");
