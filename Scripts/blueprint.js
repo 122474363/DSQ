@@ -1,363 +1,173 @@
 const itemMap = {
-  water: { name: "water", iconId: 1000, remark: "水" },
-  ironOre: { name: "ironOre", iconId: 1001, remark: "铁矿" },
-  copperOre: { name: "copperOre", iconId: 1002, remark: "铜矿" },
-  siliconOre: { name: "siliconOre", iconId: 1003, remark: "硅石" },
-  titaniumOre: { name: "titaniumOre", iconId: 1004, remark: "钛石" },
-  coal: { name: "coal", iconId: 1006, remark: "煤矿" },
-  ironIngot: { name: "ironIngot", iconId: 1101, remark: "铁块" },
-  titaniumIngot: { name: "titaniumIngot", iconId: 1106, remark: "钛块" },
-  energeticGraphite: {
-    name: "energeticGraphite",
-    iconId: 1109,
-    remark: "高级石墨",
-  },
-  diamond: { name: "diamond", iconId: 1112, remark: "金刚石" },
-  proliferatorMk1: {
-    name: "proliferatorMk1",
-    iconId: 1141,
-    extra_rate: 0.125,
-    accelerate: 0.25,
-    remark: "增产剂Mk.Ⅰ",
-  },
-  proliferatorMk2: {
-    name: "proliferatorMk2",
-    iconId: 1142,
-    extra_rate: 0.2,
-    accelerate: 0.5,
-    remark: "增产剂Mk.Ⅱ",
-  },
-  proliferatorMk3: {
-    name: "proliferatorMk3",
-    iconId: 1143,
-    extra_rate: 0.25,
-    accelerate: 1,
-    remark: "增产剂Mk.Ⅲ",
-  },
-  gear: { name: "gear", iconId: 1201, remark: "齿轮" },
-  stone: { name: "stone", iconId: 1005, remark: "石矿" },
-  oil: { name: "oil", iconId: 1007, remark: "原油" },
-  refinedOil: { name: "refinedOil", iconId: 1114, remark: "精炼油" },
-  sulfuricAcid: { name: "sulfuricAcid", iconId: 1116, remark: "硫酸" },
-  hydrogen: { name: "hydrogen", iconId: 1120, remark: "氢" },
-  hydrogenOutput: { name: "hydrogenOutput", iconId: 1120, remark: "氢" }, // 用于解决输入和输出同时存在氢的问题，输出氢用此替代
-  fireIce: { name: "fireIce", iconId: 1011, remark: "可燃冰" },
-  // wood: { name: 'wood', iconId: 1030, remark: '木材' },
-  // plant_fuel: { name: 'plant_fuel', iconId: 1031, remark: '植物燃料' },
-  kimberliteOre: { name: "kimberliteOre", iconId: 1012, remark: "金伯利矿石" },
-  fractalSilicon: { name: "fractalSilicon", iconId: 1013, remark: "分形硅石" },
-  opticalGratingCrystal: {
-    name: "opticalGratingCrystal",
-    iconId: 1014,
-    remark: "光栅石",
-  },
-  spiniformStalagmiteCrystal: {
-    name: "spiniformStalagmiteCrystal",
-    iconId: 1015,
-    remark: "刺笋结晶",
-  },
-  unipolarMagnet: { name: "unipolarMagnet", iconId: 1016, remark: "单极磁石" },
-  copperIngot: { name: "copperIngot", iconId: 1104, remark: "铜块" },
-  highPuritySilicon: {
-    name: "highPuritySilicon",
-    iconId: 1105,
-    remark: "高纯硅块",
-  },
-  stoneBrick: { name: "stoneBrick", iconId: 1108, remark: "石材" },
-  steel: { name: "steel", iconId: 1103, remark: "钢材" },
-  titaniumAlloy: { name: "titaniumAlloy", iconId: 1107, remark: "钛合金" },
-  glass: { name: "glass", iconId: 1110, remark: "玻璃" },
-  titaniumGlass: { name: "titaniumGlass", iconId: 1119, remark: "钛化玻璃" },
-  prism: { name: "prism", iconId: 1111, remark: "棱镜" },
-  crystalSilicon: { name: "crystalSilicon", iconId: 1113, remark: "晶格硅" },
-  magnet: { name: "magnet", iconId: 1102, remark: "磁铁" },
-  magneticCoil: { name: "magneticCoil", iconId: 1202, remark: "磁线圈" },
-  electricMotor: { name: "electricMotor", iconId: 1203, remark: "电动机" },
-  electromagneticTurbine: {
-    name: "electromagneticTurbine",
-    iconId: 1204,
-    remark: "电磁涡轮",
-  },
-  superMagneticRing: {
-    name: "superMagneticRing",
-    iconId: 1205,
-    remark: "超级磁场环",
-  },
-  particleContainer: {
-    name: "particleContainer",
-    iconId: 1206,
-    remark: "粒子容器",
-  },
-  strangeMatter: { name: "strangeMatter", iconId: 1127, remark: "奇异物质" },
-  circuitBoard: { name: "circuitBoard", iconId: 1301, remark: "电路板" },
-  processor: { name: "processor", iconId: 1303, remark: "处理器" },
-  quantumChip: { name: "quantumChip", iconId: 1305, remark: "量子芯片" },
-  microcrystallineComponent: {
-    name: "microcrystallineComponent",
-    iconId: 1302,
-    remark: "微晶元件",
-  },
-  planeFilter: { name: "planeFilter", iconId: 1304, remark: "位面过滤器" },
-  particleBroadband: {
-    name: "particleBroadband",
-    iconId: 1402,
-    remark: "粒子带宽",
-  },
-  plasmaExciter: { name: "plasmaExciter", iconId: 1401, remark: "电浆激发器" },
-  photonCombiner: {
-    name: "photonCombiner",
-    iconId: 1404,
-    remark: "光子合并器",
-  },
-  solarSail: { name: "solarSail", iconId: 1501, remark: "太阳帆" },
-  deuterium: { name: "deuterium", iconId: 1121, remark: "重氢" },
-  antimatter: { name: "antimatter", iconId: 1122, remark: "反物质" },
-  criticalPhoton: { name: "criticalPhoton", iconId: 1208, remark: "临界光子" },
-  hydrogenFuelRod: {
-    name: "hydrogenFuelRod",
-    iconId: 1801,
-    remark: "液氢燃料棒",
-  },
-  deuteriumFuelRod: {
-    name: "deuteriumFuelRod",
-    iconId: 1802,
-    remark: "氘核燃料棒",
-  },
-  antimatterFuelRod: {
-    name: "antimatterFuelRod",
-    iconId: 1803,
-    remark: "反物质燃烧棒",
-  },
-  plastic: { name: "plastic", iconId: 1115, remark: "塑料" },
-  graphene: { name: "graphene", iconId: 1123, remark: "石墨烯" },
-  carbonNanotube: { name: "carbonNanotube", iconId: 1124, remark: "碳纳米管" },
-  organicCrystal: { name: "organicCrystal", iconId: 1117, remark: "有机晶体" },
-  titaniumCrystal: { name: "titaniumCrystal", iconId: 1118, remark: "钛晶石" },
-  casimirCrystal: {
-    name: "casimirCrystal",
-    iconId: 1126,
-    remark: "卡西米尔晶片",
-  },
-  gravitonLens: { name: "gravitonLens", iconId: 1209, remark: "引力透镜" },
-  spaceWarper: { name: "spaceWarper", iconId: 1210, remark: "空间翘曲器" },
-  annihilationConstraintSphere: {
-    name: "annihilationConstraintSphere",
-    iconId: 1403,
-    remark: "湮灭约束球",
-  },
-  thruster: { name: "thruster", iconId: 1405, remark: "推进器" },
-  reinforcedThruster: {
-    name: "reinforcedThruster",
-    iconId: 1406,
-    remark: "加力推进器",
-  },
-  logisticDrone: { name: "logisticDrone", iconId: 5001, remark: "物流运输机" },
-  logisticVessel: {
-    name: "logisticVessel",
-    iconId: 5002,
-    remark: "星际物流运输机",
-  },
-  frameMaterial: { name: "frameMaterial", iconId: 1125, remark: "框架材料" },
-  dysonSphereComponent: {
-    name: "dysonSphereComponent",
-    iconId: 1502,
-    remark: "戴森球组件",
-  },
-  smallCarrierRocket: {
-    name: "smallCarrierRocket",
-    iconId: 1503,
-    remark: "小型运载火箭",
-  },
-  foundation: { name: "foundation", iconId: 1131, remark: "地基" },
-  conveyorBeltMk1: { name: "conveyorBeltMk1", iconId: 2001, remark: "传送带" },
-  conveyorBeltMk2: {
-    name: "conveyorBeltMk2",
-    iconId: 2002,
-    remark: "高速传送带",
-  },
-  conveyorBeltMk3: {
-    name: "conveyorBeltMk3",
-    iconId: 2003,
-    remark: "极速传送带",
-  },
-  sorterMk1: { name: "sorterMk1", iconId: 2011, remark: "分拣器" },
-  sorterMk2: { name: "sorterMk2", iconId: 2012, remark: "高速分拣器" },
-  sorterMk3: { name: "sorterMk3", iconId: 2013, remark: "极速分拣器" },
-  splitter: { name: "splitter", iconId: 2020, remark: "四向分流器" },
-  autoPiler: { name: "autoPiler", iconId: 2040, remark: "自动集装机" },
-  trafficMonitor: {
-    name: "trafficMonitor",
-    iconId: 2030,
-    remark: "流速监测器",
-  },
-  sprayCoater: { name: "sprayCoater", iconId: 2313, remark: "喷涂机" },
-  storageMk1: { name: "storageMk1", iconId: 2101, remark: "小型储物仓" },
-  storageMk2: { name: "storageMk2", iconId: 2102, remark: "大型储物仓" },
-  storageTank: { name: "storageTank", iconId: 2106, remark: "储液灌" },
-  assemblingMachineMk1: {
-    name: "assemblingMachineMk1",
-    iconId: 2303,
-    remark: "制作台Mk.Ⅰ",
-  },
-  assemblingMachineMk2: {
-    name: "assemblingMachineMk2",
-    iconId: 2304,
-    remark: "制作台Mk.Ⅱ",
-  },
-  assemblingMachineMk3: {
-    name: "assemblingMachineMk3",
-    iconId: 2305,
-    remark: "制作台Mk.Ⅲ",
-  },
-  teslaTower: { name: "teslaTower", iconId: 2201, remark: "电力感应塔" },
-  wirelessPowerTower: {
-    name: "wirelessPowerTower",
-    iconId: 2202,
-    remark: "无线输电塔",
-  },
-  satelliteSubstation: {
-    name: "satelliteSubstation",
-    iconId: 2212,
-    remark: "卫星配电站",
-  },
-  windTurbine: { name: "windTurbine", iconId: 2203, remark: "风力涡轮机" },
-  thermalPowerPlant: {
-    name: "thermalPowerPlant",
-    iconId: 2204,
-    remark: "火力发电机",
-  },
-  miniFusionPowerPlant: {
-    name: "miniFusionPowerPlant",
-    iconId: 2211,
-    remark: "微型聚变发电站",
-  },
-  geothermalPowerStation: {
-    name: "geothermalPowerStation",
-    iconId: 2213,
-    remark: "地热发电站",
-  },
-  miningMachine: { name: "miningMachine", iconId: 2301, remark: "采矿机" },
-  advancedMiningMachine: {
-    name: "advancedMiningMachine",
-    iconId: 2316,
-    remark: "大型采矿机",
-  },
-  waterPump: { name: "waterPump", iconId: 2306, remark: "抽水机" },
-  arcSmelter: { name: "arcSmelter", iconId: 2302, remark: "电弧熔炉" },
-  planeSmelter: { name: "planeSmelter", iconId: 2315, remark: "位面熔炉" },
-  oilExtractor: { name: "oilExtractor", iconId: 2307, remark: "原油萃取站" },
-  oilRefinery: { name: "oilRefinery", iconId: 2308, remark: "原油精炼厂" },
-  chemicalPlant: { name: "chemicalPlant", iconId: 2309, remark: "化工厂" },
-  fractionator: { name: "fractionator", iconId: 2314, remark: "分馏塔" },
-  quantumChemicalPlant: {
-    name: "quantumChemicalPlant",
-    iconId: 2317,
-    remark: "量子化工厂",
-  },
-  solarPanel: { name: "solarPanel", iconId: 2205, remark: "太阳能板" },
-  accumulator: { name: "accumulator", iconId: 2206, remark: "蓄电池" },
-  accumulatorFull: {
-    name: "accumulatorFull",
-    iconId: 2207,
-    remark: "蓄电池满",
-  },
-  emRailEjector: {
-    name: "emRailEjector",
-    iconId: 2311,
-    remark: "电磁轨道弹射器",
-  },
-  rayReceiver: { name: "rayReceiver", iconId: 2208, remark: "射线接收站" },
-  verticalLaunchingSilo: {
-    name: "verticalLaunchingSilo",
-    iconId: 2312,
-    remark: "垂直发射井",
-  },
-  energyExchanger: {
-    name: "energyExchanger",
-    iconId: 2209,
-    remark: "能量枢纽",
-  },
-  miniatureParticleCollider: {
-    name: "miniatureParticleCollider",
-    iconId: 2310,
-    remark: "微型粒子对撞机",
-  },
-  artificialStar: { name: "artificialStar", iconId: 2210, remark: "人造恒星" },
-  logisticsDistributor: {
-    name: "logisticsDistributor",
-    iconId: 2107,
-    remark: "物流配送器",
-  },
-  planetaryLogisticStation: {
-    name: "planetaryLogisticStation",
-    iconId: 2103,
-    remark: "行星内物流运输站",
-  },
-  interstellarLogisticStation: {
-    name: "interstellarLogisticStation",
-    iconId: 2104,
-    remark: "星际物流运输站",
-  },
-  orbitalCollector: {
-    name: "orbitalCollector",
-    iconId: 2105,
-    remark: "轨道采集器",
-  },
-  lab: { name: "lab", iconId: 2901, remark: "矩阵研究站" },
-  electromagneticMatrix: {
-    name: "electromagneticMatrix",
-    iconId: 6001,
-    remark: "蓝矩阵",
-  },
-  energyMatrix: { name: "energyMatrix", iconId: 6002, remark: "红矩阵" },
-  structureMatrix: { name: "structureMatrix", iconId: 6003, remark: "黄矩阵" },
-  informationMatrix: {
-    name: "informationMatrix",
-    iconId: 6004,
-    remark: "紫矩阵",
-  },
-  gravityMatrix: { name: "gravityMatrix", iconId: 6005, remark: "绿矩阵" },
-  universeMatrix: { name: "universeMatrix", iconId: 6006, remark: "宇宙矩阵" },
-  logisticsBot: { name: "logisticsBot", iconId: 5003, remark: "配送运输机" },
-  燃烧单元: { name: "燃烧单元", iconId: 1128, remark: "燃烧单元" },
-  爆破单元: { name: "爆破单元", iconId: 1129, remark: "爆破单元" },
-  晶石爆破单元: { name: "晶石爆破单元", iconId: 1130, remark: "晶石爆破单元" },
-  机枪弹箱: { name: "机枪弹箱", iconId: 1601, remark: "机枪弹箱" },
-  钛化弹箱: { name: "钛化弹箱", iconId: 1602, remark: "钛化弹箱" },
-  超合金弹箱: { name: "超合金弹箱", iconId: 1603, remark: "超合金弹箱" },
-  导弹组: { name: "导弹组", iconId: 1609, remark: "导弹组" },
-  超音速导弹组: { name: "超音速导弹组", iconId: 1610, remark: "超音速导弹组" },
-  引力导弹组: { name: "引力导弹组", iconId: 1611, remark: "引力导弹组" },
-  炮弹组: { name: "炮弹组", iconId: 1604, remark: "炮弹组" },
-  高爆炮弹组: { name: "高爆炮弹组", iconId: 1605, remark: "高爆炮弹组" },
-  晶石炮弹组: { name: "晶石炮弹组", iconId: 1606, remark: "晶石炮弹组" },
-  原型机: { name: "原型机", iconId: 5101, remark: "原型机" },
-  精准无人机: { name: "精准无人机", iconId: 5102, remark: "精准无人机" },
-  攻击无人机: { name: "攻击无人机", iconId: 5103, remark: "攻击无人机" },
-  护卫舰: { name: "护卫舰", iconId: 5111, remark: "护卫舰" },
-  驱逐舰: { name: "驱逐舰", iconId: 5112, remark: "驱逐舰" },
-  等离子胶囊: { name: "等离子胶囊", iconId: 1607, remark: "等离子胶囊" },
-  反物质胶囊: { name: "反物质胶囊", iconId: 1608, remark: "反物质胶囊" },
-  重组式制造台: { name: "重组式制造台", iconId: 2318, remark: "重组式制造台" },
-  自演化研究站: { name: "自演化研究站", iconId: 2902, remark: "自演化研究站" },
-  负熵熔炉: { name: "负熵熔炉", iconId: 2319, remark: "负熵熔炉" },
-  高斯机枪塔: { name: "高斯机枪塔", iconId: 3001, remark: "高斯机枪塔" },
-  导弹防御塔: { name: "导弹防御塔", iconId: 3005, remark: "导弹防御塔" },
-  聚爆加农炮: { name: "聚爆加农炮", iconId: 3003, remark: "聚爆加农炮" },
-  高频激光塔: { name: "高频激光塔", iconId: 3002, remark: "高频激光塔" },
-  磁化电浆炮: { name: "磁化电浆炮", iconId: 3004, remark: "磁化电浆炮" },
-  战场分析基站: { name: "战场分析基站", iconId: 3009, remark: "战场分析基站" },
-  信号塔: { name: "信号塔", iconId: 3007, remark: "信号塔" },
-  行星护盾发生器: { name: "行星护盾发生器", iconId: 3008, remark: "行星护盾发生器" },
-  动力引擎: { name: "动力引擎", iconId: 1407, remark: "动力引擎" },
-  奇异湮灭燃料棒: { name: "奇异湮灭燃料棒", iconId: 1804, remark: "奇异湮灭燃料棒" },
-  负熵奇点: { name: "负熵奇点", iconId: 5204, remark: "负熵奇点" },
-  能量碎片: { name: "能量碎片", iconId: 5206, remark: "能量碎片" },
-  硅基神经元: { name: "硅基神经元", iconId: 5202, remark: "硅基神经元" },
-  物质重组器: { name: "物质重组器", iconId: 5203, remark: "物质重组器" },
-  核心素: { name: "核心素", iconId: 5205, remark: "核心素" },
+    water: { name: "water", iconId: 1000, remark: "水" },
+    ironOre: { name: "ironOre", iconId: 1001, remark: "铁矿" },
+    copperOre: { name: "copperOre", iconId: 1002, remark: "铜矿" },
+    siliconOre: { name: "siliconOre", iconId: 1003, remark: "硅石" },
+    titaniumOre: { name: "titaniumOre", iconId: 1004, remark: "钛石" },
+    coal: { name: "coal", iconId: 1006, remark: "煤矿" },
+    ironIngot: { name: "ironIngot", iconId: 1101, remark: "铁块" },
+    titaniumIngot: { name: "titaniumIngot", iconId: 1106, remark: "钛块" },
+    energeticGraphite: { name: "energeticGraphite", iconId: 1109, remark: "高级石墨" },
+    diamond: { name: "diamond", iconId: 1112, remark: "金刚石" },
+    proliferatorMk1: { name: "proliferatorMk1", iconId: 1141,extra_rate:0.125,accelerate:0.25, remark: "增产剂Mk.Ⅰ" },
+    proliferatorMk2: { name: "proliferatorMk2", iconId: 1142,extra_rate:0.2,accelerate:0.5, remark: "增产剂Mk.Ⅱ" },
+    proliferatorMk3: { name: "proliferatorMk3", iconId: 1143,extra_rate:0.25,accelerate:1, remark: "增产剂Mk.Ⅲ" },
+    gear: { name: "gear", iconId: 1201, remark: "齿轮" },
+    stone: { name: "stone", iconId: 1005, remark: "石矿" },
+    oil: { name: "oil", iconId: 1007, remark: "原油" },
+    refinedOil: { name: "refinedOil", iconId: 1114, remark: "精炼油" },
+    sulfuricAcid: { name: "sulfuricAcid", iconId: 1116, remark: "硫酸" },
+    hydrogen: { name: "hydrogen", iconId: 1120, remark: "氢" },
+    hydrogenOutput: { name: "hydrogenOutput", iconId: 1120, remark: "氢" },
+    fireIce: { name: "fireIce", iconId: 1011, remark: "可燃冰" },
+    //wood: { name: 'wood', iconId: 1030, remark: '木材' },
+    //plant_fuel: { name: 'plant_fuel', iconId: 1031, remark: '植物燃料' },
+    kimberliteOre: { name: "kimberliteOre", iconId: 1012, remark: "金伯利矿石" },
+    fractalSilicon: { name: "fractalSilicon", iconId: 1013, remark: "分形硅石" },
+    opticalGratingCrystal: { name: "opticalGratingCrystal", iconId: 1014, remark: "光栅石" },
+    spiniformStalagmiteCrystal: { name: "spiniformStalagmiteCrystal", iconId: 1015, remark: "刺笋结晶" },
+    unipolarMagnet: { name: "unipolarMagnet", iconId: 1016, remark: "单极磁石" },
+    copperIngot: { name: "copperIngot", iconId: 1104, remark: "铜块" },
+    highPuritySilicon: { name: "highPuritySilicon", iconId: 1105, remark: "高纯硅块" },
+    stoneBrick: { name: "stoneBrick", iconId: 1108, remark: "石材" },
+    steel: { name: "steel", iconId: 1103, remark: "钢材" },
+    titaniumAlloy: { name: "titaniumAlloy", iconId: 1107, remark: "钛合金" },
+    glass: { name: "glass", iconId: 1110, remark: "玻璃" },
+    titaniumGlass: { name: "titaniumGlass", iconId: 1119, remark: "钛化玻璃" },
+    prism: { name: "prism", iconId: 1111, remark: "棱镜" },
+    crystalSilicon: { name: "crystalSilicon", iconId: 1113, remark: "晶格硅" },
+    magnet: { name: "magnet", iconId: 1102, remark: "磁铁" },
+    magneticCoil: { name: "magneticCoil", iconId: 1202, remark: "磁线圈" },
+    electricMotor: { name: "electricMotor", iconId: 1203, remark: "电动机" },
+    electromagneticTurbine: { name: "electromagneticTurbine", iconId: 1204, remark: "电磁涡轮" },
+    superMagneticRing: { name: "superMagneticRing", iconId: 1205, remark: "超级磁场环" },
+    particleContainer: { name: "particleContainer", iconId: 1206, remark: "粒子容器" },
+    strangeMatter: { name: "strangeMatter", iconId: 1127, remark: "奇异物质" },
+    circuitBoard: { name: "circuitBoard", iconId: 1301, remark: "电路板" },
+    processor: { name: "processor", iconId: 1303, remark: "处理器" },
+    quantumChip: { name: "quantumChip", iconId: 1305, remark: "量子芯片" },
+    microcrystallineComponent: { name: "microcrystallineComponent", iconId: 1302, remark: "微晶元件" },
+    planeFilter: { name: "planeFilter", iconId: 1304, remark: "位面过滤器" },
+    particleBroadband: { name: "particleBroadband", iconId: 1402, remark: "粒子带宽" },
+    plasmaExciter: { name: "plasmaExciter", iconId: 1401, remark: "电浆激发器" },
+    photonCombiner: { name: "photonCombiner", iconId: 1404, remark: "光子合并器" },
+    solarSail: { name: "solarSail", iconId: 1501, remark: "太阳帆" },
+    deuterium: { name: "deuterium", iconId: 1121, remark: "重氢" },
+    antimatter: { name: "antimatter", iconId: 1122, remark: "反物质" },
+    criticalPhoton: { name: "criticalPhoton", iconId: 1208, remark: "临界光子" },
+    hydrogenFuelRod: { name: "hydrogenFuelRod", iconId: 1801, remark: "液氢燃料棒" },
+    deuteriumFuelRod: { name: "deuteriumFuelRod", iconId: 1802, remark: "氘核燃料棒" },
+    antimatterFuelRod: { name: "antimatterFuelRod", iconId: 1803, remark: "反物质燃烧棒" },
+    plastic: { name: "plastic", iconId: 1115, remark: "塑料" },
+    graphene: { name: "graphene", iconId: 1123, remark: "石墨烯" },
+    carbonNanotube: { name: "carbonNanotube", iconId: 1124, remark: "碳纳米管" },
+    organicCrystal: { name: "organicCrystal", iconId: 1117, remark: "有机晶体" },
+    titaniumCrystal: { name: "titaniumCrystal", iconId: 1118, remark: "钛晶石" },
+    casimirCrystal: { name: "casimirCrystal", iconId: 1126, remark: "卡西米尔晶片" },
+    gravitonLens: { name: "gravitonLens", iconId: 1209, remark: "引力透镜" },
+    spaceWarper: { name: "spaceWarper", iconId: 1210, remark: "空间翘曲器" },
+    annihilationConstraintSphere: { name: "annihilationConstraintSphere", iconId: 1403, remark: "湮灭约束球" },
+    thruster: { name: "thruster", iconId: 1405, remark: "推进器" },
+    reinforcedThruster: { name: "reinforcedThruster", iconId: 1406, remark: "加力推进器" },
+    logisticDrone: { name: "logisticDrone", iconId: 5001, remark: "物流运输机" },
+    logisticVessel: { name: "logisticVessel", iconId: 5002, remark: "星际物流运输机" },
+    frameMaterial: { name: "frameMaterial", iconId: 1125, remark: "框架材料" },
+    dysonSphereComponent: { name: "dysonSphereComponent", iconId: 1502, remark: "戴森球组件" },
+    smallCarrierRocket: { name: "smallCarrierRocket", iconId: 1503, remark: "小型运载火箭" },
+    foundation: { name: "foundation", iconId: 1131, remark: "地基" },
+    conveyorBeltMk1: { name: "conveyorBeltMk1", iconId: 2001, remark: "传送带" },
+    conveyorBeltMk2: { name: "conveyorBeltMk2", iconId: 2002, remark: "高速传送带" },
+    conveyorBeltMk3: { name: "conveyorBeltMk3", iconId: 2003, remark: "极速传送带" },
+    sorterMk1: { name: "sorterMk1", iconId: 2011, remark: "分拣器" },
+    sorterMk2: { name: "sorterMk2", iconId: 2012, remark: "高速分拣器" },
+    sorterMk3: { name: "sorterMk3", iconId: 2013, remark: "极速分拣器" },
+    splitter: { name: "splitter", iconId: 2020, remark: "四向分流器" },
+    autoPiler: { name: "autoPiler", iconId: 2040, remark: "自动集装机" },
+    trafficMonitor: { name: "trafficMonitor", iconId: 2030, remark: "流速监测器" },
+    sprayCoater: { name: "sprayCoater", iconId: 2313, remark: "喷涂机" },
+    storageMk1: { name: "storageMk1", iconId: 2101, remark: "小型储物仓" },
+    storageMk2: { name: "storageMk2", iconId: 2102, remark: "大型储物仓" },
+    storageTank: { name: "storageTank", iconId: 2106, remark: "储液灌" },
+    assemblingMachineMk1: { name: "assemblingMachineMk1", iconId: 2303, remark: "制作台Mk.Ⅰ" },
+    assemblingMachineMk2: { name: "assemblingMachineMk2", iconId: 2304, remark: "制作台Mk.Ⅱ" },
+    assemblingMachineMk3: { name: "assemblingMachineMk3", iconId: 2305, remark: "制作台Mk.Ⅲ" },
+    teslaTower: { name: "teslaTower", iconId: 2201, remark: "电力感应塔" },
+    wirelessPowerTower: { name: "wirelessPowerTower", iconId: 2202, remark: "无线输电塔" },
+    satelliteSubstation: { name: "satelliteSubstation", iconId: 2212, remark: "卫星配电站" },
+    windTurbine: { name: "windTurbine", iconId: 2203, remark: "风力涡轮机" },
+    thermalPowerPlant: { name: "thermalPowerPlant", iconId: 2204, remark: "火力发电机" },
+    miniFusionPowerPlant: { name: "miniFusionPowerPlant", iconId: 2211, remark: "微型聚变发电站" },
+    geothermalPowerStation: { name: "geothermalPowerStation", iconId: 2213, remark: "地热发电站" },
+    miningMachine: { name: "miningMachine", iconId: 2301, remark: "采矿机" },
+    advancedMiningMachine: { name: "advancedMiningMachine", iconId: 2316, remark: "大型采矿机" },
+    waterPump: { name: "waterPump", iconId: 2306, remark: "抽水机" },
+    arcSmelter: { name: "arcSmelter", iconId: 2302, remark: "电弧熔炉" },
+    planeSmelter: { name: "planeSmelter", iconId: 2315, remark: "位面熔炉" },
+    oilExtractor: { name: "oilExtractor", iconId: 2307, remark: "原油萃取站" },
+    oilRefinery: { name: "oilRefinery", iconId: 2308, remark: "原油精炼厂" },
+    chemicalPlant: { name: "chemicalPlant", iconId: 2309, remark: "化工厂" },
+    fractionator: { name: "fractionator", iconId: 2314, remark: "分馏塔" },
+    quantumChemicalPlant: { name: "quantumChemicalPlant", iconId: 2317, remark: "量子化工厂" },
+    solarPanel: { name: "solarPanel", iconId: 2205, remark: "太阳能板" },
+    蓄电池: { name: "蓄电池", iconId: 2206, remark: "蓄电池" },
+    蓄电池满: { name: "蓄电池满", iconId: 2207, remark: "蓄电池满" },
+    emRailEjector: { name: "emRailEjector", iconId: 2311, remark: "电磁轨道弹射器" },
+    rayReceiver: { name: "rayReceiver", iconId: 2208, remark: "射线接收站" },
+    verticalLaunchingSilo: { name: "verticalLaunchingSilo", iconId: 2312, remark: "垂直发射井" },
+    energyExchanger: { name: "energyExchanger", iconId: 2209, remark: "能量枢纽" },
+    微型粒子对撞机: { name: "微型粒子对撞机", iconId: 2310, remark: "微型粒子对撞机" },
+    人造恒星: { name: "人造恒星", iconId: 2210, remark: "人造恒星" },
+    物流配送器: { name: "物流配送器", iconId: 2107, remark: "物流配送器" },
+    行星内物流运输站: { name: "行星内物流运输站", iconId: 2103, remark: "行星内物流运输站" },
+    星际物流运输站: { name: "星际物流运输站", iconId: 2104, remark: "星际物流运输站" },
+    轨道采集器: { name: "轨道采集器", iconId: 2105, remark: "轨道采集器" },
+    lab: { name: "lab", iconId: 2901, remark: "矩阵研究站" },
+    蓝矩阵: { name: "蓝矩阵", iconId: 6001, remark: "蓝矩阵" },
+    红矩阵: { name: "红矩阵", iconId: 6002, remark: "红矩阵" },
+    黄矩阵: { name: "黄矩阵", iconId: 6003, remark: "黄矩阵" },
+    紫矩阵: { name: "紫矩阵", iconId: 6004, remark: "紫矩阵" },
+    绿矩阵: { name: "绿矩阵", iconId: 6005, remark: "绿矩阵" },
+    宇宙矩阵: { name: "宇宙矩阵", iconId: 6006, remark: "宇宙矩阵" },
+    配送运输机: { name: "配送运输机", iconId: 5003, remark: "配送运输机" },
+    燃烧单元: { name: "燃烧单元", iconId: 1128, remark: "燃烧单元" },
+    爆破单元: { name: "爆破单元", iconId: 1129, remark: "爆破单元" },
+    晶石爆破单元: { name: "晶石爆破单元", iconId: 1130, remark: "晶石爆破单元" },
+    机枪弹箱: { name: "机枪弹箱", iconId: 1601, remark: "机枪弹箱" },
+    钛化弹箱: { name: "钛化弹箱", iconId: 1602, remark: "钛化弹箱" },
+    超合金弹箱: { name: "超合金弹箱", iconId: 1603, remark: "超合金弹箱" },
+    导弹组: { name: "导弹组", iconId: 1609, remark: "导弹组" },
+    超音速导弹组: { name: "超音速导弹组", iconId: 1610, remark: "超音速导弹组" },
+    引力导弹组: { name: "引力导弹组", iconId: 1611, remark: "引力导弹组" },
+    炮弹组: { name: "炮弹组", iconId: 1604, remark: "炮弹组" },
+    高爆炮弹组: { name: "高爆炮弹组", iconId: 1605, remark: "高爆炮弹组" },
+    晶石炮弹组: { name: "晶石炮弹组", iconId: 1606, remark: "晶石炮弹组" },
+    原型机: { name: "原型机", iconId: 5101, remark: "原型机" },
+    精准无人机: { name: "精准无人机", iconId: 5102, remark: "精准无人机" },
+    攻击无人机: { name: "攻击无人机", iconId: 5103, remark: "攻击无人机" },
+    护卫舰: { name: "护卫舰", iconId: 5111, remark: "护卫舰" },
+    驱逐舰: { name: "驱逐舰", iconId: 5112, remark: "驱逐舰" },
+    等离子胶囊: { name: "等离子胶囊", iconId: 1607, remark: "等离子胶囊" },
+    反物质胶囊: { name: "反物质胶囊", iconId: 1608, remark: "反物质胶囊" },
+    重组式制造台: { name: "重组式制造台", iconId: 2318, remark: "重组式制造台" },
+    自演化研究站: { name: "自演化研究站", iconId: 2902, remark: "自演化研究站" },
+    负熵熔炉: { name: "负熵熔炉", iconId: 2319, remark: "负熵熔炉" },
+    高斯机枪塔: { name: "高斯机枪塔", iconId: 3001, remark: "高斯机枪塔" },
+    导弹防御塔: { name: "导弹防御塔", iconId: 3005, remark: "导弹防御塔" },
+    聚爆加农炮: { name: "聚爆加农炮", iconId: 3003, remark: "聚爆加农炮" },
+    高频激光塔: { name: "高频激光塔", iconId: 3002, remark: "高频激光塔" },
+    磁化电浆炮: { name: "磁化电浆炮", iconId: 3004, remark: "磁化电浆炮" },
+    战场分析基站: { name: "战场分析基站", iconId: 3009, remark: "战场分析基站" },
+    信号塔: { name: "信号塔", iconId: 3007, remark: "信号塔" },
+    行星护盾发生器: { name: "行星护盾发生器", iconId: 3008, remark: "行星护盾发生器" },
+    动力引擎: { name: "动力引擎", iconId: 1407, remark: "动力引擎" },
+    奇异湮灭燃料棒: { name: "奇异湮灭燃料棒", iconId: 1804, remark: "奇异湮灭燃料棒" },
+    负熵奇点: { name: "负熵奇点", iconId: 5204, remark: "负熵奇点" },
+    能量碎片: { name: "能量碎片", iconId: 5206, remark: "能量碎片" },
+    硅基神经元: { name: "硅基神经元", iconId: 5202, remark: "硅基神经元" },
+    物质重组器: { name: "物质重组器", iconId: 5203, remark: "物质重组器" },
+    核心素: { name: "核心素", iconId: 5205, remark: "核心素" },
 
-  templateItem: { name: "templateItem", iconId: 0, remark: "模板" },
+    templateItem: { name: "templateItem", iconId: 0, remark: "模板" },
 };
 const productionCategory = {
   smelter: 0,
@@ -480,9 +290,9 @@ const buildingMap = {
     category: productionCategory.refinery,
     slotMaxIndex: 5,
   },
-  miniatureParticleCollider: {
+  微型粒子对撞机: {
     remark: "粒子对撞机",
-    name: "miniatureParticleCollider",
+    name: "微型粒子对撞机",
     itemId: 2310,
     modelIndex: 69,
     productionSpeed: 1,
@@ -586,7 +396,7 @@ const recipeMap = {
   "refinedOil+stone+water=sulfuricAcid": 24, // 硫酸
   "oil=hydrogen+refinedOil": 16, // 氢 精炼油
   "oil=hydrogenOutput+refinedOil": 16, // 氢 精炼油
-  "gravityMatrix=spaceWarper": 79, // 空间翘曲器
+  "绿矩阵=spaceWarper": 79, // 空间翘曲器
   "gravitonLens=spaceWarper": 78, // 空间翘曲器
   "titaniumAlloy+deuterium+superMagneticRing=deuteriumFuelRod": 41, // 氘核燃料棒
   "diamond+strangeMatter=gravitonLens": 101, // 引力透镜
@@ -653,7 +463,7 @@ const recipeMap = {
   "ironIngot+stoneBrick=storageMk1": 86, // 小型储物仓
   "steel+stoneBrick=storageMk2": 91, // 大型储物仓
   "highPuritySilicon+copperIngot+circuitBoard=solarPanel": 67, // 太阳能板
-  "ironIngot+superMagneticRing+crystalSilicon=accumulator": 76, // 蓄电池
+  "ironIngot+superMagneticRing+crystalSilicon=蓄电池": 76, // 蓄电池
   "steel+highPuritySilicon+photonCombiner+processor+superMagneticRing=rayReceiver": 72, // 射线接收站
   "titaniumAlloy+superMagneticRing+carbonNanotube+processor=miniFusionPowerPlant": 113, // 微型聚变发电站
   "steel+titaniumAlloy+processor+particleContainer=energyExchanger": 77, // 能量枢纽
@@ -678,14 +488,14 @@ const recipeMap = {
   "chemicalPlant+titaniumGlass+strangeMatter+quantumChip=quantumChemicalPlant": 124, // 量子化工厂
   "ironIngot+glass+circuitBoard+magneticCoil=lab": 10, // 矩阵研究站
   "steel+gear+processor+superMagneticRing=emRailEjector": 71, // 电磁轨道弹射器
-  "steel+titaniumIngot+processor+particleContainer=planetaryLogisticStation": 93, // 行星内物流运输站
-  "ironIngot+plasmaExciter+processor=logisticsDistributor": 122, // 物流配送器
-  "titaniumAlloy+frameMaterial+superMagneticRing+graphene+processor=miniatureParticleCollider": 39, // 微型粒子对撞机
-  "planetaryLogisticStation+titaniumAlloy+particleContainer=interstellarLogisticStation": 95, // 星际物流运输站
+  "steel+titaniumIngot+processor+particleContainer=行星内物流运输站": 93, // 行星内物流运输站
+  "ironIngot+plasmaExciter+processor=物流配送器": 122, // 物流配送器
+  "titaniumAlloy+frameMaterial+superMagneticRing+graphene+processor=微型粒子对撞机": 39, // 微型粒子对撞机
+  "行星内物流运输站+titaniumAlloy+particleContainer=星际物流运输站": 95, // 星际物流运输站
   "titaniumAlloy+electromagneticTurbine=reinforcedThruster": 21, // 加力推进器
-  "interstellarLogisticStation+superMagneticRing+reinforcedThruster+accumulatorFull=orbitalCollector": 111, // 轨道采集器
+  "星际物流运输站+superMagneticRing+reinforcedThruster+蓄电池满=轨道采集器": 111, // 轨道采集器
   "steel+copperIngot=thruster": 20, // 推进器
-  "ironIngot+动力引擎+processor=logisticsBot": 123, // 配送运输机
+  "ironIngot+动力引擎+processor=配送运输机": 123, // 配送运输机
   "ironIngot+processor+thruster=logisticDrone": 94, // 物流运输机
   "titaniumAlloy+processor+reinforcedThruster=logisticVessel": 96, // 星际物流运输机
   "opticalGratingCrystal+circuitBoard=photonCombiner": 69, // 光子合并器
@@ -693,20 +503,20 @@ const recipeMap = {
   "steel+gear+superMagneticRing+processor=autoPiler": 120, // 自动集装机
   "steel+plasmaExciter+circuitBoard+microcrystallineComponent=sprayCoater": 109, // 喷涂机
   "hydrogen+refinedOil=hydrogen+energeticGraphite": -1, // 氢 高级石墨
-  "electromagneticMatrix+energyMatrix+structureMatrix+informationMatrix+gravityMatrix+antimatter=universeMatrix": 75, // 宇宙矩阵
-  "accumulator=accumulatorFull": -1, // 蓄电池满
-  "magneticCoil+circuitBoard=electromagneticMatrix": 9, // 蓝矩阵
-  "energeticGraphite+hydrogen=energyMatrix": 18, // 红矩阵
-  "diamond+titaniumCrystal=structureMatrix": 27, // 黄矩阵
-  "processor+particleBroadband=informationMatrix": 55, // 紫矩阵
-  "quantumChip+gravitonLens=gravityMatrix": 102, // 绿矩阵
+  "蓝矩阵+红矩阵+黄矩阵+紫矩阵+绿矩阵+antimatter=宇宙矩阵": 75, // 宇宙矩阵
+  "蓄电池=蓄电池满": -1, // 蓄电池满
+  "magneticCoil+circuitBoard=蓝矩阵": 9, // 蓝矩阵
+  "energeticGraphite+hydrogen=红矩阵": 18, // 红矩阵
+  "diamond+titaniumCrystal=黄矩阵": 27, // 黄矩阵
+  "processor+particleBroadband=紫矩阵": 55, // 紫矩阵
+  "quantumChip+gravitonLens=绿矩阵": 102, // 绿矩阵
   "hydrogen=deuterium": 40, // 重氢
   "particleContainer+ironIngot+deuterium=strangeMatter": 104, // 奇异物质
   "criticalPhoton=antimatter+hydrogen": 74, // 反物质 氢
   "criticalPhoton=antimatter+hydrogenOutput": 74, // 反物质 氢
   "particleContainer+processor=annihilationConstraintSphere": 42, // 湮灭约束球
   "antimatter+hydrogen+annihilationConstraintSphere+titaniumAlloy=antimatterFuelRod": 44, // 反物质燃烧棒
-  "titaniumAlloy+frameMaterial+annihilationConstraintSphere+quantumChip=artificialStar": 43, // 人造恒星
+  "titaniumAlloy+frameMaterial+annihilationConstraintSphere+quantumChip=人造恒星": 43, // 人造恒星
   "titaniumAlloy+frameMaterial+superMagneticRing+quantumChip+opticalGratingCrystal=advancedMiningMachine": 119, // 大型采矿机
   "gravitonLens=criticalPhoton": 74, // 临界光子
   "hydrogen=deuterium+hydrogen": -1, // 重氢 氢

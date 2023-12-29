@@ -4771,7 +4771,7 @@ function getRecipe() {
   let recipeList = [];
   const itemNameList = [
     ["矩阵研究站", "lab"],
-    ["配送运输机", "logisticsBot"],
+    ["配送运输机", "配送运输机"],
     ["水", "water"],
     ["铁矿", "ironOre"],
     ["铜矿", "copperOre"],
@@ -4881,24 +4881,24 @@ function getRecipe() {
     ["分馏塔", "fractionator"],
     ["量子化工厂", "quantumChemicalPlant"],
     ["太阳能板", "solarPanel"],
-    ["蓄电池", "accumulator"],
-    ["蓄电池满", "accumulatorFull"],
+    ["蓄电池", "蓄电池"],
+    ["蓄电池满", "蓄电池满"],
     ["电磁轨道弹射器", "emRailEjector"],
     ["射线接收站", "rayReceiver"],
     ["垂直发射井", "verticalLaunchingSilo"],
     ["能量枢纽", "energyExchanger"],
-    ["微型粒子对撞机", "miniatureParticleCollider"],
-    ["人造恒星", "artificialStar"],
-    ["物流配送器", "logisticsDistributor"],
-    ["行星内物流运输站", "planetaryLogisticStation"],
-    ["星际物流运输站", "interstellarLogisticStation"],
-    ["轨道采集器", "orbitalCollector"],
-    ["蓝矩阵", "electromagneticMatrix"],
-    ["红矩阵", "energyMatrix"],
-    ["黄矩阵", "structureMatrix"],
-    ["紫矩阵", "informationMatrix"],
-    ["绿矩阵", "gravityMatrix"],
-    ["宇宙矩阵", "universeMatrix"],
+    ["微型粒子对撞机", "微型粒子对撞机"],
+    ["人造恒星", "人造恒星"],
+    ["物流配送器", "物流配送器"],
+    ["行星内物流运输站", "行星内物流运输站"],
+    ["星际物流运输站", "星际物流运输站"],
+    ["轨道采集器", "轨道采集器"],
+    ["蓝矩阵", "蓝矩阵"],
+    ["红矩阵", "红矩阵"],
+    ["黄矩阵", "黄矩阵"],
+    ["紫矩阵", "紫矩阵"],
+    ["绿矩阵", "绿矩阵"],
+    ["宇宙矩阵", "宇宙矩阵"],
     ["燃烧单元", "燃烧单元"],
     ["爆破单元", "爆破单元"],
     ["晶石爆破单元", "晶石爆破单元"],
@@ -4963,8 +4963,9 @@ function getRecipe() {
     }
 
     let buildingName = nodeList[3].getElementsByTagName("img")[0];
+	//console.log(buildingName);
     if (!buildingName) {
-      cocoMessage.warning("存在生产设施为空的配方，请检查配方列表", 4000);
+      cocoMessage.warning("存在生产设施为空的配方，请检查配方列表（请排除黑雾掉落的产物）", 4000);
       throw `unsupported recipe combination`;
     } else {
       buildingName = buildingName.getAttribute("title");
