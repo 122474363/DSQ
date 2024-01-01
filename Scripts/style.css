@@ -293,15 +293,19 @@
             width: 160px;
             display: inline-block;
         }
-        .maxOneBelt{
-            color:#000;
+        .maxOneBeltIn{
+            color:rgb(199, 205, 17);
+        }
+
+        .maxOneBeltOut{
+            color:rgb(220, 1, 1);
         }
 
         .item_number{
             display: inline-block;
             border: 1px solid rgba(0,0,0,0);
             border-radius: 4px;
-            padding: 0 10px;
+            /* padding: 0 10px; */
             position: relative;
         }
 

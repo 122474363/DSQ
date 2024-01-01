@@ -3316,12 +3316,19 @@ function getPfTitle(item, info) {
     title.push(getIconShow(item.q[j].name, item.q[j].n || 1));
 
     if (info && $("#showMaxOneBelt").get(0).checked) {
-      var number =
-        ((1800 / ((60 / (item.t || 1)) * info.speed * (item.q[j].n || 1))) *
+                    var csd = $("#csd").val();
+                    var csdsize = 1800;
+                    if(csd=="传送带"){
+                        csdsize = 360;
+                    }else if(csd=="高速传送带"){
+                        csdsize = 720;
+                    }
+      var number = ((csdsize / ((60 / (item.t || 1)) * info.speed * (item.q[j].n || 1))) *
           speed1_5) /
         getAccSpeed(info.accType, info.accValue);
       // console.log(1+' '+speed1_5);
-      title.push("<sub class='maxOneBelt'>" + number.toFixed(pointLength));
+      // title.push("<sub class='maxOneBeltIn'>" + number.toFixed(pointLength));//输出为小数
+	  title.push("<sub class='maxOneBeltIn'>" + Math.floor(number));//输出为整数
       title.push("</sub>");
     }
   }
@@ -3333,12 +3340,19 @@ function getPfTitle(item, info) {
     title.push(getIconShow(item.s[j].name, item.s[j].n || 1));
 
     if (info && $("#showMaxOneBelt").get(0).checked) {
-      var number =
-        ((1800 / ((60 / (item.t || 1)) * info.speed * (item.s[j].n || 1))) *
+                    var csd = $("#csd").val();
+                    var csdsize = 1800;
+                    if(csd=="传送带"){
+                        csdsize = 360;
+                    }else if(csd=="高速传送带"){
+                        csdsize = 720;
+                    }
+      var number = ((csdsize / ((60 / (item.t || 1)) * info.speed * (item.s[j].n || 1))) *
           speed1_5) /
         getAccSpeed(info.accType, info.accValue);
       // console.log(2+' '+speed1_5);
-      title.push("<sub class='maxOneBelt'>" + number.toFixed(pointLength));
+      // title.push("<sub class='maxOneBeltOut'>" + number.toFixed(pointLength));//输出为小数
+	  title.push("<sub class='maxOneBeltOut'>" + Math.floor(number));//输出为整数
       title.push("</sub>");
     }
   }
