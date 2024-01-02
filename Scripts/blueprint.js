@@ -1,3 +1,4 @@
+//蓝图转JSON https://github.com/cying314/edit-dspblue-print
 const itemMap = {
 	water: { name: "沙土", iconId: 1099, remark: "沙土" },
     water: { name: "water", iconId: 1000, remark: "水" },
@@ -162,12 +163,14 @@ const itemMap = {
     行星护盾发生器: { name: "行星护盾发生器", iconId: 3008, remark: "行星护盾发生器" },
     动力引擎: { name: "动力引擎", iconId: 1407, remark: "动力引擎" },
     奇异湮灭燃料棒: { name: "奇异湮灭燃料棒", iconId: 1804, remark: "奇异湮灭燃料棒" },
-    负熵奇点: { name: "负熵奇点", iconId: 5204, remark: "负熵奇点" },
-    能量碎片: { name: "能量碎片", iconId: 5206, remark: "能量碎片" },
+    黑雾矩阵: { name: "黑雾矩阵", iconId: 5201, remark: "黑雾矩阵" },
     硅基神经元: { name: "硅基神经元", iconId: 5202, remark: "硅基神经元" },
     物质重组器: { name: "物质重组器", iconId: 5203, remark: "物质重组器" },
     核心素: { name: "核心素", iconId: 5205, remark: "核心素" },
-
+    负熵奇点: { name: "负熵奇点", iconId: 5204, remark: "负熵奇点" },
+    能量碎片: { name: "能量碎片", iconId: 5206, remark: "能量碎片" },
+	
+	
     templateItem: { name: "templateItem", iconId: 0, remark: "模板" },
 };
 const productionCategory = {
@@ -394,7 +397,6 @@ const buildingMap = {
 };
 
 const recipeMap = {
-//后面的ID是recipeId，在游戏中选择一个配方，保存为json就可以看到这个ID了
   "refinedOil+stone+water=sulfuricAcid": 24, // 硫酸
   "oil=hydrogen+refinedOil": 16, // 氢 精炼油
   "oil=hydrogenOutput+refinedOil": 16, // 氢 精炼油
