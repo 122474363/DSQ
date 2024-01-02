@@ -1,4 +1,5 @@
 const itemMap = {
+	water: { name: "沙土", iconId: 1099, remark: "沙土" },
     water: { name: "water", iconId: 1000, remark: "水" },
     ironOre: { name: "ironOre", iconId: 1001, remark: "铁矿" },
     copperOre: { name: "copperOre", iconId: 1002, remark: "铜矿" },
@@ -107,13 +108,13 @@ const itemMap = {
     oilRefinery: { name: "oilRefinery", iconId: 2308, remark: "原油精炼厂" },
     chemicalPlant: { name: "chemicalPlant", iconId: 2309, remark: "化工厂" },
     fractionator: { name: "fractionator", iconId: 2314, remark: "分馏塔" },
-    quantumChemicalPlant: { name: "quantumChemicalPlant", iconId: 2317, remark: "量子化工厂" },
-    solarPanel: { name: "solarPanel", iconId: 2205, remark: "太阳能板" },
+    量子化工厂: { name: "量子化工厂", iconId: 2317, remark: "量子化工厂" },
+    太阳能板: { name: "太阳能板", iconId: 2205, remark: "太阳能板" },
     蓄电池: { name: "蓄电池", iconId: 2206, remark: "蓄电池" },
     蓄电池满: { name: "蓄电池满", iconId: 2207, remark: "蓄电池满" },
-    emRailEjector: { name: "emRailEjector", iconId: 2311, remark: "电磁轨道弹射器" },
-    rayReceiver: { name: "rayReceiver", iconId: 2208, remark: "射线接收站" },
-    verticalLaunchingSilo: { name: "verticalLaunchingSilo", iconId: 2312, remark: "垂直发射井" },
+    电磁轨道弹射器: { name: "电磁轨道弹射器", iconId: 2311, remark: "电磁轨道弹射器" },
+    射线接收站: { name: "射线接收站", iconId: 2208, remark: "射线接收站" },
+    垂直发射井: { name: "垂直发射井", iconId: 2312, remark: "垂直发射井" },
     energyExchanger: { name: "energyExchanger", iconId: 2209, remark: "能量枢纽" },
     微型粒子对撞机: { name: "微型粒子对撞机", iconId: 2310, remark: "微型粒子对撞机" },
     人造恒星: { name: "人造恒星", iconId: 2210, remark: "人造恒星" },
@@ -270,9 +271,9 @@ const buildingMap = {
     category: productionCategory.plant,
     slotMaxIndex: 6,
   },
-  quantumChemicalPlant: {
+  量子化工厂: {
     remark: "量子化工厂",
-    name: "quantumChemicalPlant",
+    name: "量子化工厂",
     itemId: 2317,
     modelIndex: 376,
     productionSpeed: 2,
@@ -393,6 +394,7 @@ const buildingMap = {
 };
 
 const recipeMap = {
+//后面的ID是recipeId，在游戏中选择一个配方，保存为json就可以看到这个ID了
   "refinedOil+stone+water=sulfuricAcid": 24, // 硫酸
   "oil=hydrogen+refinedOil": 16, // 氢 精炼油
   "oil=hydrogenOutput+refinedOil": 16, // 氢 精炼油
@@ -462,9 +464,9 @@ const recipeMap = {
   "conveyorBeltMk2+superMagneticRing+graphene=conveyorBeltMk3": 92, // 极速传送带
   "ironIngot+stoneBrick=storageMk1": 86, // 小型储物仓
   "steel+stoneBrick=storageMk2": 91, // 大型储物仓
-  "highPuritySilicon+copperIngot+circuitBoard=solarPanel": 67, // 太阳能板
+  "highPuritySilicon+copperIngot+circuitBoard=太阳能板": 67, // 太阳能板
   "ironIngot+superMagneticRing+crystalSilicon=蓄电池": 76, // 蓄电池
-  "steel+highPuritySilicon+photonCombiner+processor+superMagneticRing=rayReceiver": 72, // 射线接收站
+  "steel+highPuritySilicon+photonCombiner+processor+superMagneticRing=射线接收站": 72, // 射线接收站
   "titaniumAlloy+superMagneticRing+carbonNanotube+processor=miniFusionPowerPlant": 113, // 微型聚变发电站
   "steel+titaniumAlloy+processor+particleContainer=energyExchanger": 77, // 能量枢纽
   "ironIngot+stoneBrick+glass=storageTank": 114, // 储液灌
@@ -475,7 +477,7 @@ const recipeMap = {
   "ironIngot+stoneBrick+electricMotor+circuitBoard=waterPump": 49, // 抽水机
   "steel+stoneBrick+circuitBoard+plasmaExciter=oilExtractor": 14, // 原油萃取站
   "steel+stoneBrick+circuitBoard+plasmaExciter=oilRefinery": 15, // 原油精炼厂
-  "titaniumAlloy+frameMaterial+gravitonLens+quantumChip=verticalLaunchingSilo": 82, // 垂直发射井
+  "titaniumAlloy+frameMaterial+gravitonLens+quantumChip=垂直发射井": 82, // 垂直发射井
   "ironIngot+gear+circuitBoard=splitter": 87, // 四向分流器
   "ironIngot+gear+glass+circuitBoard=trafficMonitor": 117, // 流速监测器
   "ironIngot+gear+circuitBoard=assemblingMachineMk1": 45, // 制作台Mk.Ⅰ
@@ -485,9 +487,9 @@ const recipeMap = {
   "arcSmelter+frameMaterial+planeFilter+unipolarMagnet=planeSmelter": 116, // 位面熔炉
   "steel+stoneBrick+glass+processor=fractionator": 110, // 分馏塔
   "steel+stoneBrick+glass+circuitBoard=chemicalPlant": 22, // 化工厂
-  "chemicalPlant+titaniumGlass+strangeMatter+quantumChip=quantumChemicalPlant": 124, // 量子化工厂
+  "chemicalPlant+titaniumGlass+strangeMatter+quantumChip=量子化工厂": 124, // 量子化工厂
   "ironIngot+glass+circuitBoard+magneticCoil=lab": 10, // 矩阵研究站
-  "steel+gear+processor+superMagneticRing=emRailEjector": 71, // 电磁轨道弹射器
+  "steel+gear+processor+superMagneticRing=电磁轨道弹射器": 71, // 电磁轨道弹射器
   "steel+titaniumIngot+processor+particleContainer=行星内物流运输站": 93, // 行星内物流运输站
   "ironIngot+plasmaExciter+processor=物流配送器": 122, // 物流配送器
   "titaniumAlloy+frameMaterial+superMagneticRing+graphene+processor=微型粒子对撞机": 39, // 微型粒子对撞机

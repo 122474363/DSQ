@@ -2463,6 +2463,7 @@ var data = [
         n: 1
     }, ],
     t: 32,
+    noExtra: true,
 }, {
     s: [{
         name: "炮弹组",
@@ -4893,13 +4894,13 @@ function getRecipe() {
     ["原油精炼厂", "oilRefinery"],
     ["化工厂", "chemicalPlant"],
     ["分馏塔", "fractionator"],
-    ["量子化工厂", "quantumChemicalPlant"],
-    ["太阳能板", "solarPanel"],
+    ["量子化工厂", "量子化工厂"],
+    ["太阳能板", "太阳能板"],
     ["蓄电池", "蓄电池"],
     ["蓄电池满", "蓄电池满"],
-    ["电磁轨道弹射器", "emRailEjector"],
-    ["射线接收站", "rayReceiver"],
-    ["垂直发射井", "verticalLaunchingSilo"],
+    ["电磁轨道弹射器", "电磁轨道弹射器"],
+    ["射线接收站", "射线接收站"],
+    ["垂直发射井", "垂直发射井"],
     ["能量枢纽", "energyExchanger"],
     ["微型粒子对撞机", "微型粒子对撞机"],
     ["人造恒星", "人造恒星"],
