@@ -2662,6 +2662,7 @@ var data = [
         n: 4
     }, ],
     t: 6,
+	noExtra: true,
 }, {
     s: [{
         name: "重组式制造台",
@@ -2683,6 +2684,7 @@ var data = [
         n: 4
     }, ],
     t: 5,
+	noExtra: true,
 }, {
     s: [{
         name: "硅基神经元"
@@ -2718,6 +2720,7 @@ var data = [
         n: 4
     }, ],
     t: 4,
+	noExtra: true,
 }, {
     s: [{
         name: "高斯机枪塔",
