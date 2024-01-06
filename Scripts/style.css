@@ -294,11 +294,11 @@
             display: inline-block;
         }
         .maxOneBeltIn{
-            color:rgb(199, 205, 17);
+            color: #2bcd31;
         }
 
         .maxOneBeltOut{
-            color:rgb(220, 1, 1);
+            color: #cd9b4c;
         }
 
         .item_number{
