@@ -3328,8 +3328,9 @@ function getPfTitle(item, info) {
           speed1_5) /
         getAccSpeed(info.accType, info.accValue);
       // console.log(1+' '+speed1_5);
-      // title.push("<sub class='maxOneBeltIn'>" + number.toFixed(pointLength));//输出为小数
-	  title.push("<sub class='maxOneBeltIn'>" + Math.floor(number));//输出为整数
+      // title.push("<sub class='maxOneBeltIn'>" + number.toFixed(pointLength));//输出为小数 跟随主设置
+	  title.push("<sub class='maxOneBeltIn'>" + number.toFixed(1));//输出为小数 保留 0.1
+	  // title.push("<sub class='maxOneBeltIn'>" + Math.floor(number));//输出为整数
       title.push("</sub>");
     }
   }
@@ -3352,8 +3353,9 @@ function getPfTitle(item, info) {
           speed1_5) /
         getAccSpeed(info.accType, info.accValue);
       // console.log(2+' '+speed1_5);
-      // title.push("<sub class='maxOneBeltOut'>" + number.toFixed(pointLength));//输出为小数
-	  title.push("<sub class='maxOneBeltOut'>" + Math.floor(number));//输出为整数
+      // title.push("<sub class='maxOneBeltOut'>" + number.toFixed(pointLength));//输出为小数 跟随主设置
+	  title.push("<sub class='maxOneBeltOut'>" + number.toFixed(1));//输出为小数 保留 0.1
+	  // title.push("<sub class='maxOneBeltOut'>" + Math.floor(number));//输出为整数
       title.push("</sub>");
     }
   }
