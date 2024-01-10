@@ -414,7 +414,7 @@ const recipeMap = {
   "ironIngot+copperIngot=circuitBoard": 50, // 电路板
   "ironIngot=gear": 5, // 齿轮
   "coal=energeticGraphite": 17, // 高级石墨
-  "refinedOil+hydrogen+coal=refinedOil": -1, // 精炼油
+  "refinedOil+hydrogen+coal=refinedOil": 121, // 精炼油
   "fireIce=hydrogen+graphene": 32, // 氢 石墨烯
   "fireIce=hydrogenOutput+graphene": 32, // 氢 石墨烯
   "stone=glass": 57, // 玻璃
@@ -506,7 +506,8 @@ const recipeMap = {
   "steel+copperIngot+photonCombiner+superMagneticRing=geothermalPowerStation": 118, // 地热发电站
   "steel+gear+superMagneticRing+processor=autoPiler": 120, // 自动集装机
   "steel+plasmaExciter+circuitBoard+microcrystallineComponent=sprayCoater": 109, // 喷涂机
-  "hydrogen+refinedOil=hydrogen+energeticGraphite": -1, // 氢 高级石墨
+  "hydrogen+refinedOil=hydrogen+energeticGraphite": 58, // 氢 高级石墨
+  "hydrogen+refinedOil=hydrogenOutput+energeticGraphite": 58, // 氢 高级石墨
   "蓝矩阵+红矩阵+黄矩阵+紫矩阵+绿矩阵+antimatter=宇宙矩阵": 75, // 宇宙矩阵
   "蓄电池=蓄电池满": -1, // 蓄电池满
   "magneticCoil+circuitBoard=蓝矩阵": 9, // 蓝矩阵
@@ -647,6 +648,13 @@ class Blueprint {
           5000
         );
         throw `unknown recipe - ${recipeStr} ${subRecipe}`;
+      }
+      if ([58, 121].includes(recipeMap[recipeStr])) {
+        cocoMessage.warning(
+          `X射线裂解(制氢)与重整精炼(制精炼油)产能计算3倍于实际情况，请谨慎使用`,
+          5000
+        );
+        //throw `unknown recipe - ${recipeStr} ${subRecipe}`;
       }
       subRecipe.recipeID = recipeMap[recipeStr];
     }
@@ -1748,6 +1756,7 @@ class Blueprint {
                 ownerObjIdx: nowBuildingIndex, // 分拣器附属生产建筑的index
                 ownerName: subRecipe.building.name,
                 ownerOffset: { x: buildingX, y: buildingY, z: buildingZ },
+                recipeID: parseInt(subRecipe.recipeID),
               });
             } else {
               this.sorters[outputItem.name].output = [
@@ -1757,6 +1766,7 @@ class Blueprint {
                   ownerObjIdx: nowBuildingIndex,
                   ownerName: subRecipe.building.name,
                   ownerOffset: { x: buildingX, y: buildingY, z: buildingZ },
+                  recipeID: parseInt(subRecipe.recipeID),
                 },
               ];
             }
@@ -1770,6 +1780,7 @@ class Blueprint {
                   ownerObjIdx: nowBuildingIndex,
                   ownerName: subRecipe.building.name,
                   ownerOffset: { x: buildingX, y: buildingY, z: buildingZ },
+                  recipeID: parseInt(subRecipe.recipeID),
                 },
               ],
             };
@@ -1804,6 +1815,7 @@ class Blueprint {
               ownerObjIdx: nowBuildingIndex, // 分拣器附属生产建筑的index
               ownerName: subRecipe.building.name,
               ownerOffset: { x: buildingX, y: buildingY, z: buildingZ },
+              recipeID: parseInt(subRecipe.recipeID),
             });
           } else {
             this.sorters[outputItem.name].output = [
@@ -1813,6 +1825,7 @@ class Blueprint {
                 ownerObjIdx: nowBuildingIndex,
                 ownerName: subRecipe.building.name,
                 ownerOffset: { x: buildingX, y: buildingY, z: buildingZ },
+                recipeID: parseInt(subRecipe.recipeID),
               },
             ];
           }
@@ -1826,6 +1839,7 @@ class Blueprint {
                 ownerObjIdx: nowBuildingIndex,
                 ownerName: subRecipe.building.name,
                 ownerOffset: { x: buildingX, y: buildingY, z: buildingZ },
+                recipeID: parseInt(subRecipe.recipeID),
               },
             ],
           };
@@ -1887,6 +1901,7 @@ class Blueprint {
                 ownerObjIdx: nowBuildingIndex, // 分拣器附属生产建筑的index
                 ownerName: subRecipe.building.name,
                 ownerOffset: { x: buildingX, y: buildingY, z: buildingZ },
+                recipeID: parseInt(subRecipe.recipeID),
               });
             } else {
               this.sorters[inputItem.name].output = [
@@ -1896,6 +1911,7 @@ class Blueprint {
                   ownerObjIdx: nowBuildingIndex,
                   ownerName: subRecipe.building.name,
                   ownerOffset: { x: buildingX, y: buildingY, z: buildingZ },
+                  recipeID: parseInt(subRecipe.recipeID),
                 },
               ];
             }
@@ -1909,6 +1925,7 @@ class Blueprint {
                   ownerObjIdx: nowBuildingIndex,
                   ownerName: subRecipe.building.name,
                   ownerOffset: { x: buildingX, y: buildingY, z: buildingZ },
+                  recipeID: parseInt(subRecipe.recipeID),
                 },
               ],
             };
@@ -1944,6 +1961,7 @@ class Blueprint {
               ownerObjIdx: nowBuildingIndex, // 分拣器附属生产建筑的index
               ownerName: subRecipe.building.name,
               ownerOffset: { x: buildingX, y: buildingY, z: buildingZ },
+              recipeID: parseInt(subRecipe.recipeID),
             });
           } else {
             this.sorters[inputItem.name].input = [
@@ -1953,6 +1971,7 @@ class Blueprint {
                 ownerObjIdx: nowBuildingIndex,
                 ownerName: subRecipe.building.name,
                 ownerOffset: { x: buildingX, y: buildingY, z: buildingZ },
+                recipeID: parseInt(subRecipe.recipeID),
               },
             ];
           }
@@ -1966,6 +1985,7 @@ class Blueprint {
                 ownerObjIdx: nowBuildingIndex,
                 ownerName: subRecipe.building.name,
                 ownerOffset: { x: buildingX, y: buildingY, z: buildingZ },
+                recipeID: parseInt(subRecipe.recipeID),
               },
             ],
           };
@@ -2238,6 +2258,25 @@ class Blueprint {
         totalDoneRate += doneRate;
         let outputRate = doneRate; // 当前传送带实际运力
         doneSorterNum = 0;
+        let refineryNum = 0; // X射线裂解/重整精炼工厂数量
+        // 重新排序以提高输出传送带中，X射线裂解(氢)和重整精炼(精炼油)的输入优先级
+        if (["hydrogen", "refinedOil"].includes(itemName) && item.toBuildingNum !== 0) {
+          let input2 = [];
+          for (let j = this.sorters[itemName].input.length - 1; j >= 0; j--) {
+            if (!((itemName === "hydrogen" && this.sorters[itemName].input[j].recipeID === 58) ||
+            (itemName === "refinedOil" && this.sorters[itemName].input[j].recipeID === 121))){
+              input2.push(this.sorters[itemName].input[j]);
+            }
+          }
+          refineryNum = this.sorters[itemName].input.length - input2.length;
+          for (let j = this.sorters[itemName].input.length - 1; j >= 0; j--) {
+            if ((itemName === "hydrogen" && this.sorters[itemName].input[j].recipeID === 58) ||
+            (itemName === "refinedOil" && this.sorters[itemName].input[j].recipeID === 121)){
+              input2.push(this.sorters[itemName].input[j]);
+            }
+          }
+          this.sorters[itemName].input = input2;
+        }
         if (item.toBuildingNum !== 0) {
           for (let j = this.sorters[itemName].input.length - 1; j >= 0; j--) {
             if (
@@ -2347,12 +2386,14 @@ class Blueprint {
                 ownerObjIdx: this.sorters[itemName].input[j].ownerObjIdx,
                 ownerName: this.sorters[itemName].input[j].ownerName,
                 ownerOffset: this.sorters[itemName].input[j].ownerOffset,
+                recipeID: this.sorters[itemName].input[j].recipeID,
               });
               this.sorters[itemName].input.pop();
               break;
             }
 
-            if (doneSorterNum % this.config.maxSorterNumOneBelt === 0) {
+            // 当前传送带连接分拣器达到上限，或在X射线裂解(氢)/重整精炼(精炼油)后，连接下一个传送带
+            if ((doneSorterNum - refineryNum) % this.config.maxSorterNumOneBelt === 0 || doneSorterNum === 0) {
               outputData.push([this.sorters[itemName].input[j].index]);
             } else {
               outputData[outputData.length - 1].push(
