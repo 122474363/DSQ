@@ -651,7 +651,7 @@ class Blueprint {
       }
       if ([58, 121].includes(recipeMap[recipeStr])) {
         cocoMessage.warning(
-          `X射线裂解(制氢)与重整精炼(制精炼油)产能计算3倍于实际情况，请谨慎使用`,
+          `X射线裂解(制氢)与重整精炼(制精炼油)可能需手动提供初始启动的精炼油/氢`,
           5000
         );
         //throw `unknown recipe - ${recipeStr} ${subRecipe}`;

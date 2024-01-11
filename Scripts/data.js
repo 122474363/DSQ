@@ -4252,7 +4252,14 @@ function update_all() {
       if (item.q.length == 0) accValue = "无";
 
       if (item.name !== "临界光子" || item.mName !== "射线接收塔") {
-        xh.value2 /= getAccSpeed(accType, accValue);
+        // 修正产物与需求物相同时，生产设备计算偏少
+        let fixValue2Times = 1;
+        for (let j = 0; j < item.q.length; j++) {
+          if (item.q[j].name === item.name) {
+            fixValue2Times = item.n / (item.n - item.q[j].n)
+          }
+        }
+        xh.value2 = xh.value2 / getAccSpeed(accType, accValue) * fixValue2Times;
       }
     }
   }
