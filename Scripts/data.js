@@ -3660,6 +3660,9 @@ function f_init() {
     pointLength = parseInt($(this).val());
     update_all();
   });
+  $("#isAddSelfAccP").change(function () {
+    update_all();
+  });
   $("#fractionatorSpeed").change(function () {
     $(data).each(function () {
       if (this.m) {
@@ -4041,13 +4044,26 @@ function loadNumber(itemName, n) {
         if (accValue == "增产" && item.noExtra) accValue = "无";
         if (item.q.length == 0 || item.noExtra === null) accValue = "无";
 
+        // if (accValue == "加速") {
+          // accTotal += r / tm;
+          // loadNumber(accType, r / tm);
+        // } else if (accValue == "增产") {
+          // r /= v;
+          // accTotal += r / tm;
+          // loadNumber(accType, r / tm);
+        // }
+
         if (accValue == "加速") {
           accTotal += r / tm;
-          loadNumber(accType, r / tm);
+          if (!$("#isAddSelfAccP").get(0).checked) {
+            loadNumber(accType, r / tm);
+          }
         } else if (accValue == "增产") {
           r /= v;
           accTotal += r / tm;
-          loadNumber(accType, r / tm);
+          if (!$("#isAddSelfAccP").get(0).checked) {
+            loadNumber(accType, r / tm);
+          }
         }
 
         loadNumber(q.name, r);
