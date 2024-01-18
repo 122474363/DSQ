@@ -3,47 +3,48 @@
             height: 24px;
         }
 
-        .selector, .layui-layer-demo {
+        .selector,
+        .layui-layer-demo {
             background: #4A5C72;
         }
 
-        .selector {
+        .selector {}
+
+        .selector .icons {
+            flex-direction: column;
+            padding: 20px;
+            display: none;
         }
 
-            .selector .icons {
-                flex-direction: column;
-                padding: 20px;
-                display: none;
-            }
+        .selector .icons-selected {
+            display: -webkit-flex;
+            display: flex;
+        }
 
-            .selector .icons-selected {
-                display: -webkit-flex;
-                display: flex;
-            }
+        .selector .icons .iconrow {
+            display: -webkit-flex;
+            display: flex;
+            flex: auto;
+        }
 
-            .selector .icons .iconrow {
-                display: -webkit-flex;
-                display: flex;
-                flex: auto;
-            }
+        .selector .icons .icon:hover {
+            background: #3F6D84;
+        }
 
-            .selector .icons .icon:hover {
-                background: #3F6D84;
-            }
+        .selector .icons .icon {
+            flex: auto;
+            margin-right: 2px;
+            margin-bottom: 2px;
+            cursor: pointer;
+            text-align: center;
+        }
 
-            .selector .icons .icon {
-                flex: auto;
-                margin-right: 2px;
-                margin-bottom: 2px;
-                cursor: pointer;
-                text-align: center;
-            }
-
-                .selector .icons .icon .s, .selector .icons .icon img {
-                    width: 50px;
-                    height: 50px;
-                    margin-top: 10px;
-                }
+        .selector .icons .icon .s,
+        .selector .icons .icon img {
+            width: 50px;
+            height: 50px;
+            margin-top: 10px;
+        }
 
         #tabs {
             margin-top: 20px;
@@ -62,9 +63,9 @@
             margin-left: 20px;
         }
 
-            .icons .icon {
-                background: #364450;
-            }
+        .icons .icon {
+            background: #364450;
+        }
 
         #tabs img {
             width: 64px;
@@ -77,11 +78,12 @@
             float: left;
         }
 
-            #tabs .tab.selected {
-                background: #506777;
-            }
+        #tabs .tab.selected {
+            background: #506777;
+        }
 
-        .ms, .pfs {
+        .ms,
+        .pfs {
             display: flex;
             flex-direction: column;
         }
@@ -91,7 +93,8 @@
             flex-direction: row;
         }
 
-        .m, .pf {
+        .m,
+        .pf {
             display: block;
             margin: 3px;
             padding: 3px 8px;
@@ -161,15 +164,19 @@
             margin: 10px;
             padding: 10px;
         }
+
         #MoreSetting {
             border: 1px #d3d3d3 dashed;
             margin: 10px;
             padding: 10px;
         }
-        #MoreSetting p{
-            margin:5px;
+
+        #MoreSetting p {
+            margin: 5px;
         }
-        #txtnumber, #txtore {
+
+        #txtnumber,
+        #txtore {
             width: 40px;
             height: 24px;
             line-height: 30px;
@@ -193,8 +200,8 @@
         }
 
         .number2 {
-                margin: 0;
-                padding: 0;
+            margin: 0;
+            padding: 0;
         }
 
         table {
@@ -220,8 +227,7 @@
             background: #fff2f2;
         }
 
-        .outrow td {
-        }
+        .outrow td {}
 
         .to {
             color: black;
@@ -232,9 +238,9 @@
             font-size: 12px;
         }
 
-            .op a {
-                color: #333;
-            }
+        .op a {
+            color: #333;
+        }
 
         a {
             color: #333;
@@ -262,7 +268,7 @@
             color: white;
             background: #5d6e88;
             padding: 20px;
-			z-index: 1000;
+            z-index: 1000;
         }
 
         .split-pf {
@@ -273,9 +279,10 @@
             cursor: pointer;
         }
 
-            .split-pf:hover, .split-pf-selected {
-                background: #5d6e88;
-            }
+        .split-pf:hover,
+        .split-pf-selected {
+            background: #5d6e88;
+        }
 
         .split-number {
             width: 130px;
@@ -286,47 +293,49 @@
         #Split button {
             margin-top: 10px;
         }
+
         .textbox {
             border: 1px solid #d3d3d3;
             width: 85px;
             height: 24px;
             line-height: 30px;
         }
+
         .label {
             width: 160px;
             display: inline-block;
         }
-        .maxOneBeltIn{
+
+        .maxOneBeltIn {
             color: #2bcd31;
         }
 
-        .maxOneBeltOut{
+        .maxOneBeltOut {
             color: #cd9b4c;
         }
 
-        .item_number{
+        .item_number {
             display: inline-block;
-            border: 1px solid rgba(0,0,0,0);
+            border: 1px solid rgba(0, 0, 0, 0);
             border-radius: 4px;
             /* padding: 0 10px; */
             position: relative;
         }
 
-        .item_number:hover
-        {
+        .item_number:hover {
             border: 1px solid black;
             transition: border-color 0.2s ease-in-out;
         }
 
-        .number_editor_container{
-            position:absolute;
+        .number_editor_container {
+            position: absolute;
             left: 0;
             top: 0;
             /* width: 30px; */
             right: 0;
         }
 
-        .number_editor{
+        .number_editor {
             border: 1px solid blue;
             border-radius: 4px;
             -webkit-appearance: none;
@@ -349,6 +358,7 @@
             background-color: #e5e5e5;
             border-radius: 4px;
         }
+
         .custom-dropdown button:hover {
             background-color: #ddd;
         }
@@ -363,8 +373,10 @@
             z-index: 1;
             border: 1px solid #ccc;
             border-top: none;
-            max-height: 500px; /* Set the maximum height as needed */
-            overflow-y: auto; /* Add a scrollbar when content overflows */
+            max-height: 500px;
+            /* Set the maximum height as needed */
+            overflow-y: auto;
+            /* Add a scrollbar when content overflows */
         }
 
         /* Style for each dropdown item group */
