@@ -3982,6 +3982,7 @@ var data = [
       },
     ],
     t: 6,
+	noExtra: true,
   },
   {
     s: [
