@@ -3987,6 +3987,82 @@ var data = [
   {
     s: [
       {
+        name: "干扰胶囊",
+        n: 1,
+      },
+    ],
+    group: "消耗品",
+    m: "制作台",
+    q: [
+      {
+        name: "电磁涡轮",
+        n: 1,
+      },
+      {
+        name: "电浆激发器",
+        n: 1,
+      },
+      {
+        name: "氢",
+        n: 3,
+      },
+    ],
+    t: 2,
+  },
+  {
+    s: [
+      {
+        name: "压制胶囊",
+        n: 2,
+      },
+    ],
+    group: "消耗品",
+    m: "制作台",
+    q: [
+      {
+        name: "干扰胶囊",
+        n: 2,
+      },
+      {
+        name: "超级磁场环",
+        n: 1,
+      },
+      {
+        name: "钛化玻璃",
+        n: 2,
+      },
+    ],
+    t: 8,
+  },
+  {
+    s: [
+      {
+        name: "集装分拣器",
+        n: 1,
+      },
+    ],
+    group: "建筑",
+    m: "制作台",
+    q: [
+      {
+        name: "极速分拣器",
+        n: 2,
+      },
+      {
+        name: "超级磁场环",
+        n: 1,
+      },
+      {
+        name: "处理器",
+        n: 1,
+      },
+    ],
+    t: 1,
+    noExtra: true,
+  },
+  {
+    s: [
+      {
         name: "行星护盾发生器",
         n: 1,
       },
@@ -4035,6 +4111,64 @@ var data = [
     t: 1,
     noExtra: true,
   },
+  {
+    s: [
+      {
+        name: "近程电浆炮",
+        n: 1,
+      },
+    ],
+    group: "建筑",
+    m: "制作台",
+    q: [
+      {
+        name: "钢材",
+        n: 15,
+      },
+      {
+        name: "超级磁场环",
+        n: 5,
+      },
+      {
+        name: "电浆激发器",
+        n: 5,
+      },
+      {
+        name: "处理器",
+        n: 5,
+      },
+    ],
+    t: 8,
+  },
+  {
+    s: [
+      {
+        name: "干扰塔",
+        n: 1,
+      },
+    ],
+    group: "建筑",
+    m: "制作台",
+    q: [
+      {
+        name: "铜块",
+        n: 12,
+      },
+      {
+        name: "电浆激发器",
+        n: 9,
+      },
+      {
+        name: "金刚石",
+        n: 6,
+      },
+      {
+        name: "处理器",
+        n: 2,
+      },
+    ],
+    t: 5,
+  },
 ];
 var manualGzSpeed = false; //是否采用手动输入的临界光子每分钟产量
 
@@ -4080,7 +4214,7 @@ spaceData["粒子对撞机"] = 45;
 var defaultAccType = "增产剂Mk.Ⅰ";
 var defaultAccValue = "无";
 
-var version = "20231229"; //版本号，用来更新data.json的缓存
+var version = "20240202"; //版本号，用来更新data.json的缓存
 
 function f_initData() {
   $(data).each(function (i, item) {
@@ -5918,9 +6052,9 @@ function f_initIcons() {
   addIcons(jicons2, game_data.icons2);
 
   function addIcons(jicons, icons) {
-    jicons.width(w - 80).height(h - 220);
+	jicons.width(w - 80).height(h - 150); //调整图形框架宽度/高度
 
-    for (var i = 0; i < 8; i++) {
+    for (var i = 0; i < 9; i++) {
       var jrow = $("<div class='iconrow'></div>").appendTo(jicons);
       for (var j = 0; j < 14; j++) {
         var jicon = $("<div class='icon'><div class='s'></div></div>").appendTo(
@@ -6043,6 +6177,7 @@ function getRecipe() {
     ["分拣器", "sorterMk1"],
     ["高速分拣器", "sorterMk2"],
     ["极速分拣器", "sorterMk3"],
+    ["集装分拣器", "sorterMk4"],
     ["四向分流器", "splitter"],
     ["自动集装机", "autoPiler"],
     ["流速监测器", "trafficMonitor"],
@@ -6128,6 +6263,10 @@ function getRecipe() {
     ["黑雾矩阵", "黑雾矩阵"],
     ["物质重组器", "物质重组器"],
     ["矿脉", "矿脉"],
+    ["干扰胶囊", "干扰胶囊"],
+    ["压制胶囊", "压制胶囊"],
+    ["近程电浆炮", "近程电浆炮"],
+	["干扰塔", "干扰塔"],
     ["None", "None"],
   ];
   let outputHasHydrogen = false;

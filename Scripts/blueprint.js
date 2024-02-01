@@ -83,6 +83,7 @@ const itemMap = {
     sorterMk1: { name: "sorterMk1", iconId: 2011, remark: "分拣器" },
     sorterMk2: { name: "sorterMk2", iconId: 2012, remark: "高速分拣器" },
     sorterMk3: { name: "sorterMk3", iconId: 2013, remark: "极速分拣器" },
+	sorterMk4: { name: "sorterMk4", iconId: 2014, remark: "集装分拣器" },
     splitter: { name: "splitter", iconId: 2020, remark: "四向分流器" },
     autoPiler: { name: "autoPiler", iconId: 2040, remark: "自动集装机" },
     trafficMonitor: { name: "trafficMonitor", iconId: 2030, remark: "流速监测器" },
@@ -169,8 +170,10 @@ const itemMap = {
     核心素: { name: "核心素", iconId: 5205, remark: "核心素" },
     负熵奇点: { name: "负熵奇点", iconId: 5204, remark: "负熵奇点" },
     能量碎片: { name: "能量碎片", iconId: 5206, remark: "能量碎片" },
-	
-	
+    干扰胶囊: { name: "干扰胶囊", iconId: 1612, remark: "干扰胶囊" },
+    压制胶囊: { name: "压制胶囊", iconId: 1613, remark: "压制胶囊" },
+	近程电浆炮: { name: "近程电浆炮", iconId: 3010, remark: "近程电浆炮" },
+	干扰塔: { name: "干扰塔", iconId: 3006, remark: "干扰塔" },
     templateItem: { name: "templateItem", iconId: 0, remark: "模板" },
 };
 const productionCategory = {
@@ -345,6 +348,16 @@ const buildingMap = {
     type: buildingType.sorter,
     remark: "分拣器MK.Ⅲ",
   },
+  sorterMk4: {
+    name: "sorterMk4",
+    itemId: 2014,
+    modelIndex: 483,
+    sortingSpeed: 120,
+    size: { x: 1, y: 1 },
+    type: buildingType.sorter,
+    remark: "分拣器MK.Ⅳ",
+  },
+  
   conveyorBeltMk1: {
     name: "conveyorBeltMk1",
     itemId: 2001,
@@ -557,6 +570,12 @@ const recipeMap = {
   "wirelessPowerTower+steel+crystalSilicon=信号塔": 131, //信号塔
   "steel+electromagneticTurbine+superMagneticRing+particleContainer=行星护盾发生器": 132, //行星护盾发生器
   "antimatterFuelRod+核心素+strangeMatter+frameMaterial=奇异湮灭燃料棒": 156,//奇异湮灭燃料棒
+  //以下recipeMap为随意输入，请懂的大佬更正后并删除这段话，有时间也可以留下如何获取这个recipeMap的方法
+  "electromagneticTurbine+plasmaExciter+hydrogen=干扰胶囊": 157,//干扰胶囊
+  "干扰胶囊+superMagneticRing+titaniumGlass=压制胶囊": 158,//压制胶囊
+  "sorterMk3+superMagneticRing+processor=sorterMk4": 159, // 集装分拣器
+  "steel+superMagneticRing+plasmaExciter+processor=近程电浆炮": 160, // 近程电浆炮
+  "copperIngot+plasmaExciter+diamond+processor=干扰塔": 161, // 干扰塔
 };
 
 class Blueprint {
