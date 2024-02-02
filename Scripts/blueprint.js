@@ -175,6 +175,7 @@ const itemMap = {
 	近程电浆炮: { name: "近程电浆炮", iconId: 3010, remark: "近程电浆炮" },
 	干扰塔: { name: "干扰塔", iconId: 3006, remark: "干扰塔" },
     templateItem: { name: "templateItem", iconId: 0, remark: "模板" },
+	//itemId是在传送带中设置这个产物，然后转换成json来提取
 };
 const productionCategory = {
   smelter: 0,
@@ -570,12 +571,12 @@ const recipeMap = {
   "wirelessPowerTower+steel+crystalSilicon=信号塔": 131, //信号塔
   "steel+electromagneticTurbine+superMagneticRing+particleContainer=行星护盾发生器": 132, //行星护盾发生器
   "antimatterFuelRod+核心素+strangeMatter+frameMaterial=奇异湮灭燃料棒": 156,//奇异湮灭燃料棒
-  //以下recipeMap为随意输入，请懂的大佬更正后并删除这段话，有时间也可以留下如何获取这个recipeMap的方法
-  "electromagneticTurbine+plasmaExciter+hydrogen=干扰胶囊": 157,//干扰胶囊
-  "干扰胶囊+superMagneticRing+titaniumGlass=压制胶囊": 158,//压制胶囊
-  "sorterMk3+superMagneticRing+processor=sorterMk4": 159, // 集装分拣器
-  "steel+superMagneticRing+plasmaExciter+processor=近程电浆炮": 160, // 近程电浆炮
-  "copperIngot+plasmaExciter+diamond+processor=干扰塔": 161, // 干扰塔
+  "electromagneticTurbine+plasmaExciter+hydrogen=干扰胶囊": 158,//干扰胶囊
+  "干扰胶囊+superMagneticRing+titaniumGlass=压制胶囊": 159,//压制胶囊
+  "sorterMk3+superMagneticRing+processor=sorterMk4": 160, // 集装分拣器
+  "steel+superMagneticRing+plasmaExciter+processor=近程电浆炮": 157, // 近程电浆炮
+  "copperIngot+plasmaExciter+diamond+processor=干扰塔": 130, // 干扰塔
+  //recipeId是在制造台中设置输出这个产物，然后转换成json来提取
 };
 
 class Blueprint {
@@ -3700,11 +3701,13 @@ class Blueprint {
       },
     };
     const parameterParsers = new Map([
+	//支持增产的设备
       [2103, stationParamsParser(stationDesc)],
       [2104, stationParamsParser(interstellarStationDesc)],
       [2316, advancedMiningMachineParamParser()],
       [2020, splitterParamParser],
       [2901, labParamParser],
+      [2902, labParamParser],
       [2001, beltParamParser],
       [2002, beltParamParser],
       [2003, beltParamParser],
