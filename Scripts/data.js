@@ -4685,6 +4685,7 @@ function find(name, normalize_recipe) {
       }
     }
 
+    cocoMessage.warning("重氢分馏塔无法用于生产氢气。", 3000);
     throw new Error("配方错误！可能是因为该配方净输出为负。");
   }
 
@@ -5817,6 +5818,9 @@ function selectPf(name, value) {
   } catch (e) {
     settings_pf = old_settings_pf;
     update_all();
+    if (e.name == "RangeError") {
+      cocoMessage.warning("无法切换到X射线裂解(制氢)/重整精炼(制精炼油)公式？请尝试先将对应的另一条(分别为制精炼油/制氢)默认公式切换为其他公式。", 6000);
+    }
     throw e;
   }
   saveSettingPf();
