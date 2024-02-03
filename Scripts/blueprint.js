@@ -1744,8 +1744,7 @@ class Blueprint {
           // 一级分拣器不够用时直接使用三级分拣器，二级分拣器没太大价值，直接略过
           sorter = buildingMap.sorterMk3;
         }
-        if (
-          subRecipe.building.name === buildingMap.lab.name &&
+        if (buildingMap[subRecipe.building.name].category === productionCategory.lab &&
           actual_rate > buildingMap.sorterMk3.sortingSpeed
         ) {
           // 研究站层数过高时会出现一个3级分拣器无法满足运力的问题
@@ -1889,8 +1888,7 @@ class Blueprint {
           sorter = buildingMap.sorterMk3;
         }
 
-        if (
-          subRecipe.building.name === buildingMap.lab.name &&
+        if (buildingMap[subRecipe.building.name].category === productionCategory.lab &&
           actual_rate > buildingMap.sorterMk3.sortingSpeed
         ) {
           // 研究站层数过高时会出现一个3级分拣器无法满足运力的问题
@@ -2110,7 +2108,7 @@ class Blueprint {
         if (subRecipe.input === null) {
           outputRate = outputItem.rate;
         } else {
-          if (subRecipe.building.name === buildingMap.lab.name) {
+          if (buildingMap[subRecipe.building.name].category === productionCategory.lab) {
             // 研究站可堆叠，需特殊处理
             fromBuildingNum = Math.ceil(
               subRecipe.building.num / this.config.maxLabLayers
@@ -2140,7 +2138,7 @@ class Blueprint {
       }
       for (let inputItem of subRecipe.input) {
         let toBuildingNum = 0;
-        if (subRecipe.building.name === buildingMap.lab.name) {
+        if (buildingMap[subRecipe.building.name].category === productionCategory.lab) {
           toBuildingNum = Math.ceil(
             subRecipe.building.num / this.config.maxLabLayers
           );
@@ -3069,7 +3067,6 @@ class Blueprint {
       2317, // 追加量子化工厂
       2318, // 重组式制造台
       2319, // 负熵熔炉
-      2902, // 自演化研究站
     ]);
     const K = Int32Array.of(
       0xd76aa478,
@@ -3701,7 +3698,7 @@ class Blueprint {
       },
     };
     const parameterParsers = new Map([
-	//支持增产的设备
+      //支持增产的设备
       [2103, stationParamsParser(stationDesc)],
       [2104, stationParamsParser(interstellarStationDesc)],
       [2316, advancedMiningMachineParamParser()],
