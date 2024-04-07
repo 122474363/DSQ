@@ -4583,6 +4583,14 @@ function getPfTitle(item, info) {
   var title = [];
   var speed1_5 = parseFloat($("#speed1_5").val());
 
+  function calculateBaseNumber(t, item_array, item_index, info, csdsize, speed1_5) {
+      // 但是item.t是什么（ 这和item.time有啥区别吗（
+      return (
+          (csdsize / ((60 / (t || 1)) * info.speed * (item_array[item_index].n || 1))) *
+          speed1_5
+      );
+  }
+
   for (var j = 0; j < item.q.length; j++) {
     title.push(getIconShow(item.q[j].name, item.q[j].n || 1));
 
@@ -4595,9 +4603,10 @@ function getPfTitle(item, info) {
         csdsize = 720;
       }
       var number =
-        ((csdsize / ((60 / (item.t || 1)) * info.speed * (item.q[j].n || 1))) *
-          speed1_5) /
-        getAccSpeed(info.accType, info.accValue);
+          info.accValue === "增产"
+              ? calculateBaseNumber(item.t, item.q, j, info, csdsize, speed1_5)
+              : calculateBaseNumber(item.t, item.q, j, info, csdsize, speed1_5) /
+                getAccSpeed(info.accType, info.accValue);
       // console.log(1+' '+speed1_5);
       // title.push("<sub class='maxOneBeltIn'>" + number.toFixed(pointLength));//输出为小数 跟随主设置
       title.push("<sub class='maxOneBeltIn'>" + number.toFixed(1)); //输出为小数 保留 0.1
@@ -4621,9 +4630,8 @@ function getPfTitle(item, info) {
         csdsize = 720;
       }
       var number =
-        ((csdsize / ((60 / (item.t || 1)) * info.speed * (item.s[j].n || 1))) *
-          speed1_5) /
-        getAccSpeed(info.accType, info.accValue);
+          calculateBaseNumber(item.t, item.s, j, info, csdsize, speed1_5) /
+          getAccSpeed(info.accType, info.accValue);
       // console.log(2+' '+speed1_5);
       // title.push("<sub class='maxOneBeltOut'>" + number.toFixed(pointLength));//输出为小数 跟随主设置
       title.push("<sub class='maxOneBeltOut'>" + number.toFixed(1)); //输出为小数 保留 0.1
