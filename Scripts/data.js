@@ -6501,7 +6501,11 @@ function getRecipe() {
   };
 }
 
+// 生成蓝图：跳到手搓产线蓝图页（Scripts/handcraft-link.js）。原来的生成方法改名留在下面，不再接到按钮上
 function generateBlueprint() {
+  openHandcraft();
+}
+function generateBlueprintLegacy() {
   if (!location.href.startsWith("https")) {
     cocoMessage.warning("请使用 https 协议访问以启用复制到剪切板功能");
     return;
