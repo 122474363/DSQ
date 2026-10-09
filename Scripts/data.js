@@ -6541,6 +6541,80 @@ function getRecipe() {
   };
 }
 
+
+function generateBlueprint1() { // 无带流蓝图
+  if (!location.href.startsWith("https")) {
+    cocoMessage.warning("请使用 https 协议访问以启用复制到剪切板功能");
+    return;
+  }
+  const recipe = getRecipe();
+  const outputRecipe = {
+    proliferator: recipe.proliferator,
+    subRecipes: recipe.recipeList,
+  };
+  // console.log(JSON.stringify(outputRecipe))
+  //{"subRecipes":[{"building":{"name":"assemblingMachineMk1","num":0.7},"output":[{"name":"magneticCoil","rate":2}],"input":[{"name":"magnet","rate":2},{"name":"copperIngot","rate":1}],"acceleratorMode":0,"recipeID":0},{"building":{"name":"arcSmelter","num":1.5},"output":[{"name":"magnet","rate":0.6666666666666666}],"input":[{"name":"ironOre","rate":0.6666666666666666}],"acceleratorMode":0,"recipeID":0},{"building":null,"output":[{"name":"ironOre","rate":1}],"input":null,"acceleratorMode":0,"recipeID":0},{"building":{"name":"arcSmelter","num":0.5},"output":[{"name":"copperIngot","rate":1}],"input":[{"name":"copperOre","rate":1}],"acceleratorMode":0,"recipeID":0},{"building":null,"output":[{"name":"copperOre","rate":0.5}],"input":null,"acceleratorMode":0,"recipeID":0}]}
+  if (!outputRecipe.subRecipes) {
+    return;
+  }
+  let config = {
+    maxSorterNumOneBelt: 8, // 一个传送带节点连接的最大分拣器数量
+    conveyorBeltStackLayer: parseInt(
+      document.getElementById("conveyorBeltStackLayer").value
+    ), // 传送带物品最大堆叠层数
+    x_y_ratio: parseFloat(document.getElementById("x_y_ratio").value), // 长宽比
+    // compactLayout: document.getElementById('compactLayout').checked,  // 是否采用紧凑布局（紧凑布局的蓝图中炼油厂、化工厂和对撞机在布局上会更紧凑，适合摆放在赤道带，在高纬度可能会出现碰撞问题）
+    compactLayout: false,
+    upgradeConveyorBelt: false, // 360/min的运力时使用3级传送带（无带流情况下，原料的需求和供应都是集中处理，1级传送带满运力情况下可能会有运送不及时问题导致产量低于预期
+    onlyConveyorBeltMk3: document.getElementById("onlyConveyorBeltMk3").checked, // 是否只使用三级传送带
+    onlySorterMk3: document.getElementById("onlySorterMk3").checked, // 是否只使用三级传送带
+    maxLabLayers: parseInt(document.getElementById("maxLabLayers").value),
+    selfSpray: document.getElementById("selfAcc").checked, // 是否自喷涂增产剂
+    generateTeslaTower: document.getElementById("generateTeslaTower").checked, // 是否自动插电线杆
+    teslaTowerInterval: 10, // 同一排内电线杆距离
+    teslaTowerLineInterval: parseInt(
+      document.getElementById("teslaTowerLineInterval").value
+    ), // 电线杆间隔几排
+    // onlyConveyorBeltMk3Downgrade: document.getElementById('onlyConveyorBeltMk3Downgrade').checked  // 三级传送带运力降级
+    onlyConveyorBeltMk3Downgrade: false, // 三级传送带运力降级
+  };
+  // console.log(config)
+  let b1 = new Blueprint(
+    recipe.blueprintTitle,
+    recipe.blueprintIcon.concat(Array(5).fill(0)).slice(0, 5),
+    outputRecipe,
+    config
+  );
+  b1.init();
+  b1.generateBuildings();
+  b1.generateConveyorBelts();
+  b1.generateConveyorBeltsForSprayCoater();
+  b1.blueprintTemplate.buildings = b1.buildings;
+  b1.blueprintTemplate.header.desc = recipe.blueprintDesc.trimEnd();
+  switch (recipe.blueprintIcon.length) {
+    case 1:
+      b1.blueprintTemplate.header.layout = 10;
+      break;
+    case 2:
+      b1.blueprintTemplate.header.layout = 20;
+      break;
+    case 3:
+      b1.blueprintTemplate.header.layout = 30;
+      break;
+    case 4:
+      b1.blueprintTemplate.header.layout = 40;
+      break;
+    default:
+      b1.blueprintTemplate.header.layout = 51;
+      break;
+  }
+  navigator.clipboard
+    .writeText(b1.toStr())
+    .then((r) => cocoMessage.success("已复制到粘贴板", 1000));
+  // navigator.clipboard.writeText(JSON.stringify(b1.blueprintTemplate.buildings)).then(r => cocoMessage.success("已复制到粘贴板", 1000))
+}
+
+
 // 生成蓝图：跳到手搓产线蓝图页（Scripts/handcraft-link.js）。原来的生成方法改名留在下面，不再接到按钮上
 function generateBlueprint() {
   openHandcraft();

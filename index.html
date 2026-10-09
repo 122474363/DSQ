@@ -122,9 +122,9 @@
             </select>
           </p>
         </div>
-        <!-- 此模块已废弃
+
 		<div> 
-          <h4>蓝图配置：</h4>
+          <h4>蓝图配置(仅无带流)：</h4>
           <div style="margin-left: 1%">
 				<span class="label">紧凑布局</span><input type="checkbox" id="compactLayout">（高纬度可能出现碰撞）<br/>
 				<span class="label">临界运力传送带自升级</span><input type="checkbox" id="upgradeConveyorBelt"><br />
@@ -143,7 +143,7 @@
               class="textbox"><br />
           </div>
         </div>
-		-->
+
       </div>
     </div>
   </div>
@@ -170,7 +170,8 @@
         </button>
         <button onclick="f_save()">保存方案</button>
         <!-- <button onclick="let configSpan = document.getElementById('blueprintConfig'); if(configSpan.style.display === 'none'){configSpan.style.display='block'}else {configSpan.style.display='none'}">蓝图配置</button> -->
-        <button onclick="generateBlueprint()">生成蓝图</button>
+        <button onclick="generateBlueprint1()">生成蓝图[无带流]</button>
+        <button onclick="generateBlueprint()">生成蓝图[正常]</button>
         &nbsp&nbsp
         戴森球计划工具交流讨论QQ群：<a
           href="http://qm.qq.com/cgi-bin/qm/qr?_wv=1027&k=UzzPv3ic7Fk9EDCyHo_4gkWQLR3WEA9Y&authKey=ysjOY0JQOSpT2ZCLkttSzI73sXyzu%2FXEqJXMmY2O645LpO6GOD5lRBrjdalqpO5k&noverify=0&group_code=53309723"
