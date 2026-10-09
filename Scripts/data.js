@@ -335,6 +335,27 @@ var data = [
   {
     s: [
       {
+        name: "黑雾引力透镜",
+        n: 1,
+      },
+    ],
+    group: "消耗品",
+    m: "制作台",
+    q: [
+      {
+        name: "引力透镜",
+        n: 1,
+      },
+      {
+        name: "黑雾矩阵",
+        n: 12,
+      },
+    ],
+    t: 6,
+  },
+  {
+    s: [
+      {
         name: "硅石",
       },
     ],
@@ -3095,6 +3116,24 @@ var data = [
       {
         name: "引力透镜",
         n: 0.008333,
+      },
+    ],
+    t: 5,
+    noExtra: true,
+  },
+  {
+    s: [
+      {
+        name: "临界光子",
+        n: 1,
+      },
+    ],
+    group: "组件",
+    m: "射线接收塔",
+    q: [
+      {
+        name: "黑雾引力透镜",
+        n: 0.016666,
       },
     ],
     t: 5,
@@ -6173,6 +6212,7 @@ function getRecipe() {
     ["钛晶石", "titaniumCrystal"],
     ["卡西米尔晶片", "casimirCrystal"],
     ["引力透镜", "gravitonLens"],
+	["黑雾引力透镜", "darkfoglens"],
     ["空间翘曲器", "spaceWarper"],
     ["湮灭约束球", "annihilationConstraintSphere"],
     ["推进器", "thruster"],
