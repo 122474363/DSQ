@@ -50,7 +50,7 @@ function handcraftPlan() {
     else if (!id) unknown.push(xqs[i].item.name);
   }
   for (var e = 0; e < ig_names.length; e++) if (ids[ig_names[e]]) plan.ext.push(ids[ig_names[e]]);
-  // 配方：每个物品当前选的配方（find），换成游戏配方 ID；配方本身也带过去（defs），蓝图页没有的才用
+  // 配方：每个物品当前选的配方（find），换成游戏配方 ID；配方本身也带过去（defs），蓝图页以这份为准
   var defs = { items: [], recipes: [] };
   var named = {};
   var sent = {};
