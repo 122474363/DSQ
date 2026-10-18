@@ -1,5 +1,5 @@
 // 「手搓产线蓝图」页（blueprint/<版本>/index.html，由 dsp-handcraft 打包，源码 https://github.com/zoujack018/dsp-handcraft）嵌进本站用的小桥：
-// 1. 物品图标用本站 Scripts/data.json 里的（按 Scripts/handcraft-link.js 的 HANDCRAFT_IDS 换成游戏物品 ID）；
+// 1. 物品图标用本站 Scripts/data.json 里的（按 Scripts/game-ids.js 的 GAME_ITEM_IDS 换成游戏物品 ID）；
 // 2. 页面最上面加一条：返回计算器、蓝图生成器的源码链接。
 // 页面那边：window.DSPHC.icon(物品) 返回图片地址，图标准备好后收到 dsphc-icons 事件重画（见 dsp-handcraft 的 web/src/handoff.js）。
 (function () {
@@ -19,7 +19,7 @@
         var list = (d.icons1 || []).concat(d.icons2 || []);
         for (var i = 0; i < list.length; i++) {
           var name = list[i].name.split('-').slice(2).join('-') || list[i].name; // 「1-1-铁块」→「铁块」
-          var id = window.HANDCRAFT_IDS && window.HANDCRAFT_IDS[name];
+          var id = window.GAME_ITEM_IDS && window.GAME_ITEM_IDS[name];
           if (id && !icons[id]) icons[id] = 'data:image/png;base64,' + list[i].value;
         }
         window.dispatchEvent(new Event('dsphc-icons'));
@@ -29,7 +29,7 @@
       });
   }
   var s = document.createElement('script');
-  s.src = '../../Scripts/handcraft-link.js';
+  s.src = '../../Scripts/game-ids.js';
   s.onload = loadIcons;
   document.head.appendChild(s);
 
