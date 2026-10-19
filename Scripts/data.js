@@ -4,6 +4,7 @@ var data = [
 {
     s: [{				s ：产物一(可能多产物)
         name: "重氢",	name ：产物名称
+        itemId: 1121,	itemId ：游戏物品 ID（生成蓝图用，同一物品写一处即可）
         n: 0.01			n ：数量(如果不提供就是1)
     }, {					产物二(可能多产物)
         name: "氢",		name ：产物名称
@@ -17,6 +18,7 @@ var data = [
     }],
     t: 1,				t ：生产时间(秒)
     noExtra: true,		noExtra(添加增产剂是否不可"增产"): false(不填写该行时的默认值,加速/增产), true(加速), null(无效果;如能量枢纽为蓄电池充能的特例; 没有q属性的物品,如原矿类无需填写本行)
+    gameId: 1,			gameId ：游戏配方 ID（生成蓝图用，编号可查 https://github.com/komonad/dsp-solver/blob/main/data/Vanilla.json）
 },
 */
 
@@ -24,6 +26,7 @@ var data = [
     s: [
       {
         name: "宇宙矩阵",
+        itemId: 6006,
       },
     ],
     q: [
@@ -55,11 +58,13 @@ var data = [
     t: 15,
     m: "研究站",
     group: "产品",
+    gameId: 75,
   },
   {
     s: [
       {
         name: "铁矿",
+        itemId: 1001,
       },
     ],
     q: [],
@@ -70,6 +75,7 @@ var data = [
     s: [
       {
         name: "铜矿",
+        itemId: 1002,
       },
     ],
     q: [],
@@ -80,6 +86,7 @@ var data = [
     s: [
       {
         name: "煤矿",
+        itemId: 1006,
       },
     ],
     q: [],
@@ -90,6 +97,7 @@ var data = [
     s: [
       {
         name: "石矿",
+        itemId: 1005,
       },
     ],
     q: [],
@@ -100,6 +108,7 @@ var data = [
     s: [
       {
         name: "钛石",
+        itemId: 1004,
       },
     ],
     q: [],
@@ -110,6 +119,7 @@ var data = [
     s: [
       {
         name: "原油",
+        itemId: 1007,
       },
     ],
     q: [],
@@ -120,6 +130,7 @@ var data = [
     s: [
       {
         name: "水",
+        itemId: 1000,
       },
     ],
     q: [],
@@ -130,6 +141,7 @@ var data = [
     s: [
       {
         name: "硅石",
+        itemId: 1003,
       },
     ],
     q: [],
@@ -140,6 +152,7 @@ var data = [
     s: [
       {
         name: "蓄电池满",
+        itemId: 2207,
       },
     ],
     q: [
@@ -155,6 +168,7 @@ var data = [
     s: [
       {
         name: "蓝矩阵",
+        itemId: 6001,
       },
     ],
     q: [
@@ -170,11 +184,13 @@ var data = [
     t: 3,
     m: "研究站",
     group: "产品",
+    gameId: 9,
   },
   {
     s: [
       {
         name: "红矩阵",
+        itemId: 6002,
       },
     ],
     q: [
@@ -190,11 +206,13 @@ var data = [
     t: 6,
     m: "研究站",
     group: "产品",
+    gameId: 18,
   },
   {
     s: [
       {
         name: "黄矩阵",
+        itemId: 6003,
       },
     ],
     q: [
@@ -210,11 +228,13 @@ var data = [
     t: 8,
     m: "研究站",
     group: "产品",
+    gameId: 27,
   },
   {
     s: [
       {
         name: "紫矩阵",
+        itemId: 6004,
       },
     ],
     q: [
@@ -230,11 +250,13 @@ var data = [
     t: 10,
     m: "研究站",
     group: "产品",
+    gameId: 55,
   },
   {
     s: [
       {
         name: "绿矩阵",
+        itemId: 6005,
         n: 2,
       },
     ],
@@ -251,11 +273,13 @@ var data = [
     t: 24,
     m: "研究站",
     group: "产品",
+    gameId: 102,
   },
   {
     s: [
       {
         name: "空间翘曲器",
+        itemId: 1210,
         n: 8,
       },
     ],
@@ -268,6 +292,7 @@ var data = [
       },
     ],
     t: 10,
+    gameId: 79,
   },
   {
     s: [
@@ -285,11 +310,13 @@ var data = [
       },
     ],
     t: 10,
+    gameId: 78,
   },
   {
     s: [
       {
         name: "氘核燃料棒",
+        itemId: 1802,
         n: 2,
       },
     ],
@@ -310,11 +337,13 @@ var data = [
       },
     ],
     t: 12,
+    gameId: 41,
   },
   {
     s: [
       {
         name: "引力透镜",
+        itemId: 1209,
         n: 1,
       },
     ],
@@ -331,11 +360,13 @@ var data = [
       },
     ],
     t: 6,
+    gameId: 101,
   },
   {
     s: [
       {
         name: "黑雾引力透镜",
+        itemId: 1211,
         n: 1,
       },
     ],
@@ -352,6 +383,7 @@ var data = [
       },
     ],
     t: 6,
+    gameId: 162,
   },
   {
     s: [
@@ -367,11 +399,13 @@ var data = [
     ],
     m: "冶炼设备",
     t: 10,
+    gameId: 34,
   },
   {
     s: [
       {
         name: "铁块",
+        itemId: 1101,
       },
     ],
     group: "组件",
@@ -383,11 +417,13 @@ var data = [
       },
     ],
     t: 1,
+    gameId: 1,
   },
   {
     s: [
       {
         name: "钢材",
+        itemId: 1103,
       },
     ],
     group: "组件",
@@ -399,11 +435,13 @@ var data = [
       },
     ],
     t: 3,
+    gameId: 63,
   },
   {
     s: [
       {
         name: "钛块",
+        itemId: 1106,
       },
     ],
     group: "组件",
@@ -415,11 +453,13 @@ var data = [
       },
     ],
     t: 2,
+    gameId: 65,
   },
   {
     s: [
       {
         name: "铜块",
+        itemId: 1104,
       },
     ],
     group: "组件",
@@ -431,11 +471,13 @@ var data = [
       },
     ],
     t: 1,
+    gameId: 3,
   },
   {
     s: [
       {
         name: "磁铁",
+        itemId: 1102,
       },
     ],
     group: "组件",
@@ -447,11 +489,13 @@ var data = [
       },
     ],
     t: 1.5,
+    gameId: 2,
   },
   {
     s: [
       {
         name: "磁线圈",
+        itemId: 1202,
         n: 2,
       },
     ],
@@ -468,11 +512,13 @@ var data = [
       },
     ],
     t: 1,
+    gameId: 6,
   },
   {
     s: [
       {
         name: "电路板",
+        itemId: 1301,
         n: 2,
       },
     ],
@@ -489,11 +535,13 @@ var data = [
       },
     ],
     t: 1,
+    gameId: 50,
   },
   {
     s: [
       {
         name: "齿轮",
+        itemId: 1201,
       },
     ],
     group: "组件",
@@ -505,11 +553,13 @@ var data = [
       },
     ],
     t: 1,
+    gameId: 5,
   },
   {
     s: [
       {
         name: "高级石墨",
+        itemId: 1109,
       },
     ],
     group: "组件",
@@ -521,11 +571,13 @@ var data = [
       },
     ],
     t: 2,
+    gameId: 17,
   },
   {
     s: [
       {
         name: "重氢",
+        itemId: 1121,
       },
     ],
     group: "组件",
@@ -538,6 +590,7 @@ var data = [
     s: [
       {
         name: "氢",
+        itemId: 1120,
       },
     ],
     group: "组件",
@@ -564,6 +617,7 @@ var data = [
       },
       {
         name: "精炼油",
+        itemId: 1114,
         n: 2,
       },
     ],
@@ -576,6 +630,7 @@ var data = [
       },
     ],
     t: 4,
+    gameId: 16,
   },
   {
     s: [
@@ -602,6 +657,7 @@ var data = [
     ],
     t: 4,
     noExtra: true,
+    gameId: 121,
   },
   {
     s: [
@@ -611,6 +667,7 @@ var data = [
       },
       {
         name: "石墨烯",
+        itemId: 1123,
         n: 2,
       },
     ],
@@ -623,11 +680,13 @@ var data = [
       },
     ],
     t: 2,
+    gameId: 32,
   },
   {
     s: [
       {
         name: "可燃冰",
+        itemId: 1011,
       },
     ],
     group: "组件",
@@ -650,6 +709,7 @@ var data = [
     s: [
       {
         name: "刺笋结晶",
+        itemId: 1015,
       },
     ],
     group: "组件",
@@ -661,6 +721,7 @@ var data = [
     s: [
       {
         name: "玻璃",
+        itemId: 1110,
         n: 1,
       },
     ],
@@ -673,11 +734,13 @@ var data = [
       },
     ],
     t: 2,
+    gameId: 57,
   },
   {
     s: [
       {
         name: "棱镜",
+        itemId: 1111,
         n: 2,
       },
     ],
@@ -690,11 +753,13 @@ var data = [
       },
     ],
     t: 2,
+    gameId: 11,
   },
   {
     s: [
       {
         name: "高纯硅块",
+        itemId: 1105,
         n: 1,
       },
     ],
@@ -707,11 +772,13 @@ var data = [
       },
     ],
     t: 2,
+    gameId: 59,
   },
   {
     s: [
       {
         name: "微晶元件",
+        itemId: 1302,
         n: 1,
       },
     ],
@@ -728,11 +795,13 @@ var data = [
       },
     ],
     t: 2,
+    gameId: 53,
   },
   {
     s: [
       {
         name: "处理器",
+        itemId: 1303,
         n: 1,
       },
     ],
@@ -749,11 +818,13 @@ var data = [
       },
     ],
     t: 3,
+    gameId: 51,
   },
   {
     s: [
       {
         name: "金刚石",
+        itemId: 1112,
         n: 1,
       },
     ],
@@ -766,11 +837,13 @@ var data = [
       },
     ],
     t: 2,
+    gameId: 60,
   },
   {
     s: [
       {
         name: "塑料",
+        itemId: 1115,
         n: 1,
       },
     ],
@@ -787,11 +860,13 @@ var data = [
       },
     ],
     t: 3,
+    gameId: 23,
   },
   {
     s: [
       {
         name: "有机晶体",
+        itemId: 1117,
         n: 1,
       },
     ],
@@ -812,6 +887,7 @@ var data = [
       },
     ],
     t: 6,
+    gameId: 25,
   },
   {
     s: [
@@ -828,6 +904,7 @@ var data = [
     s: [
       {
         name: "钛晶石",
+        itemId: 1118,
         n: 1,
       },
     ],
@@ -844,11 +921,13 @@ var data = [
       },
     ],
     t: 4,
+    gameId: 26,
   },
   {
     s: [
       {
         name: "晶格硅",
+        itemId: 1113,
         n: 1,
       },
     ],
@@ -861,11 +940,13 @@ var data = [
       },
     ],
     t: 2,
+    gameId: 37,
   },
   {
     s: [
       {
         name: "石材",
+        itemId: 1108,
         n: 1,
       },
     ],
@@ -878,11 +959,13 @@ var data = [
       },
     ],
     t: 1,
+    gameId: 4,
   },
   {
     s: [
       {
         name: "电动机",
+        itemId: 1203,
         n: 1,
       },
     ],
@@ -903,11 +986,13 @@ var data = [
       },
     ],
     t: 2,
+    gameId: 97,
   },
   {
     s: [
       {
         name: "电磁涡轮",
+        itemId: 1204,
         n: 1,
       },
     ],
@@ -924,11 +1009,13 @@ var data = [
       },
     ],
     t: 2,
+    gameId: 98,
   },
   {
     s: [
       {
         name: "硫酸",
+        itemId: 1116,
         n: 4,
       },
     ],
@@ -949,6 +1036,7 @@ var data = [
       },
     ],
     t: 6,
+    gameId: 24,
   },
   {
     s: [
@@ -970,11 +1058,13 @@ var data = [
       },
     ],
     t: 3,
+    gameId: 31,
   },
   {
     s: [
       {
         name: "碳纳米管",
+        itemId: 1124,
         n: 2,
       },
     ],
@@ -991,6 +1081,7 @@ var data = [
       },
     ],
     t: 4,
+    gameId: 33,
   },
   {
     s: [
@@ -1008,11 +1099,13 @@ var data = [
       },
     ],
     t: 4,
+    gameId: 35,
   },
   {
     s: [
       {
         name: "粒子带宽",
+        itemId: 1402,
         n: 1,
       },
     ],
@@ -1033,11 +1126,13 @@ var data = [
       },
     ],
     t: 8,
+    gameId: 36,
   },
   {
     s: [
       {
         name: "钛化玻璃",
+        itemId: 1119,
         n: 2,
       },
     ],
@@ -1058,11 +1153,13 @@ var data = [
       },
     ],
     t: 5,
+    gameId: 30,
   },
   {
     s: [
       {
         name: "卡西米尔晶片",
+        itemId: 1126,
         n: 1,
       },
     ],
@@ -1083,11 +1180,13 @@ var data = [
       },
     ],
     t: 4,
+    gameId: 28,
   },
   {
     s: [
       {
         name: "位面过滤器",
+        itemId: 1304,
         n: 1,
       },
     ],
@@ -1104,11 +1203,13 @@ var data = [
       },
     ],
     t: 12,
+    gameId: 38,
   },
   {
     s: [
       {
         name: "量子芯片",
+        itemId: 1305,
         n: 1,
       },
     ],
@@ -1125,11 +1226,13 @@ var data = [
       },
     ],
     t: 6,
+    gameId: 52,
   },
   {
     s: [
       {
         name: "粒子容器",
+        itemId: 1206,
         n: 1,
       },
     ],
@@ -1150,6 +1253,7 @@ var data = [
       },
     ],
     t: 4,
+    gameId: 99,
   },
   {
     s: [
@@ -1168,11 +1272,13 @@ var data = [
     ],
     t: 2.5,
     noExtra: true,
+    gameId: 40,
   },
   {
     s: [
       {
         name: "奇异物质",
+        itemId: 1127,
         n: 1,
       },
     ],
@@ -1193,11 +1299,13 @@ var data = [
       },
     ],
     t: 8,
+    gameId: 104,
   },
   {
     s: [
       {
         name: "临界光子",
+        itemId: 1208,
         n: 1,
       },
     ],
@@ -1210,6 +1318,7 @@ var data = [
     s: [
       {
         name: "反物质",
+        itemId: 1122,
         n: 2,
       },
       {
@@ -1227,11 +1336,13 @@ var data = [
     ],
     t: 2,
     noExtra: true,
+    gameId: 74,
   },
   {
     s: [
       {
         name: "超级磁场环",
+        itemId: 1205,
         n: 1,
       },
     ],
@@ -1252,11 +1363,13 @@ var data = [
       },
     ],
     t: 3,
+    gameId: 103,
   },
   {
     s: [
       {
         name: "钛合金",
+        itemId: 1107,
         n: 4,
       },
     ],
@@ -1277,11 +1390,13 @@ var data = [
       },
     ],
     t: 12,
+    gameId: 66,
   },
   {
     s: [
       {
         name: "电浆激发器",
+        itemId: 1401,
         n: 1,
       },
     ],
@@ -1298,11 +1413,13 @@ var data = [
       },
     ],
     t: 2,
+    gameId: 12,
   },
   {
     s: [
       {
         name: "框架材料",
+        itemId: 1125,
         n: 1,
       },
     ],
@@ -1323,11 +1440,13 @@ var data = [
       },
     ],
     t: 6,
+    gameId: 80,
   },
   {
     s: [
       {
         name: "光子合并器",
+        itemId: 1404,
         n: 1,
       },
     ],
@@ -1344,11 +1463,13 @@ var data = [
       },
     ],
     t: 3,
+    gameId: 68,
   },
   {
     s: [
       {
         name: "太阳帆",
+        itemId: 1501,
         n: 2,
       },
     ],
@@ -1365,11 +1486,13 @@ var data = [
       },
     ],
     t: 4,
+    gameId: 70,
   },
   {
     s: [
       {
         name: "戴森球组件",
+        itemId: 1502,
         n: 1,
       },
     ],
@@ -1390,11 +1513,13 @@ var data = [
       },
     ],
     t: 8,
+    gameId: 81,
   },
   {
     s: [
       {
         name: "小型运载火箭",
+        itemId: 1503,
         n: 1,
       },
     ],
@@ -1415,11 +1540,13 @@ var data = [
       },
     ],
     t: 6,
+    gameId: 83,
   },
   {
     s: [
       {
         name: "增产剂Mk.Ⅰ",
+        itemId: 1141,
         n: 1,
       },
     ],
@@ -1432,11 +1559,13 @@ var data = [
       },
     ],
     t: 0.5,
+    gameId: 106,
   },
   {
     s: [
       {
         name: "增产剂Mk.Ⅱ",
+        itemId: 1142,
         n: 1,
       },
     ],
@@ -1453,11 +1582,13 @@ var data = [
       },
     ],
     t: 1,
+    gameId: 107,
   },
   {
     s: [
       {
         name: "增产剂Mk.Ⅲ",
+        itemId: 1143,
         n: 1,
       },
     ],
@@ -1474,6 +1605,7 @@ var data = [
       },
     ],
     t: 2,
+    gameId: 108,
   },
   {
     s: [
@@ -1491,6 +1623,7 @@ var data = [
     s: [
       {
         name: "光栅石",
+        itemId: 1014,
       },
     ],
     q: [],
@@ -1521,11 +1654,13 @@ var data = [
       },
     ],
     t: 4,
+    gameId: 29,
   },
   {
     s: [
       {
         name: "单极磁石",
+        itemId: 1016,
       },
     ],
     q: [],
@@ -1552,11 +1687,13 @@ var data = [
       },
     ],
     t: 4,
+    gameId: 100,
   },
   {
     s: [
       {
         name: "金伯利矿石",
+        itemId: 1012,
       },
     ],
     q: [],
@@ -1579,11 +1716,13 @@ var data = [
       },
     ],
     t: 1.5,
+    gameId: 61,
   },
   {
     s: [
       {
         name: "分形硅石",
+        itemId: 1013,
       },
     ],
     q: [],
@@ -1606,11 +1745,13 @@ var data = [
       },
     ],
     t: 1.5,
+    gameId: 62,
   },
   {
     s: [
       {
         name: "地基",
+        itemId: 1131,
         n: 1,
       },
     ],
@@ -1627,11 +1768,13 @@ var data = [
       },
     ],
     t: 1,
+    gameId: 112,
   },
   {
     s: [
       {
         name: "液氢燃料棒",
+        itemId: 1801,
         n: 2,
       },
     ],
@@ -1648,11 +1791,13 @@ var data = [
       },
     ],
     t: 6,
+    gameId: 19,
   },
   {
     s: [
       {
         name: "电力感应塔",
+        itemId: 2201,
         n: 1,
       },
     ],
@@ -1669,11 +1814,13 @@ var data = [
       },
     ],
     t: 1,
+    gameId: 8,
   },
   {
     s: [
       {
         name: "无线输电塔",
+        itemId: 2202,
         n: 1,
       },
     ],
@@ -1691,11 +1838,13 @@ var data = [
     ],
     t: 3,
     noExtra: true,
+    gameId: 13,
   },
   {
     s: [
       {
         name: "卫星配电站",
+        itemId: 2212,
         n: 1,
       },
     ],
@@ -1717,11 +1866,13 @@ var data = [
     ],
     t: 5,
     noExtra: true,
+    gameId: 73,
   },
   {
     s: [
       {
         name: "风力涡轮机",
+        itemId: 2203,
         n: 1,
       },
     ],
@@ -1742,11 +1893,13 @@ var data = [
       },
     ],
     t: 4,
+    gameId: 7,
   },
   {
     s: [
       {
         name: "火力发电机",
+        itemId: 2204,
         n: 1,
       },
     ],
@@ -1771,11 +1924,13 @@ var data = [
       },
     ],
     t: 5,
+    gameId: 64,
   },
   {
     s: [
       {
         name: "传送带",
+        itemId: 2001,
         n: 3,
       },
     ],
@@ -1792,11 +1947,13 @@ var data = [
       },
     ],
     t: 1,
+    gameId: 84,
   },
   {
     s: [
       {
         name: "高速传送带",
+        itemId: 2002,
         n: 3,
       },
     ],
@@ -1814,11 +1971,13 @@ var data = [
     ],
     t: 1,
     noExtra: true,
+    gameId: 89,
   },
   {
     s: [
       {
         name: "极速传送带",
+        itemId: 2003,
         n: 3,
       },
     ],
@@ -1840,11 +1999,13 @@ var data = [
     ],
     t: 1,
     noExtra: true,
+    gameId: 92,
   },
   {
     s: [
       {
         name: "小型储物仓",
+        itemId: 2101,
         n: 1,
       },
     ],
@@ -1861,11 +2022,13 @@ var data = [
       },
     ],
     t: 2,
+    gameId: 86,
   },
   {
     s: [
       {
         name: "大型储物仓",
+        itemId: 2102,
         n: 1,
       },
     ],
@@ -1882,11 +2045,13 @@ var data = [
       },
     ],
     t: 4,
+    gameId: 91,
   },
   {
     s: [
       {
         name: "太阳能板",
+        itemId: 2205,
         n: 1,
       },
     ],
@@ -1907,11 +2072,13 @@ var data = [
       },
     ],
     t: 6,
+    gameId: 67,
   },
   {
     s: [
       {
         name: "蓄电池",
+        itemId: 2206,
         n: 1,
       },
     ],
@@ -1932,11 +2099,13 @@ var data = [
       },
     ],
     t: 3,
+    gameId: 76,
   },
   {
     s: [
       {
         name: "射线接收站",
+        itemId: 2208,
         n: 1,
       },
     ],
@@ -1965,11 +2134,13 @@ var data = [
       },
     ],
     t: 8,
+    gameId: 72,
   },
   {
     s: [
       {
         name: "微型聚变发电站",
+        itemId: 2211,
         n: 1,
       },
     ],
@@ -1994,11 +2165,13 @@ var data = [
       },
     ],
     t: 10,
+    gameId: 113,
   },
   {
     s: [
       {
         name: "能量枢纽",
+        itemId: 2209,
         n: 1,
       },
     ],
@@ -2023,11 +2196,13 @@ var data = [
       },
     ],
     t: 15,
+    gameId: 77,
   },
   {
     s: [
       {
         name: "储液灌",
+        itemId: 2106,
         n: 1,
       },
     ],
@@ -2048,11 +2223,13 @@ var data = [
       },
     ],
     t: 2,
+    gameId: 114,
   },
   {
     s: [
       {
         name: "分拣器",
+        itemId: 2011,
       },
     ],
     group: "建筑",
@@ -2068,11 +2245,13 @@ var data = [
       },
     ],
     t: 1,
+    gameId: 85,
   },
   {
     s: [
       {
         name: "高速分拣器",
+        itemId: 2012,
         n: 2,
       },
     ],
@@ -2090,11 +2269,13 @@ var data = [
     ],
     t: 1,
     noExtra: true,
+    gameId: 88,
   },
   {
     s: [
       {
         name: "极速分拣器",
+        itemId: 2013,
         n: 2,
       },
     ],
@@ -2112,11 +2293,13 @@ var data = [
     ],
     t: 1,
     noExtra: true,
+    gameId: 90,
   },
   {
     s: [
       {
         name: "采矿机",
+        itemId: 2301,
         n: 1,
       },
     ],
@@ -2141,11 +2324,13 @@ var data = [
       },
     ],
     t: 3,
+    gameId: 48,
   },
   {
     s: [
       {
         name: "抽水机",
+        itemId: 2306,
         n: 1,
       },
     ],
@@ -2170,11 +2355,13 @@ var data = [
       },
     ],
     t: 4,
+    gameId: 49,
   },
   {
     s: [
       {
         name: "原油萃取站",
+        itemId: 2307,
         n: 1,
       },
     ],
@@ -2199,11 +2386,13 @@ var data = [
       },
     ],
     t: 8,
+    gameId: 14,
   },
   {
     s: [
       {
         name: "原油精炼厂",
+        itemId: 2308,
         n: 1,
       },
     ],
@@ -2228,11 +2417,13 @@ var data = [
       },
     ],
     t: 6,
+    gameId: 15,
   },
   {
     s: [
       {
         name: "垂直发射井",
+        itemId: 2312,
         n: 1,
       },
     ],
@@ -2257,11 +2448,13 @@ var data = [
       },
     ],
     t: 30,
+    gameId: 82,
   },
   {
     s: [
       {
         name: "四向分流器",
+        itemId: 2020,
         n: 1,
       },
     ],
@@ -2282,11 +2475,13 @@ var data = [
       },
     ],
     t: 2,
+    gameId: 87,
   },
   {
     s: [
       {
         name: "流速监测器",
+        itemId: 2030,
         n: 1,
       },
     ],
@@ -2311,11 +2506,13 @@ var data = [
       },
     ],
     t: 2,
+    gameId: 117,
   },
   {
     s: [
       {
         name: "制作台Mk.Ⅰ",
+        itemId: 2303,
         n: 1,
       },
     ],
@@ -2336,11 +2533,13 @@ var data = [
       },
     ],
     t: 2,
+    gameId: 45,
   },
   {
     s: [
       {
         name: "制作台Mk.Ⅱ",
+        itemId: 2304,
         n: 1,
       },
     ],
@@ -2362,11 +2561,13 @@ var data = [
     ],
     t: 3,
     noExtra: true,
+    gameId: 46,
   },
   {
     s: [
       {
         name: "制作台Mk.Ⅲ",
+        itemId: 2305,
         n: 1,
       },
     ],
@@ -2388,11 +2589,13 @@ var data = [
     ],
     t: 4,
     noExtra: true,
+    gameId: 47,
   },
   {
     s: [
       {
         name: "电弧熔炉",
+        itemId: 2302,
         n: 1,
       },
     ],
@@ -2417,11 +2620,13 @@ var data = [
       },
     ],
     t: 3,
+    gameId: 56,
   },
   {
     s: [
       {
         name: "位面熔炉",
+        itemId: 2315,
         n: 1,
       },
     ],
@@ -2447,11 +2652,13 @@ var data = [
     ],
     t: 5,
     noExtra: true,
+    gameId: 116,
   },
   {
     s: [
       {
         name: "分馏塔",
+        itemId: 2314,
         n: 1,
       },
     ],
@@ -2476,11 +2683,13 @@ var data = [
       },
     ],
     t: 3,
+    gameId: 110,
   },
   {
     s: [
       {
         name: "化工厂",
+        itemId: 2309,
         n: 1,
       },
     ],
@@ -2505,11 +2714,13 @@ var data = [
       },
     ],
     t: 5,
+    gameId: 22,
   },
   {
     s: [
       {
         name: "量子化工厂",
+        itemId: 2317,
         n: 1,
       },
     ],
@@ -2535,11 +2746,13 @@ var data = [
     ],
     t: 10,
     noExtra: true,
+    gameId: 124,
   },
   {
     s: [
       {
         name: "矩阵研究站",
+        itemId: 2901,
         n: 1,
       },
     ],
@@ -2564,11 +2777,13 @@ var data = [
       },
     ],
     t: 3,
+    gameId: 10,
   },
   {
     s: [
       {
         name: "电磁轨道弹射器",
+        itemId: 2311,
         n: 1,
       },
     ],
@@ -2593,11 +2808,13 @@ var data = [
       },
     ],
     t: 6,
+    gameId: 71,
   },
   {
     s: [
       {
         name: "行星内物流运输站",
+        itemId: 2103,
         n: 1,
       },
     ],
@@ -2622,11 +2839,13 @@ var data = [
       },
     ],
     t: 20,
+    gameId: 93,
   },
   {
     s: [
       {
         name: "物流配送器",
+        itemId: 2107,
         n: 1,
       },
     ],
@@ -2647,11 +2866,13 @@ var data = [
       },
     ],
     t: 8,
+    gameId: 122,
   },
   {
     s: [
       {
         name: "微型粒子对撞机",
+        itemId: 2310,
         n: 1,
       },
     ],
@@ -2680,11 +2901,13 @@ var data = [
       },
     ],
     t: 15,
+    gameId: 39,
   },
   {
     s: [
       {
         name: "星际物流运输站",
+        itemId: 2104,
         n: 1,
       },
     ],
@@ -2706,11 +2929,13 @@ var data = [
     ],
     t: 30,
     noExtra: true,
+    gameId: 95,
   },
   {
     s: [
       {
         name: "加力推进器",
+        itemId: 1406,
         n: 1,
       },
     ],
@@ -2727,11 +2952,13 @@ var data = [
       },
     ],
     t: 6,
+    gameId: 21,
   },
   {
     s: [
       {
         name: "轨道采集器",
+        itemId: 2105,
         n: 1,
       },
     ],
@@ -2757,11 +2984,13 @@ var data = [
     ],
     t: 30,
     noExtra: true,
+    gameId: 111,
   },
   {
     s: [
       {
         name: "推进器",
+        itemId: 1405,
         n: 1,
       },
     ],
@@ -2778,11 +3007,13 @@ var data = [
       },
     ],
     t: 4,
+    gameId: 20,
   },
   {
     s: [
       {
         name: "配送运输机",
+        itemId: 5003,
         n: 1,
       },
     ],
@@ -2803,11 +3034,13 @@ var data = [
       },
     ],
     t: 2,
+    gameId: 123,
   },
   {
     s: [
       {
         name: "物流运输机",
+        itemId: 5001,
         n: 1,
       },
     ],
@@ -2829,11 +3062,13 @@ var data = [
     ],
     t: 4,
     noExtra: true,
+    gameId: 94,
   },
   {
     s: [
       {
         name: "星际物流运输机",
+        itemId: 5002,
         n: 1,
       },
     ],
@@ -2855,6 +3090,7 @@ var data = [
     ],
     t: 6,
     noExtra: true,
+    gameId: 96,
   },
   {
     s: [
@@ -2876,11 +3112,13 @@ var data = [
       },
     ],
     t: 3,
+    gameId: 69,
   },
   {
     s: [
       {
         name: "湮灭约束球",
+        itemId: 1403,
         n: 1,
       },
     ],
@@ -2897,11 +3135,13 @@ var data = [
       },
     ],
     t: 20,
+    gameId: 42,
   },
   {
     s: [
       {
         name: "反物质燃烧棒",
+        itemId: 1803,
         n: 2,
       },
     ],
@@ -2927,11 +3167,13 @@ var data = [
     ],
     t: 24,
     noExtra: true,
+    gameId: 44,
   },
   {
     s: [
       {
         name: "人造恒星",
+        itemId: 2210,
         n: 1,
       },
     ],
@@ -2956,11 +3198,13 @@ var data = [
       },
     ],
     t: 30,
+    gameId: 43,
   },
   {
     s: [
       {
         name: "地热发电站",
+        itemId: 2213,
         n: 1,
       },
     ],
@@ -2985,11 +3229,13 @@ var data = [
       },
     ],
     t: 6,
+    gameId: 118,
   },
   {
     s: [
       {
         name: "自动集装机",
+        itemId: 2040,
         n: 1,
       },
     ],
@@ -3014,11 +3260,13 @@ var data = [
       },
     ],
     t: 4,
+    gameId: 120,
   },
   {
     s: [
       {
         name: "大型采矿机",
+        itemId: 2316,
         n: 1,
       },
     ],
@@ -3047,11 +3295,13 @@ var data = [
       },
     ],
     t: 20,
+    gameId: 119,
   },
   {
     s: [
       {
         name: "喷涂机",
+        itemId: 2313,
         n: 1,
       },
     ],
@@ -3076,6 +3326,7 @@ var data = [
       },
     ],
     t: 3,
+    gameId: 109,
   },
   {
     s: [
@@ -3102,6 +3353,7 @@ var data = [
     ],
     t: 4,
     noExtra: true,
+    gameId: 58,
   },
   {
     s: [
@@ -3143,6 +3395,7 @@ var data = [
     s: [
       {
         name: "机枪弹箱",
+        itemId: 1601,
         n: 1,
       },
     ],
@@ -3155,11 +3408,13 @@ var data = [
       },
     ],
     t: 1,
+    gameId: 136,
   },
   {
     s: [
       {
         name: "钛化弹箱",
+        itemId: 1602,
         n: 1,
       },
     ],
@@ -3176,11 +3431,13 @@ var data = [
       },
     ],
     t: 2,
+    gameId: 137,
   },
   {
     s: [
       {
         name: "超合金弹箱",
+        itemId: 1603,
         n: 1,
       },
     ],
@@ -3197,11 +3454,13 @@ var data = [
       },
     ],
     t: 3,
+    gameId: 138,
   },
   {
     s: [
       {
         name: "燃烧单元",
+        itemId: 1128,
         n: 1,
       },
     ],
@@ -3214,11 +3473,13 @@ var data = [
       },
     ],
     t: 3,
+    gameId: 133,
   },
   {
     s: [
       {
         name: "爆破单元",
+        itemId: 1129,
         n: 2,
       },
     ],
@@ -3239,11 +3500,13 @@ var data = [
       },
     ],
     t: 6,
+    gameId: 134,
   },
   {
     s: [
       {
         name: "晶石爆破单元",
+        itemId: 1130,
         n: 8,
       },
     ],
@@ -3264,11 +3527,13 @@ var data = [
       },
     ],
     t: 24,
+    gameId: 135,
   },
   {
     s: [
       {
         name: "动力引擎",
+        itemId: 1407,
         n: 1,
       },
     ],
@@ -3285,11 +3550,13 @@ var data = [
       },
     ],
     t: 3,
+    gameId: 105,
   },
   {
     s: [
       {
         name: "导弹组",
+        itemId: 1609,
         n: 1,
       },
     ],
@@ -3314,11 +3581,13 @@ var data = [
       },
     ],
     t: 2,
+    gameId: 144,
   },
   {
     s: [
       {
         name: "超音速导弹组",
+        itemId: 1610,
         n: 2,
       },
     ],
@@ -3343,11 +3612,13 @@ var data = [
       },
     ],
     t: 4,
+    gameId: 145,
   },
   {
     s: [
       {
         name: "引力导弹组",
+        itemId: 1611,
         n: 3,
       },
     ],
@@ -3368,11 +3639,13 @@ var data = [
       },
     ],
     t: 6,
+    gameId: 146,
   },
   {
     s: [
       {
         name: "等离子胶囊",
+        itemId: 1607,
         n: 1,
       },
     ],
@@ -3393,11 +3666,13 @@ var data = [
       },
     ],
     t: 2,
+    gameId: 142,
   },
   {
     s: [
       {
         name: "反物质胶囊",
+        itemId: 1608,
         n: 1,
       },
     ],
@@ -3422,11 +3697,13 @@ var data = [
       },
     ],
     t: 2,
+    gameId: 143,
   },
   {
     s: [
       {
         name: "核心素",
+        itemId: 5205,
       },
     ],
     q: [],
@@ -3437,6 +3714,7 @@ var data = [
     s: [
       {
         name: "奇异湮灭燃料棒",
+        itemId: 1804,
         n: 1,
       },
     ],
@@ -3462,11 +3740,13 @@ var data = [
     ],
     t: 32,
     noExtra: true,
+    gameId: 156,
   },
   {
     s: [
       {
         name: "炮弹组",
+        itemId: 1604,
         n: 1,
       },
     ],
@@ -3483,11 +3763,13 @@ var data = [
       },
     ],
     t: 1.5,
+    gameId: 139,
   },
   {
     s: [
       {
         name: "高爆炮弹组",
+        itemId: 1605,
         n: 1,
       },
     ],
@@ -3508,11 +3790,13 @@ var data = [
       },
     ],
     t: 3,
+    gameId: 140,
   },
   {
     s: [
       {
         name: "晶石炮弹组",
+        itemId: 1606,
         n: 1,
       },
     ],
@@ -3533,11 +3817,13 @@ var data = [
       },
     ],
     t: 6,
+    gameId: 141,
   },
   {
     s: [
       {
         name: "原型机",
+        itemId: 5101,
         n: 1,
       },
     ],
@@ -3562,11 +3848,13 @@ var data = [
       },
     ],
     t: 2,
+    gameId: 147,
   },
   {
     s: [
       {
         name: "精准无人机",
+        itemId: 5102,
         n: 1,
       },
     ],
@@ -3591,11 +3879,13 @@ var data = [
       },
     ],
     t: 4,
+    gameId: 148,
   },
   {
     s: [
       {
         name: "攻击无人机",
+        itemId: 5103,
         n: 1,
       },
     ],
@@ -3620,11 +3910,13 @@ var data = [
       },
     ],
     t: 4,
+    gameId: 149,
   },
   {
     s: [
       {
         name: "护卫舰",
+        itemId: 5111,
         n: 1,
       },
     ],
@@ -3649,11 +3941,13 @@ var data = [
       },
     ],
     t: 5,
+    gameId: 150,
   },
   {
     s: [
       {
         name: "驱逐舰",
+        itemId: 5112,
         n: 1,
       },
     ],
@@ -3678,11 +3972,13 @@ var data = [
       },
     ],
     t: 8,
+    gameId: 151,
   },
   {
     s: [
       {
         name: "负熵奇点",
+        itemId: 5204,
       },
     ],
     q: [],
@@ -3693,6 +3989,7 @@ var data = [
     s: [
       {
         name: "能量碎片",
+        itemId: 5206,
       },
     ],
     q: [],
@@ -3703,6 +4000,7 @@ var data = [
     s: [
       {
         name: "物质重组器",
+        itemId: 5203,
       },
     ],
     q: [],
@@ -3713,6 +4011,7 @@ var data = [
     s: [
       {
         name: "负熵熔炉",
+        itemId: 2319,
         n: 1,
       },
     ],
@@ -3738,11 +4037,13 @@ var data = [
     ],
     t: 6,
     noExtra: true,
+    gameId: 155,
   },
   {
     s: [
       {
         name: "重组式制造台",
+        itemId: 2318,
         n: 1,
       },
     ],
@@ -3768,11 +4069,13 @@ var data = [
     ],
     t: 5,
     noExtra: true,
+    gameId: 154,
   },
   {
     s: [
       {
         name: "硅基神经元",
+        itemId: 5202,
       },
     ],
     q: [],
@@ -3783,6 +4086,7 @@ var data = [
     s: [
       {
         name: "黑雾矩阵",
+        itemId: 5201,
       },
     ],
     q: [],
@@ -3793,6 +4097,7 @@ var data = [
     s: [
       {
         name: "自演化研究站",
+        itemId: 2902,
         n: 1,
       },
     ],
@@ -3818,11 +4123,13 @@ var data = [
     ],
     t: 4,
     noExtra: true,
+    gameId: 153,
   },
   {
     s: [
       {
         name: "高斯机枪塔",
+        itemId: 3001,
         n: 1,
       },
     ],
@@ -3847,11 +4154,13 @@ var data = [
       },
     ],
     t: 4,
+    gameId: 125,
   },
   {
     s: [
       {
         name: "导弹防御塔",
+        itemId: 3005,
         n: 1,
       },
     ],
@@ -3876,11 +4185,13 @@ var data = [
       },
     ],
     t: 6,
+    gameId: 129,
   },
   {
     s: [
       {
         name: "聚爆加农炮",
+        itemId: 3003,
         n: 1,
       },
     ],
@@ -3905,11 +4216,13 @@ var data = [
       },
     ],
     t: 5,
+    gameId: 127,
   },
   {
     s: [
       {
         name: "高频激光塔",
+        itemId: 3002,
         n: 1,
       },
     ],
@@ -3934,11 +4247,13 @@ var data = [
       },
     ],
     t: 6,
+    gameId: 126,
   },
   {
     s: [
       {
         name: "磁化电浆炮",
+        itemId: 3004,
         n: 1,
       },
     ],
@@ -3967,11 +4282,13 @@ var data = [
       },
     ],
     t: 10,
+    gameId: 128,
   },
   {
     s: [
       {
         name: "战场分析基站",
+        itemId: 3009,
         n: 1,
       },
     ],
@@ -3996,11 +4313,13 @@ var data = [
       },
     ],
     t: 6,
+    gameId: 152,
   },
   {
     s: [
       {
         name: "信号塔",
+        itemId: 3007,
         n: 1,
       },
     ],
@@ -4022,11 +4341,13 @@ var data = [
     ],
     t: 6,
 	noExtra: true,
+    gameId: 131,
   },
   {
     s: [
       {
         name: "干扰胶囊",
+        itemId: 1612,
         n: 1,
       },
     ],
@@ -4047,11 +4368,13 @@ var data = [
       },
     ],
     t: 2,
+    gameId: 158,
   },
   {
     s: [
       {
         name: "压制胶囊",
+        itemId: 1613,
         n: 2,
       },
     ],
@@ -4072,11 +4395,13 @@ var data = [
       },
     ],
     t: 8,
+    gameId: 159,
   },
   {
     s: [
       {
         name: "集装分拣器",
+        itemId: 2014,
         n: 1,
       },
     ],
@@ -4098,11 +4423,13 @@ var data = [
     ],
     t: 1,
     noExtra: true,
+    gameId: 160,
   },
   {
     s: [
       {
         name: "行星护盾发生器",
+        itemId: 3008,
         n: 1,
       },
     ],
@@ -4127,6 +4454,7 @@ var data = [
       },
     ],
     t: 10,
+    gameId: 132,
   },
   {
     s: [
@@ -4154,6 +4482,7 @@ var data = [
     s: [
       {
         name: "近程电浆炮",
+        itemId: 3010,
         n: 1,
       },
     ],
@@ -4178,11 +4507,13 @@ var data = [
       },
     ],
     t: 8,
+    gameId: 157,
   },
   {
     s: [
       {
         name: "干扰塔",
+        itemId: 3006,
         n: 1,
       },
     ],
@@ -4203,12 +4534,40 @@ var data = [
       },
       {
         name: "处理器",
-        n: 2,
+        n: 3,
       },
     ],
     t: 5,
+    gameId: 130,
   },
 ];
+// 游戏物品 ID（生成蓝图用）：从配方产物的 itemId 收集，缺的、对不上的打到控制台
+var GAME_ITEM_IDS = {};
+(function () {
+  var makers = ["制作台", "冶炼设备", "化工设备", "原油精炼机", "粒子对撞机", "研究站"];
+  var bad = [];
+  function note(msg) {
+    if (bad.indexOf(msg) < 0) bad.push(msg);
+  }
+  function names(list) {
+    return list.map(function (o) { return o.name; }).join("+");
+  }
+  for (var i = 0; i < data.length; i++) {
+    for (var j = 0; j < data[i].s.length; j++) {
+      var s = data[i].s[j];
+      if (!s.itemId) continue;
+      if (GAME_ITEM_IDS[s.name] && GAME_ITEM_IDS[s.name] != s.itemId) note(s.name + " 的 itemId 不一致");
+      GAME_ITEM_IDS[s.name] = s.itemId;
+    }
+  }
+  for (var i = 0; i < data.length; i++) {
+    var r = data[i];
+    var all = r.s.concat(r.q || []);
+    for (var j = 0; j < all.length; j++) if (!GAME_ITEM_IDS[all[j].name]) note(all[j].name + " 缺 itemId");
+    if (!r.gameId && makers.indexOf(r.m) >= 0) note("配方 " + names(r.q || []) + "->" + names(r.s) + " 缺 gameId");
+  }
+  if (bad.length) console.warn("data.js：" + bad.join("，"));
+})();
 var manualGzSpeed = false; //是否采用手动输入的临界光子每分钟产量
 
 var energyData = {};
@@ -6327,6 +6686,8 @@ function getRecipe() {
   let blueprintTitle = "";
   let blueprintDesc = "";
   let blueprintIconIdx = [];
+  let noId = []; // 没有游戏 ID 的物品、配方
+  let unsupported = "";
   for (let tr of document.getElementsByTagName("tbody")[0].childNodes) {
     if (tr.className === "header") {
       continue;
@@ -6378,6 +6739,7 @@ function getRecipe() {
     let input = [];
     let output = [];
     let recipeId = 0;
+    let cnNames = [[], []]; // 配方的原料、产物（中文名）
     let isInput = true;
     const t = parseFloat(recipeHtml.innerText.split("(")[1].split("s")[0]);
     for (let node of recipeHtml.childNodes) {
@@ -6399,12 +6761,9 @@ function getRecipe() {
           success = true;
           break;
         }
-        if (!success) {
-          // alert(`item map error: ${cnTitle}`)
-          let msg = `item map error: ${cnTitle}`;
-          cocoMessage.error(msg);
-          throw msg;
-        }
+        if (!itemMap[title]) title = cnTitle; // 不在上面的表里（或 itemMap 没有）：用中文名（itemMap 按 GAME_ITEM_IDS 补）
+        if (!(itemMap[title] && itemMap[title].iconId) && noId.indexOf(cnTitle) < 0) noId.push(cnTitle);
+        cnNames[isInput ? 0 : 1].push(cnTitle);
         if (isInput) {
           input.push({ name: title });
         } else {
@@ -6458,6 +6817,12 @@ function getRecipe() {
       if (output[0].name === "hydrogen") {
         inputHasHydrogen = true;
       }
+    } else {
+      // 游戏配方 ID：data.js 里这个物品选的配方的 gameId
+      recipeId = (find(nodeList[1].getAttribute("data-name")) || {}).gameId || 0;
+      let pfName = cnNames[0].join("+") + "->" + cnNames[1].join("+");
+      if (!recipeId && buildingMap[building.name]) noId.push(`配方 ${pfName}`);
+      else if (!recipeId && !unsupported) unsupported = pfName;
     }
 
     if (!blueprintTitle) {
@@ -6531,6 +6896,17 @@ function getRecipe() {
       }
     }
   }
+  if (unsupported) {
+    cocoMessage.warning(
+      `包含不支持的配方: ${unsupported}，<br/>请排除对应物品（目前只支持通过(位面)熔炉、制造台、精炼厂、对撞机、（量子）化工厂、研究站六类生产设施进行制造的物品）`,
+      5000
+    );
+    return null;
+  }
+  if (noId.length) {
+    cocoMessage.warning(`这些还没有游戏 ID，暂时生成不了：${noId.join("、")}<br/>（data.js 里配方写 gameId、产物写 itemId）`, 5000);
+    return null;
+  }
   // console.log(recipeList)
   return {
     recipeList: recipeList,
@@ -6548,6 +6924,7 @@ function generateBlueprint1() { // 无带流蓝图
     return;
   }
   const recipe = getRecipe();
+  if (!recipe) return;
   const outputRecipe = {
     proliferator: recipe.proliferator,
     subRecipes: recipe.recipeList,
@@ -6625,6 +7002,7 @@ function generateBlueprintLegacy() {
     return;
   }
   const recipe = getRecipe();
+  if (!recipe) return;
   const outputRecipe = {
     proliferator: recipe.proliferator,
     subRecipes: recipe.recipeList,
