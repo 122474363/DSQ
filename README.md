@@ -60,7 +60,7 @@
 - 关于蓝图生成：「生成蓝图[正常]」会在新标签页打开「手搓产线蓝图」页（`blueprint/v2.2/`，由 [dsp-handcraft](https://github.com/zoujack018/dsp-handcraft) 生成，源码见链接），带上这里的需求、配方、设备、排除的物品，配方以 data.js 为准；「生成蓝图[无带流]」用 `Scripts/blueprint.js`。
   - 支持熔炉、制造台、（量子）化工厂、对撞机、研究站；需要原油精炼厂的中间产物（如精炼油、氢）会自动设为外部供应
   - 每类设备只选一种（取方案里用得最多的那种）；增产剂暂不带过去，可以在蓝图页里选「喷增产剂」
-  - 加新物品：data.js 里配方写上 gameId、GAME_ITEM_IDS 补上物品 ID，data.json 补图标
+  - 加新物品：data.js 里配方写 gameId、产物写 itemId（游戏配方、物品 ID），data.json 补图标
 
 ## 已知问题（待大佬修复）
 无

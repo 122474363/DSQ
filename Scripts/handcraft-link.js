@@ -109,7 +109,7 @@ function openHandcraft() {
   }
   var r = handcraftPlan();
   var noId = r.noId.filter(function (n) { return r.unknown.indexOf(n) < 0; });
-  if (noId.length) cocoMessage.warning('data.js 里这些还没有游戏 ID，蓝图页会少了它们：' + noId.join('、'), 5000);
+  if (noId.length) cocoMessage.warning('这些还没有游戏 ID，蓝图页会少了它们：' + noId.join('、') + '<br/>（data.js 里配方写 gameId、产物写 itemId）', 5000);
   if (r.unknown.length) cocoMessage.warning('这些需求在蓝图页里找不到对应物品，已跳过：' + r.unknown.join('、'), 4000);
   if (!r.plan.targets.length) return;
   window.open(HANDCRAFT_PAGE + '#plan=' + encodeURIComponent(JSON.stringify(r.plan)), '_blank');
