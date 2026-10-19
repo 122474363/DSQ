@@ -17,28 +17,6 @@ var HANDCRAFT_MAKERS = {
   研究站: { type: 15, factories: [2901, 2902] },
 };
 
-/** 配方的键：原料、产物各自排序 */
-function handcraftRecipeKey(q, s) {
-  var names = function (list) {
-    var out = [];
-    for (var i = 0; i < list.length; i++) out.push(list[i].name || list[i]);
-    return out.sort().join('+');
-  };
-  return names(q) + '=' + names(s);
-}
-var handcraftRecipeIds = null;
-/** 配方 → 游戏配方 ID，没有返回 0 */
-function handcraftRecipeId(item) {
-  if (!handcraftRecipeIds) {
-    handcraftRecipeIds = {};
-    for (var k in GAME_RECIPE_IDS) {
-      var side = k.split('=');
-      handcraftRecipeIds[handcraftRecipeKey(side[0].split('+'), side[1].split('+'))] = GAME_RECIPE_IDS[k];
-    }
-  }
-  return handcraftRecipeIds[handcraftRecipeKey(item.q, item.s)] || 0;
-}
-
 /** 本站当前的方案 → 带给手搓产线蓝图页的方案 */
 function handcraftPlan() {
   var ids = GAME_ITEM_IDS;
@@ -77,13 +55,13 @@ function handcraftPlan() {
     }
     if (!item || !item.q || !item.q.length) continue;
     var maker = HANDCRAFT_MAKERS[item.mName];
-    var rid = handcraftRecipeId(item);
+    var rid = item.gameId || 0; // data.js 里配方的游戏 ID
     if (rid > 0 && ids[name]) plan.recipes[ids[name]] = rid;
     if (maker) {
       var all = item.q.concat(item.s);
       var missing = [];
       for (var a = 0; a < all.length; a++) if (!ids[all[a].name]) missing.push(all[a].name);
-      if (rid <= 0) missing.push('配方「' + handcraftRecipeKey(item.q, item.s) + '」');
+      if (rid <= 0) missing.push('配方 ' + item.q.map(function (o) { return o.name; }).join('+') + '->' + item.s.map(function (o) { return o.name; }).join('+'));
       for (var mi = 0; mi < missing.length; mi++) if (noId.indexOf(missing[mi]) < 0) noId.push(missing[mi]);
       if (!missing.length && !sent[rid]) {
         sent[rid] = true;
@@ -108,7 +86,6 @@ function handcraftPlan() {
     }
   }
   if (defs.recipes.length) plan.defs = defs;
-  if (noId.length) console.warn('Scripts/game-ids.js 缺游戏 ID：' + noId.join('、'));
   var fallback = { assembler: $('#selmodein').val(), smelter: $('#furnace').val(), chemical: $('#chemical').val(), lab: $('#research').val() };
   for (var kd in fallback) {
     var best = null;
@@ -121,7 +98,7 @@ function handcraftPlan() {
   // 参数配置里的「运输站集装物流：传送带堆叠层数」→ 物流站出货叠几层
   var pile = parseInt($('#speed1_5').val());
   if (pile >= 1 && pile <= 4) plan.pile = String(pile);
-  return { plan: plan, unknown: unknown };
+  return { plan: plan, unknown: unknown, noId: noId };
 }
 
 /** 「生成蓝图」按钮：新标签页打开手搓产线蓝图页 */
@@ -131,6 +108,8 @@ function openHandcraft() {
     return;
   }
   var r = handcraftPlan();
+  var noId = r.noId.filter(function (n) { return r.unknown.indexOf(n) < 0; });
+  if (noId.length) cocoMessage.warning('data.js 里这些还没有游戏 ID，蓝图页会少了它们：' + noId.join('、'), 5000);
   if (r.unknown.length) cocoMessage.warning('这些需求在蓝图页里找不到对应物品，已跳过：' + r.unknown.join('、'), 4000);
   if (!r.plan.targets.length) return;
   window.open(HANDCRAFT_PAGE + '#plan=' + encodeURIComponent(JSON.stringify(r.plan)), '_blank');

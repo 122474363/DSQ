@@ -17,6 +17,7 @@ var data = [
     }],
     t: 1,				t ：生产时间(秒)
     noExtra: true,		noExtra(添加增产剂是否不可"增产"): false(不填写该行时的默认值,加速/增产), true(加速), null(无效果;如能量枢纽为蓄电池充能的特例; 没有q属性的物品,如原矿类无需填写本行)
+    gameId: 1,			gameId ：游戏配方 ID（生成蓝图用）
 },
 */
 
@@ -55,6 +56,7 @@ var data = [
     t: 15,
     m: "研究站",
     group: "产品",
+    gameId: 75,
   },
   {
     s: [
@@ -170,6 +172,7 @@ var data = [
     t: 3,
     m: "研究站",
     group: "产品",
+    gameId: 9,
   },
   {
     s: [
@@ -190,6 +193,7 @@ var data = [
     t: 6,
     m: "研究站",
     group: "产品",
+    gameId: 18,
   },
   {
     s: [
@@ -210,6 +214,7 @@ var data = [
     t: 8,
     m: "研究站",
     group: "产品",
+    gameId: 27,
   },
   {
     s: [
@@ -230,6 +235,7 @@ var data = [
     t: 10,
     m: "研究站",
     group: "产品",
+    gameId: 55,
   },
   {
     s: [
@@ -251,6 +257,7 @@ var data = [
     t: 24,
     m: "研究站",
     group: "产品",
+    gameId: 102,
   },
   {
     s: [
@@ -268,6 +275,7 @@ var data = [
       },
     ],
     t: 10,
+    gameId: 79,
   },
   {
     s: [
@@ -285,6 +293,7 @@ var data = [
       },
     ],
     t: 10,
+    gameId: 78,
   },
   {
     s: [
@@ -310,6 +319,7 @@ var data = [
       },
     ],
     t: 12,
+    gameId: 41,
   },
   {
     s: [
@@ -331,6 +341,7 @@ var data = [
       },
     ],
     t: 6,
+    gameId: 101,
   },
   {
     s: [
@@ -352,6 +363,7 @@ var data = [
       },
     ],
     t: 6,
+    gameId: 162,
   },
   {
     s: [
@@ -367,6 +379,7 @@ var data = [
     ],
     m: "冶炼设备",
     t: 10,
+    gameId: 34,
   },
   {
     s: [
@@ -383,6 +396,7 @@ var data = [
       },
     ],
     t: 1,
+    gameId: 1,
   },
   {
     s: [
@@ -399,6 +413,7 @@ var data = [
       },
     ],
     t: 3,
+    gameId: 63,
   },
   {
     s: [
@@ -415,6 +430,7 @@ var data = [
       },
     ],
     t: 2,
+    gameId: 65,
   },
   {
     s: [
@@ -431,6 +447,7 @@ var data = [
       },
     ],
     t: 1,
+    gameId: 3,
   },
   {
     s: [
@@ -447,6 +464,7 @@ var data = [
       },
     ],
     t: 1.5,
+    gameId: 2,
   },
   {
     s: [
@@ -468,6 +486,7 @@ var data = [
       },
     ],
     t: 1,
+    gameId: 6,
   },
   {
     s: [
@@ -489,6 +508,7 @@ var data = [
       },
     ],
     t: 1,
+    gameId: 50,
   },
   {
     s: [
@@ -505,6 +525,7 @@ var data = [
       },
     ],
     t: 1,
+    gameId: 5,
   },
   {
     s: [
@@ -521,6 +542,7 @@ var data = [
       },
     ],
     t: 2,
+    gameId: 17,
   },
   {
     s: [
@@ -576,6 +598,7 @@ var data = [
       },
     ],
     t: 4,
+    gameId: 16,
   },
   {
     s: [
@@ -602,6 +625,7 @@ var data = [
     ],
     t: 4,
     noExtra: true,
+    gameId: 121,
   },
   {
     s: [
@@ -623,6 +647,7 @@ var data = [
       },
     ],
     t: 2,
+    gameId: 32,
   },
   {
     s: [
@@ -673,6 +698,7 @@ var data = [
       },
     ],
     t: 2,
+    gameId: 57,
   },
   {
     s: [
@@ -690,6 +716,7 @@ var data = [
       },
     ],
     t: 2,
+    gameId: 11,
   },
   {
     s: [
@@ -707,6 +734,7 @@ var data = [
       },
     ],
     t: 2,
+    gameId: 59,
   },
   {
     s: [
@@ -728,6 +756,7 @@ var data = [
       },
     ],
     t: 2,
+    gameId: 53,
   },
   {
     s: [
@@ -749,6 +778,7 @@ var data = [
       },
     ],
     t: 3,
+    gameId: 51,
   },
   {
     s: [
@@ -766,6 +796,7 @@ var data = [
       },
     ],
     t: 2,
+    gameId: 60,
   },
   {
     s: [
@@ -787,6 +818,7 @@ var data = [
       },
     ],
     t: 3,
+    gameId: 23,
   },
   {
     s: [
@@ -812,6 +844,7 @@ var data = [
       },
     ],
     t: 6,
+    gameId: 25,
   },
   {
     s: [
@@ -844,6 +877,7 @@ var data = [
       },
     ],
     t: 4,
+    gameId: 26,
   },
   {
     s: [
@@ -861,6 +895,7 @@ var data = [
       },
     ],
     t: 2,
+    gameId: 37,
   },
   {
     s: [
@@ -878,6 +913,7 @@ var data = [
       },
     ],
     t: 1,
+    gameId: 4,
   },
   {
     s: [
@@ -903,6 +939,7 @@ var data = [
       },
     ],
     t: 2,
+    gameId: 97,
   },
   {
     s: [
@@ -924,6 +961,7 @@ var data = [
       },
     ],
     t: 2,
+    gameId: 98,
   },
   {
     s: [
@@ -949,6 +987,7 @@ var data = [
       },
     ],
     t: 6,
+    gameId: 24,
   },
   {
     s: [
@@ -970,6 +1009,7 @@ var data = [
       },
     ],
     t: 3,
+    gameId: 31,
   },
   {
     s: [
@@ -991,6 +1031,7 @@ var data = [
       },
     ],
     t: 4,
+    gameId: 33,
   },
   {
     s: [
@@ -1008,6 +1049,7 @@ var data = [
       },
     ],
     t: 4,
+    gameId: 35,
   },
   {
     s: [
@@ -1033,6 +1075,7 @@ var data = [
       },
     ],
     t: 8,
+    gameId: 36,
   },
   {
     s: [
@@ -1058,6 +1101,7 @@ var data = [
       },
     ],
     t: 5,
+    gameId: 30,
   },
   {
     s: [
@@ -1083,6 +1127,7 @@ var data = [
       },
     ],
     t: 4,
+    gameId: 28,
   },
   {
     s: [
@@ -1104,6 +1149,7 @@ var data = [
       },
     ],
     t: 12,
+    gameId: 38,
   },
   {
     s: [
@@ -1125,6 +1171,7 @@ var data = [
       },
     ],
     t: 6,
+    gameId: 52,
   },
   {
     s: [
@@ -1150,6 +1197,7 @@ var data = [
       },
     ],
     t: 4,
+    gameId: 99,
   },
   {
     s: [
@@ -1168,6 +1216,7 @@ var data = [
     ],
     t: 2.5,
     noExtra: true,
+    gameId: 40,
   },
   {
     s: [
@@ -1193,6 +1242,7 @@ var data = [
       },
     ],
     t: 8,
+    gameId: 104,
   },
   {
     s: [
@@ -1227,6 +1277,7 @@ var data = [
     ],
     t: 2,
     noExtra: true,
+    gameId: 74,
   },
   {
     s: [
@@ -1252,6 +1303,7 @@ var data = [
       },
     ],
     t: 3,
+    gameId: 103,
   },
   {
     s: [
@@ -1277,6 +1329,7 @@ var data = [
       },
     ],
     t: 12,
+    gameId: 66,
   },
   {
     s: [
@@ -1298,6 +1351,7 @@ var data = [
       },
     ],
     t: 2,
+    gameId: 12,
   },
   {
     s: [
@@ -1323,6 +1377,7 @@ var data = [
       },
     ],
     t: 6,
+    gameId: 80,
   },
   {
     s: [
@@ -1344,6 +1399,7 @@ var data = [
       },
     ],
     t: 3,
+    gameId: 68,
   },
   {
     s: [
@@ -1365,6 +1421,7 @@ var data = [
       },
     ],
     t: 4,
+    gameId: 70,
   },
   {
     s: [
@@ -1390,6 +1447,7 @@ var data = [
       },
     ],
     t: 8,
+    gameId: 81,
   },
   {
     s: [
@@ -1415,6 +1473,7 @@ var data = [
       },
     ],
     t: 6,
+    gameId: 83,
   },
   {
     s: [
@@ -1432,6 +1491,7 @@ var data = [
       },
     ],
     t: 0.5,
+    gameId: 106,
   },
   {
     s: [
@@ -1453,6 +1513,7 @@ var data = [
       },
     ],
     t: 1,
+    gameId: 107,
   },
   {
     s: [
@@ -1474,6 +1535,7 @@ var data = [
       },
     ],
     t: 2,
+    gameId: 108,
   },
   {
     s: [
@@ -1521,6 +1583,7 @@ var data = [
       },
     ],
     t: 4,
+    gameId: 29,
   },
   {
     s: [
@@ -1552,6 +1615,7 @@ var data = [
       },
     ],
     t: 4,
+    gameId: 100,
   },
   {
     s: [
@@ -1579,6 +1643,7 @@ var data = [
       },
     ],
     t: 1.5,
+    gameId: 61,
   },
   {
     s: [
@@ -1606,6 +1671,7 @@ var data = [
       },
     ],
     t: 1.5,
+    gameId: 62,
   },
   {
     s: [
@@ -1627,6 +1693,7 @@ var data = [
       },
     ],
     t: 1,
+    gameId: 112,
   },
   {
     s: [
@@ -1648,6 +1715,7 @@ var data = [
       },
     ],
     t: 6,
+    gameId: 19,
   },
   {
     s: [
@@ -1669,6 +1737,7 @@ var data = [
       },
     ],
     t: 1,
+    gameId: 8,
   },
   {
     s: [
@@ -1691,6 +1760,7 @@ var data = [
     ],
     t: 3,
     noExtra: true,
+    gameId: 13,
   },
   {
     s: [
@@ -1717,6 +1787,7 @@ var data = [
     ],
     t: 5,
     noExtra: true,
+    gameId: 73,
   },
   {
     s: [
@@ -1742,6 +1813,7 @@ var data = [
       },
     ],
     t: 4,
+    gameId: 7,
   },
   {
     s: [
@@ -1771,6 +1843,7 @@ var data = [
       },
     ],
     t: 5,
+    gameId: 64,
   },
   {
     s: [
@@ -1792,6 +1865,7 @@ var data = [
       },
     ],
     t: 1,
+    gameId: 84,
   },
   {
     s: [
@@ -1814,6 +1888,7 @@ var data = [
     ],
     t: 1,
     noExtra: true,
+    gameId: 89,
   },
   {
     s: [
@@ -1840,6 +1915,7 @@ var data = [
     ],
     t: 1,
     noExtra: true,
+    gameId: 92,
   },
   {
     s: [
@@ -1861,6 +1937,7 @@ var data = [
       },
     ],
     t: 2,
+    gameId: 86,
   },
   {
     s: [
@@ -1882,6 +1959,7 @@ var data = [
       },
     ],
     t: 4,
+    gameId: 91,
   },
   {
     s: [
@@ -1907,6 +1985,7 @@ var data = [
       },
     ],
     t: 6,
+    gameId: 67,
   },
   {
     s: [
@@ -1932,6 +2011,7 @@ var data = [
       },
     ],
     t: 3,
+    gameId: 76,
   },
   {
     s: [
@@ -1965,6 +2045,7 @@ var data = [
       },
     ],
     t: 8,
+    gameId: 72,
   },
   {
     s: [
@@ -1994,6 +2075,7 @@ var data = [
       },
     ],
     t: 10,
+    gameId: 113,
   },
   {
     s: [
@@ -2023,6 +2105,7 @@ var data = [
       },
     ],
     t: 15,
+    gameId: 77,
   },
   {
     s: [
@@ -2048,6 +2131,7 @@ var data = [
       },
     ],
     t: 2,
+    gameId: 114,
   },
   {
     s: [
@@ -2068,6 +2152,7 @@ var data = [
       },
     ],
     t: 1,
+    gameId: 85,
   },
   {
     s: [
@@ -2090,6 +2175,7 @@ var data = [
     ],
     t: 1,
     noExtra: true,
+    gameId: 88,
   },
   {
     s: [
@@ -2112,6 +2198,7 @@ var data = [
     ],
     t: 1,
     noExtra: true,
+    gameId: 90,
   },
   {
     s: [
@@ -2141,6 +2228,7 @@ var data = [
       },
     ],
     t: 3,
+    gameId: 48,
   },
   {
     s: [
@@ -2170,6 +2258,7 @@ var data = [
       },
     ],
     t: 4,
+    gameId: 49,
   },
   {
     s: [
@@ -2199,6 +2288,7 @@ var data = [
       },
     ],
     t: 8,
+    gameId: 14,
   },
   {
     s: [
@@ -2228,6 +2318,7 @@ var data = [
       },
     ],
     t: 6,
+    gameId: 15,
   },
   {
     s: [
@@ -2257,6 +2348,7 @@ var data = [
       },
     ],
     t: 30,
+    gameId: 82,
   },
   {
     s: [
@@ -2282,6 +2374,7 @@ var data = [
       },
     ],
     t: 2,
+    gameId: 87,
   },
   {
     s: [
@@ -2311,6 +2404,7 @@ var data = [
       },
     ],
     t: 2,
+    gameId: 117,
   },
   {
     s: [
@@ -2336,6 +2430,7 @@ var data = [
       },
     ],
     t: 2,
+    gameId: 45,
   },
   {
     s: [
@@ -2362,6 +2457,7 @@ var data = [
     ],
     t: 3,
     noExtra: true,
+    gameId: 46,
   },
   {
     s: [
@@ -2388,6 +2484,7 @@ var data = [
     ],
     t: 4,
     noExtra: true,
+    gameId: 47,
   },
   {
     s: [
@@ -2417,6 +2514,7 @@ var data = [
       },
     ],
     t: 3,
+    gameId: 56,
   },
   {
     s: [
@@ -2447,6 +2545,7 @@ var data = [
     ],
     t: 5,
     noExtra: true,
+    gameId: 116,
   },
   {
     s: [
@@ -2476,6 +2575,7 @@ var data = [
       },
     ],
     t: 3,
+    gameId: 110,
   },
   {
     s: [
@@ -2505,6 +2605,7 @@ var data = [
       },
     ],
     t: 5,
+    gameId: 22,
   },
   {
     s: [
@@ -2535,6 +2636,7 @@ var data = [
     ],
     t: 10,
     noExtra: true,
+    gameId: 124,
   },
   {
     s: [
@@ -2564,6 +2666,7 @@ var data = [
       },
     ],
     t: 3,
+    gameId: 10,
   },
   {
     s: [
@@ -2593,6 +2696,7 @@ var data = [
       },
     ],
     t: 6,
+    gameId: 71,
   },
   {
     s: [
@@ -2622,6 +2726,7 @@ var data = [
       },
     ],
     t: 20,
+    gameId: 93,
   },
   {
     s: [
@@ -2647,6 +2752,7 @@ var data = [
       },
     ],
     t: 8,
+    gameId: 122,
   },
   {
     s: [
@@ -2680,6 +2786,7 @@ var data = [
       },
     ],
     t: 15,
+    gameId: 39,
   },
   {
     s: [
@@ -2706,6 +2813,7 @@ var data = [
     ],
     t: 30,
     noExtra: true,
+    gameId: 95,
   },
   {
     s: [
@@ -2727,6 +2835,7 @@ var data = [
       },
     ],
     t: 6,
+    gameId: 21,
   },
   {
     s: [
@@ -2757,6 +2866,7 @@ var data = [
     ],
     t: 30,
     noExtra: true,
+    gameId: 111,
   },
   {
     s: [
@@ -2778,6 +2888,7 @@ var data = [
       },
     ],
     t: 4,
+    gameId: 20,
   },
   {
     s: [
@@ -2803,6 +2914,7 @@ var data = [
       },
     ],
     t: 2,
+    gameId: 123,
   },
   {
     s: [
@@ -2829,6 +2941,7 @@ var data = [
     ],
     t: 4,
     noExtra: true,
+    gameId: 94,
   },
   {
     s: [
@@ -2855,6 +2968,7 @@ var data = [
     ],
     t: 6,
     noExtra: true,
+    gameId: 96,
   },
   {
     s: [
@@ -2876,6 +2990,7 @@ var data = [
       },
     ],
     t: 3,
+    gameId: 69,
   },
   {
     s: [
@@ -2897,6 +3012,7 @@ var data = [
       },
     ],
     t: 20,
+    gameId: 42,
   },
   {
     s: [
@@ -2927,6 +3043,7 @@ var data = [
     ],
     t: 24,
     noExtra: true,
+    gameId: 44,
   },
   {
     s: [
@@ -2956,6 +3073,7 @@ var data = [
       },
     ],
     t: 30,
+    gameId: 43,
   },
   {
     s: [
@@ -2985,6 +3103,7 @@ var data = [
       },
     ],
     t: 6,
+    gameId: 118,
   },
   {
     s: [
@@ -3014,6 +3133,7 @@ var data = [
       },
     ],
     t: 4,
+    gameId: 120,
   },
   {
     s: [
@@ -3047,6 +3167,7 @@ var data = [
       },
     ],
     t: 20,
+    gameId: 119,
   },
   {
     s: [
@@ -3076,6 +3197,7 @@ var data = [
       },
     ],
     t: 3,
+    gameId: 109,
   },
   {
     s: [
@@ -3102,6 +3224,7 @@ var data = [
     ],
     t: 4,
     noExtra: true,
+    gameId: 58,
   },
   {
     s: [
@@ -3155,6 +3278,7 @@ var data = [
       },
     ],
     t: 1,
+    gameId: 136,
   },
   {
     s: [
@@ -3176,6 +3300,7 @@ var data = [
       },
     ],
     t: 2,
+    gameId: 137,
   },
   {
     s: [
@@ -3197,6 +3322,7 @@ var data = [
       },
     ],
     t: 3,
+    gameId: 138,
   },
   {
     s: [
@@ -3214,6 +3340,7 @@ var data = [
       },
     ],
     t: 3,
+    gameId: 133,
   },
   {
     s: [
@@ -3239,6 +3366,7 @@ var data = [
       },
     ],
     t: 6,
+    gameId: 134,
   },
   {
     s: [
@@ -3264,6 +3392,7 @@ var data = [
       },
     ],
     t: 24,
+    gameId: 135,
   },
   {
     s: [
@@ -3285,6 +3414,7 @@ var data = [
       },
     ],
     t: 3,
+    gameId: 105,
   },
   {
     s: [
@@ -3314,6 +3444,7 @@ var data = [
       },
     ],
     t: 2,
+    gameId: 144,
   },
   {
     s: [
@@ -3343,6 +3474,7 @@ var data = [
       },
     ],
     t: 4,
+    gameId: 145,
   },
   {
     s: [
@@ -3368,6 +3500,7 @@ var data = [
       },
     ],
     t: 6,
+    gameId: 146,
   },
   {
     s: [
@@ -3393,6 +3526,7 @@ var data = [
       },
     ],
     t: 2,
+    gameId: 142,
   },
   {
     s: [
@@ -3422,6 +3556,7 @@ var data = [
       },
     ],
     t: 2,
+    gameId: 143,
   },
   {
     s: [
@@ -3462,6 +3597,7 @@ var data = [
     ],
     t: 32,
     noExtra: true,
+    gameId: 156,
   },
   {
     s: [
@@ -3483,6 +3619,7 @@ var data = [
       },
     ],
     t: 1.5,
+    gameId: 139,
   },
   {
     s: [
@@ -3508,6 +3645,7 @@ var data = [
       },
     ],
     t: 3,
+    gameId: 140,
   },
   {
     s: [
@@ -3533,6 +3671,7 @@ var data = [
       },
     ],
     t: 6,
+    gameId: 141,
   },
   {
     s: [
@@ -3562,6 +3701,7 @@ var data = [
       },
     ],
     t: 2,
+    gameId: 147,
   },
   {
     s: [
@@ -3591,6 +3731,7 @@ var data = [
       },
     ],
     t: 4,
+    gameId: 148,
   },
   {
     s: [
@@ -3620,6 +3761,7 @@ var data = [
       },
     ],
     t: 4,
+    gameId: 149,
   },
   {
     s: [
@@ -3649,6 +3791,7 @@ var data = [
       },
     ],
     t: 5,
+    gameId: 150,
   },
   {
     s: [
@@ -3678,6 +3821,7 @@ var data = [
       },
     ],
     t: 8,
+    gameId: 151,
   },
   {
     s: [
@@ -3738,6 +3882,7 @@ var data = [
     ],
     t: 6,
     noExtra: true,
+    gameId: 155,
   },
   {
     s: [
@@ -3768,6 +3913,7 @@ var data = [
     ],
     t: 5,
     noExtra: true,
+    gameId: 154,
   },
   {
     s: [
@@ -3818,6 +3964,7 @@ var data = [
     ],
     t: 4,
     noExtra: true,
+    gameId: 153,
   },
   {
     s: [
@@ -3847,6 +3994,7 @@ var data = [
       },
     ],
     t: 4,
+    gameId: 125,
   },
   {
     s: [
@@ -3876,6 +4024,7 @@ var data = [
       },
     ],
     t: 6,
+    gameId: 129,
   },
   {
     s: [
@@ -3905,6 +4054,7 @@ var data = [
       },
     ],
     t: 5,
+    gameId: 127,
   },
   {
     s: [
@@ -3934,6 +4084,7 @@ var data = [
       },
     ],
     t: 6,
+    gameId: 126,
   },
   {
     s: [
@@ -3967,6 +4118,7 @@ var data = [
       },
     ],
     t: 10,
+    gameId: 128,
   },
   {
     s: [
@@ -3996,6 +4148,7 @@ var data = [
       },
     ],
     t: 6,
+    gameId: 152,
   },
   {
     s: [
@@ -4022,6 +4175,7 @@ var data = [
     ],
     t: 6,
 	noExtra: true,
+    gameId: 131,
   },
   {
     s: [
@@ -4047,6 +4201,7 @@ var data = [
       },
     ],
     t: 2,
+    gameId: 158,
   },
   {
     s: [
@@ -4072,6 +4227,7 @@ var data = [
       },
     ],
     t: 8,
+    gameId: 159,
   },
   {
     s: [
@@ -4098,6 +4254,7 @@ var data = [
     ],
     t: 1,
     noExtra: true,
+    gameId: 160,
   },
   {
     s: [
@@ -4127,6 +4284,7 @@ var data = [
       },
     ],
     t: 10,
+    gameId: 132,
   },
   {
     s: [
@@ -4178,6 +4336,7 @@ var data = [
       },
     ],
     t: 8,
+    gameId: 157,
   },
   {
     s: [
@@ -4207,8 +4366,184 @@ var data = [
       },
     ],
     t: 5,
+    gameId: 130,
   },
 ];
+// 游戏物品 ID（生成蓝图用）：加新物品时在这里补上，配方里写 gameId（游戏配方 ID）
+var GAME_ITEM_IDS = {
+  "水": 1000,
+  "铁矿": 1001,
+  "铜矿": 1002,
+  "硅石": 1003,
+  "钛石": 1004,
+  "石矿": 1005,
+  "煤矿": 1006,
+  "原油": 1007,
+  "可燃冰": 1011,
+  "金伯利矿石": 1012,
+  "分形硅石": 1013,
+  "光栅石": 1014,
+  "刺笋结晶": 1015,
+  "单极磁石": 1016,
+  "沙子": 1099,
+  "铁块": 1101,
+  "磁铁": 1102,
+  "钢材": 1103,
+  "铜块": 1104,
+  "高纯硅块": 1105,
+  "钛块": 1106,
+  "钛合金": 1107,
+  "石材": 1108,
+  "高级石墨": 1109,
+  "玻璃": 1110,
+  "棱镜": 1111,
+  "金刚石": 1112,
+  "晶格硅": 1113,
+  "精炼油": 1114,
+  "塑料": 1115,
+  "硫酸": 1116,
+  "有机晶体": 1117,
+  "钛晶石": 1118,
+  "钛化玻璃": 1119,
+  "氢": 1120,
+  "重氢": 1121,
+  "反物质": 1122,
+  "石墨烯": 1123,
+  "碳纳米管": 1124,
+  "框架材料": 1125,
+  "卡西米尔晶片": 1126,
+  "奇异物质": 1127,
+  "燃烧单元": 1128,
+  "爆破单元": 1129,
+  "晶石爆破单元": 1130,
+  "地基": 1131,
+  "增产剂Mk.Ⅰ": 1141,
+  "增产剂Mk.Ⅱ": 1142,
+  "增产剂Mk.Ⅲ": 1143,
+  "齿轮": 1201,
+  "磁线圈": 1202,
+  "电动机": 1203,
+  "电磁涡轮": 1204,
+  "超级磁场环": 1205,
+  "粒子容器": 1206,
+  "临界光子": 1208,
+  "引力透镜": 1209,
+  "黑雾引力透镜": 1211,
+  "空间翘曲器": 1210,
+  "电路板": 1301,
+  "微晶元件": 1302,
+  "处理器": 1303,
+  "位面过滤器": 1304,
+  "量子芯片": 1305,
+  "电浆激发器": 1401,
+  "粒子带宽": 1402,
+  "湮灭约束球": 1403,
+  "光子合并器": 1404,
+  "推进器": 1405,
+  "加力推进器": 1406,
+  "动力引擎": 1407,
+  "太阳帆": 1501,
+  "戴森球组件": 1502,
+  "小型运载火箭": 1503,
+  "机枪弹箱": 1601,
+  "钛化弹箱": 1602,
+  "超合金弹箱": 1603,
+  "炮弹组": 1604,
+  "高爆炮弹组": 1605,
+  "晶石炮弹组": 1606,
+  "等离子胶囊": 1607,
+  "反物质胶囊": 1608,
+  "导弹组": 1609,
+  "超音速导弹组": 1610,
+  "引力导弹组": 1611,
+  "干扰胶囊": 1612,
+  "压制胶囊": 1613,
+  "液氢燃料棒": 1801,
+  "氘核燃料棒": 1802,
+  "反物质燃烧棒": 1803,
+  "奇异湮灭燃料棒": 1804,
+  "传送带": 2001,
+  "高速传送带": 2002,
+  "极速传送带": 2003,
+  "分拣器": 2011,
+  "高速分拣器": 2012,
+  "极速分拣器": 2013,
+  "集装分拣器": 2014,
+  "四向分流器": 2020,
+  "流速监测器": 2030,
+  "自动集装机": 2040,
+  "小型储物仓": 2101,
+  "大型储物仓": 2102,
+  "行星内物流运输站": 2103,
+  "星际物流运输站": 2104,
+  "轨道采集器": 2105,
+  "储液灌": 2106,
+  "物流配送器": 2107,
+  "电力感应塔": 2201,
+  "无线输电塔": 2202,
+  "风力涡轮机": 2203,
+  "火力发电机": 2204,
+  "太阳能板": 2205,
+  "蓄电池": 2206,
+  "蓄电池满": 2207,
+  "射线接收站": 2208,
+  "能量枢纽": 2209,
+  "人造恒星": 2210,
+  "微型聚变发电站": 2211,
+  "卫星配电站": 2212,
+  "地热发电站": 2213,
+  "采矿机": 2301,
+  "电弧熔炉": 2302,
+  "制作台Mk.Ⅰ": 2303,
+  "制作台Mk.Ⅱ": 2304,
+  "制作台Mk.Ⅲ": 2305,
+  "抽水机": 2306,
+  "原油萃取站": 2307,
+  "原油精炼厂": 2308,
+  "化工厂": 2309,
+  "微型粒子对撞机": 2310,
+  "电磁轨道弹射器": 2311,
+  "垂直发射井": 2312,
+  "喷涂机": 2313,
+  "分馏塔": 2314,
+  "位面熔炉": 2315,
+  "大型采矿机": 2316,
+  "量子化工厂": 2317,
+  "重组式制造台": 2318,
+  "负熵熔炉": 2319,
+  "矩阵研究站": 2901,
+  "自演化研究站": 2902,
+  "高斯机枪塔": 3001,
+  "高频激光塔": 3002,
+  "聚爆加农炮": 3003,
+  "磁化电浆炮": 3004,
+  "导弹防御塔": 3005,
+  "干扰塔": 3006,
+  "信号塔": 3007,
+  "行星护盾发生器": 3008,
+  "战场分析基站": 3009,
+  "近程电浆炮": 3010,
+  "物流运输机": 5001,
+  "星际物流运输机": 5002,
+  "配送运输机": 5003,
+  "原型机": 5101,
+  "精准无人机": 5102,
+  "攻击无人机": 5103,
+  "护卫舰": 5111,
+  "驱逐舰": 5112,
+  "黑雾矩阵": 5201,
+  "硅基神经元": 5202,
+  "物质重组器": 5203,
+  "负熵奇点": 5204,
+  "核心素": 5205,
+  "能量碎片": 5206,
+  "蓝矩阵": 6001,
+  "红矩阵": 6002,
+  "黄矩阵": 6003,
+  "紫矩阵": 6004,
+  "绿矩阵": 6005,
+  "宇宙矩阵": 6006,
+};
 var manualGzSpeed = false; //是否采用手动输入的临界光子每分钟产量
 
 var energyData = {};
@@ -6327,6 +6662,8 @@ function getRecipe() {
   let blueprintTitle = "";
   let blueprintDesc = "";
   let blueprintIconIdx = [];
+  let noId = []; // 没有游戏 ID 的物品、配方
+  let unsupported = "";
   for (let tr of document.getElementsByTagName("tbody")[0].childNodes) {
     if (tr.className === "header") {
       continue;
@@ -6378,6 +6715,7 @@ function getRecipe() {
     let input = [];
     let output = [];
     let recipeId = 0;
+    let cnNames = [[], []]; // 配方的原料、产物（中文名）
     let isInput = true;
     const t = parseFloat(recipeHtml.innerText.split("(")[1].split("s")[0]);
     for (let node of recipeHtml.childNodes) {
@@ -6399,12 +6737,9 @@ function getRecipe() {
           success = true;
           break;
         }
-        if (!success) {
-          // alert(`item map error: ${cnTitle}`)
-          let msg = `item map error: ${cnTitle}`;
-          cocoMessage.error(msg);
-          throw msg;
-        }
+        if (!itemMap[title]) title = cnTitle; // 不在上面的表里（或 itemMap 没有）：用中文名（itemMap 按 GAME_ITEM_IDS 补）
+        if (!(itemMap[title] && itemMap[title].iconId) && noId.indexOf(cnTitle) < 0) noId.push(cnTitle);
+        cnNames[isInput ? 0 : 1].push(cnTitle);
         if (isInput) {
           input.push({ name: title });
         } else {
@@ -6458,6 +6793,12 @@ function getRecipe() {
       if (output[0].name === "hydrogen") {
         inputHasHydrogen = true;
       }
+    } else {
+      // 游戏配方 ID：data.js 里这个物品选的配方的 gameId
+      recipeId = (find(nodeList[1].getAttribute("data-name")) || {}).gameId || 0;
+      let pfName = cnNames[0].join("+") + "->" + cnNames[1].join("+");
+      if (!recipeId && buildingMap[building.name]) noId.push(`配方 ${pfName}`);
+      else if (!recipeId && !unsupported) unsupported = pfName;
     }
 
     if (!blueprintTitle) {
@@ -6531,6 +6872,17 @@ function getRecipe() {
       }
     }
   }
+  if (unsupported) {
+    cocoMessage.warning(
+      `包含不支持的配方: ${unsupported}，<br/>请排除对应物品（目前只支持通过(位面)熔炉、制造台、精炼厂、对撞机、（量子）化工厂、研究站六类生产设施进行制造的物品）`,
+      5000
+    );
+    return null;
+  }
+  if (noId.length) {
+    cocoMessage.warning(`data.js 里这些还没有游戏 ID，补上后再生成：${noId.join("、")}`, 5000);
+    return null;
+  }
   // console.log(recipeList)
   return {
     recipeList: recipeList,
@@ -6548,6 +6900,7 @@ function generateBlueprint1() { // 无带流蓝图
     return;
   }
   const recipe = getRecipe();
+  if (!recipe) return;
   const outputRecipe = {
     proliferator: recipe.proliferator,
     subRecipes: recipe.recipeList,
@@ -6625,6 +6978,7 @@ function generateBlueprintLegacy() {
     return;
   }
   const recipe = getRecipe();
+  if (!recipe) return;
   const outputRecipe = {
     proliferator: recipe.proliferator,
     subRecipes: recipe.recipeList,
