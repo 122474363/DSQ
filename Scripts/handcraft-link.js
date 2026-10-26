@@ -1,9 +1,9 @@
-// 生成蓝图：跳到「手搓产线蓝图」页（blueprint/<版本>/，由 dsp-handcraft 打包，源码 https://github.com/zoujack018/dsp-handcraft），
+// 生成蓝图：在本页的弹层里打开「手搓产线蓝图」页（blueprint/<版本>/，由 dsp-handcraft 打包，源码 https://github.com/zoujack018/dsp-handcraft），
 // 把这里的需求、每个物品选的配方和设备、排除的物品带过去（地址里的 #plan=，字段都按游戏 ID），那边自动排布、出蓝图。
 // 原来 blueprint.js 生成的蓝图里分拣器的位置和槽位对不上（issues #18、#36），按钮改成跳到这里。
 
 // 手搓产线蓝图页的地址：每个版本一个子目录，换新版本时改这里
-var HANDCRAFT_PAGE = 'blueprint/v2.2/';
+var HANDCRAFT_PAGE = 'blueprint/v3/';
 
 var HANDCRAFT_KIND = { 2303: 'assembler', 2304: 'assembler', 2305: 'assembler', 2318: 'assembler', 2302: 'smelter', 2315: 'smelter', 2319: 'smelter', 2309: 'chemical', 2317: 'chemical', 2901: 'lab', 2902: 'lab' };
 
@@ -101,7 +101,7 @@ function handcraftPlan() {
   return { plan: plan, unknown: unknown, noId: noId };
 }
 
-/** 「生成蓝图」按钮：新标签页打开手搓产线蓝图页 */
+/** 「生成蓝图」按钮：在本页的弹层里打开手搓产线蓝图页（那边点「返回」关掉弹层，计算器原样还在） */
 function openHandcraft() {
   if (!xqs || !xqs.length) {
     cocoMessage.warning('先添加需求，再生成蓝图', 3000);
@@ -112,5 +112,30 @@ function openHandcraft() {
   if (noId.length) cocoMessage.warning('这些还没有游戏 ID，蓝图页会少了它们：' + noId.join('、') + '<br/>（data.js 里配方写 gameId、产物写 itemId）', 5000);
   if (r.unknown.length) cocoMessage.warning('这些需求在蓝图页里找不到对应物品，已跳过：' + r.unknown.join('、'), 4000);
   if (!r.plan.targets.length) return;
-  window.open(HANDCRAFT_PAGE + '#plan=' + encodeURIComponent(JSON.stringify(r.plan)), '_blank');
+  var url = HANDCRAFT_PAGE + '#plan=' + encodeURIComponent(JSON.stringify(r.plan));
+  var box = document.getElementById('handcraft-box');
+  if (!box) {
+    box = document.createElement('div');
+    box.id = 'handcraft-box';
+    box.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;z-index:2000;background:#0f1a2b';
+    document.body.appendChild(box);
+    window.addEventListener('message', function (e) {
+      if (e.data === 'dsphc-close') closeHandcraft();
+    });
+  }
+  box.innerHTML = '';
+  var frame = document.createElement('iframe');
+  frame.style.cssText = 'display:block;width:100%;height:100%;border:0';
+  frame.setAttribute('allow', 'clipboard-write');
+  frame.src = url;
+  box.appendChild(frame);
+  box.style.display = 'block';
+  document.body.style.overflow = 'hidden';
+}
+
+/** 关掉蓝图弹层（蓝图页点「返回」时发 dsphc-close 过来） */
+function closeHandcraft() {
+  var box = document.getElementById('handcraft-box');
+  if (box) box.style.display = 'none';
+  document.body.style.overflow = '';
 }
