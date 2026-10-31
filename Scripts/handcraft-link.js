@@ -131,6 +131,7 @@ function openHandcraft() {
   box.appendChild(frame);
   box.style.display = 'block';
   document.body.style.overflow = 'hidden';
+  toggleStatusBar(false);
 }
 
 /** 关掉蓝图弹层（蓝图页点「返回」时发 dsphc-close 过来） */
@@ -138,4 +139,11 @@ function closeHandcraft() {
   var box = document.getElementById('handcraft-box');
   if (box) box.style.display = 'none';
   document.body.style.overflow = '';
+  toggleStatusBar(true);
+}
+
+// 站顶上的提示条（#statusBar，z-index 10000）会压住弹层，弹层开着时先藏起来
+function toggleStatusBar(show) {
+  var bar = document.getElementById('statusBar');
+  if (bar) bar.style.visibility = show ? '' : 'hidden';
 }
