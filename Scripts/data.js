@@ -4752,6 +4752,215 @@ function loadSettingProjects() {
     eval("projects = " + json);
   }
 }
+
+// ---------- 计算参数持久化 ----------
+// 「参数设置」面板 + 顶部全局选项的记忆：保存到 localStorage，下次打开自动回填。
+// 只影响“全局默认参数”，不改动逐条配方在表格里的单独选择（settings）。
+var PARAMS_KEY = "dsq-params" + version;
+var PARAM_IDS = [
+  // 参数设置面板
+  "selore", // 采矿作业速度 %
+  "fractionatorSpeed", // 分馏塔每分钟产量
+  "speed1_6", // 大型采矿机 %
+  "oilSpeed", // 原油速度
+  "speed1_1", // 轨道采集-氢(气态)
+  "speed1_2", // 轨道采集-重氢
+  "speed1_3", // 轨道采集-可燃冰
+  "speed1_4", // 轨道采集-氢(巨冰)
+  "gzSpeed", // 临界光子每分钟产量
+  "pointLength", // 小数点后保留位数
+  "speed1_5", // 传送带堆叠层数
+  "csd", // 传送带类型
+  "compactLayout",
+  "upgradeConveyorBelt",
+  "onlyConveyorBeltMk3",
+  "onlySorterMk3",
+  "onlyConveyorBeltMk3Downgrade",
+  "generateTeslaTower",
+  "teslaTowerLineInterval",
+  "conveyorBeltStackLayer",
+  "maxLabLayers",
+  "teslaTowerInterval",
+  "x_y_ratio",
+  // 顶部全局选项
+  "hideSource",
+  "selmodein",
+  "furnace",
+  "chemical",
+  "accType",
+  "accValue",
+  "research",
+  "selfAcc",
+  "isAddSelfAccP",
+  "showMaxOneBelt",
+];
+
+// 组装成 { id: value }，checkbox 存 0/1
+function collectParams() {
+  var o = {};
+  for (var i = 0; i < PARAM_IDS.length; i++) {
+    var el = document.getElementById(PARAM_IDS[i]);
+    if (!el) continue;
+    o[PARAM_IDS[i]] = el.type === "checkbox" ? (el.checked ? 1 : 0) : el.value;
+  }
+  return o;
+}
+
+// 清理全部数据（如「修复计算空白」）时置为 true，避免 beforeunload 又把旧参数写回去
+var PARAMS_SKIP_SAVE = false;
+
+function saveParams() {
+  if (PARAMS_SKIP_SAVE) return;
+  try {
+    var o = collectParams();
+    // 显式记录临界光子产量是否处于「手动指定」状态（旧存档没有此标记则视为自动）
+    o.__gzManual = manualGzSpeed ? 1 : 0;
+    saveData(PARAMS_KEY, JSON.stringify(o));
+  } catch (e) {
+    // 存不下（隐私模式等）就算了，不影响计算
+  }
+}
+
+function loadParams() {
+  var raw = null;
+  try {
+    raw = getData(PARAMS_KEY);
+  } catch (e) {
+    return false;
+  }
+  if (!raw) return false;
+  var o;
+  try {
+    o = JSON.parse(raw);
+  } catch (e) {
+    return false;
+  }
+  if (!o || typeof o !== "object") return false;
+
+  for (var i = 0; i < PARAM_IDS.length; i++) {
+    var id = PARAM_IDS[i];
+    var el = document.getElementById(id);
+    if (!el || !(id in o)) continue;
+    var v = o[id];
+    if (el.type === "checkbox") {
+      el.checked = !!v;
+    } else if (el.tagName === "SELECT") {
+      // 选项可能随游戏版本变化，值不匹配就跳过
+      var ok = false;
+      for (var j = 0; j < el.options.length; j++) {
+        if (el.options[j].value == v) {
+          ok = true;
+          break;
+        }
+      }
+      if (ok) el.value = v;
+    } else {
+      // 数字/文本输入：空值或 NaN 直接跳过，避免把计算参数弄坏
+      if (v === "" || v === null || v === undefined) continue;
+      if (el.type === "number" && isNaN(parseFloat(v))) continue;
+      el.value = v;
+    }
+  }
+
+  // 同步依赖这些参数的脚本全局变量
+  var pl = parseInt($("#pointLength").val(), 10);
+  if (!isNaN(pl) && pl >= 0 && pl <= 6) pointLength = pl;
+  if ($("#accType").length && $("#accType").val()) defaultAccType = $("#accType").val();
+  if ($("#accValue").length && $("#accValue").val()) defaultAccValue = $("#accValue").val();
+
+  // 临界光子产量：只有存档里带 __gzManual 标记才是真正的「手动指定」。
+  // （不能用「值 != 默认值」判断：老版本默认 5 且会被整体存档，会误判成手动）
+  var gzv = parseFloat($("#gzSpeed").val());
+  manualGzSpeed = o.__gzManual === 1 && !isNaN(gzv) && gzv > 0;
+  // 非手动状态时把输入框显示归位到默认值（老存档里可能还留着旧默认 5，容易误导）
+  if (!manualGzSpeed && PARAM_DEFAULTS && PARAM_DEFAULTS.gzSpeed !== undefined) {
+    $("#gzSpeed").val(PARAM_DEFAULTS.gzSpeed);
+  }
+  return true;
+}
+
+// 任何参数变化就存一次；离开页面时再补存一次（防止输入框还没失焦就关掉）
+function bindParamsAutoSave() {
+  $(document).on("change", function (e) {
+    var el = e && e.target;
+    if (el && el.id && $.inArray(el.id, PARAM_IDS) !== -1) saveParams();
+  });
+  $(window).on("beforeunload", saveParams);
+}
+
+// ---------- 恢复默认参数 ----------
+// 页面加载时（回填上次参数之前）记录各控件的初始值，作为“默认值”快照
+var PARAM_DEFAULTS = null;
+
+function captureParamDefaults() {
+  if (PARAM_DEFAULTS) return;
+  var o = {};
+  for (var i = 0; i < PARAM_IDS.length; i++) {
+    var el = document.getElementById(PARAM_IDS[i]);
+    if (!el) continue;
+    o[PARAM_IDS[i]] = el.type === "checkbox" ? (el.checked ? 1 : 0) : el.value;
+  }
+  PARAM_DEFAULTS = o;
+}
+
+// 把控件回填成默认值（不触发 change，由调用方统一触发计算）
+function applyParamDefaults() {
+  captureParamDefaults();
+  for (var i = 0; i < PARAM_IDS.length; i++) {
+    var id = PARAM_IDS[i];
+    var el = document.getElementById(id);
+    if (!el || !(id in PARAM_DEFAULTS)) continue;
+    var v = PARAM_DEFAULTS[id];
+    if (el.type === "checkbox") {
+      el.checked = !!v;
+    } else {
+      el.value = v;
+    }
+  }
+
+  // 同步依赖这些参数的脚本全局变量
+  var pl = parseInt($("#pointLength").val(), 10);
+  if (!isNaN(pl) && pl >= 0 && pl <= 6) pointLength = pl;
+  if ($("#accType").length && $("#accType").val())
+    defaultAccType = $("#accType").val();
+  if ($("#accValue").length && $("#accValue").val())
+    defaultAccValue = $("#accValue").val();
+}
+
+function resetParams() {
+  // 清掉已保存的参数，下次打开就按默认值来
+  try {
+    if (window.localStorage) localStorage.removeItem(PARAMS_KEY);
+  } catch (e) {
+    // 隐私模式等场景忽略
+  }
+  applyParamDefaults();
+  // 临界光子产量回到默认 → 同时退出「手动指定」状态，恢复按公式自动计算
+  manualGzSpeed = false;
+
+  // 让默认值真正作用到设备速度、机器选择与计算结果
+  $("#selore, #speed1_6, #fractionatorSpeed, #oilSpeed").trigger("change");
+  $(
+    "#selmodein, #furnace, #chemical, #research, #accType, #accValue, #hideSource, #selfAcc"
+  ).trigger("change");
+  update_all();
+}
+
+function bindResetParamsButton() {
+  $("#btnResetParams").on("click", function () {
+    var btn = $(this);
+    resetParams();
+    btn.addClass("done").text("已恢复默认");
+    clearTimeout(btn.data("resetTimer"));
+    btn.data(
+      "resetTimer",
+      setTimeout(function () {
+        btn.removeClass("done").text("恢复默认参数");
+      }, 1500)
+    );
+  });
+}
+
 //获取配方默认的机器
 function getMachine(arg) {
   var item = typeof arg == "string" ? find(arg) : arg;
@@ -4976,6 +5185,14 @@ function getAccSpeed(type, value) {
   // 默认是Mk.Ⅰ（也是界面上默认的）
   type_index = type_index >= 0 ? type_index : 0;
   return value == "增产" ? accSpeed.inc[type_index] : accSpeed.acc[type_index];
+}
+// 临界光子由射线接收塔直接接收，不吃增产剂：既不能「加速」也不能「增产」，
+// 界面只保留「无」，计算里也强制按「无」处理（防止旧存档里的加速设置生效）。
+function isAccForbidden(arg) {
+  var item = typeof arg === "string" ? find(arg) : arg;
+  if (!item) return false;
+  if (item.name === "临界光子") return true;
+  return !!(item.s && item.s[0] && item.s[0].name === "临界光子");
 }
 function getPfTitle(item, info) {
   var title = [];
@@ -5365,9 +5582,11 @@ function f_init() {
     update_all();
   });
   $("#gzSpeed").change(function () {
-    manualGzSpeed = true;
+    // 手动输入的临界光子产量：改过一次就一直按手动值计算（不再在本次计算后失效），
+    // 直到点「恢复默认参数」把它改回默认值。
+    var v = parseFloat($(this).val());
+    manualGzSpeed = !isNaN(v) && v > 0;
     update_all();
-    manualGzSpeed = false;
   });
 
   /*产量：可燃冰 0.65/s 氢0.25/s
@@ -5440,7 +5659,7 @@ function f_init() {
   });
 
   $("#btnReset1").click(function () {
-    if (confirm("该操作将清除配方并刷新页面！")) {
+    if (confirm("该操作将清除配方、清除参数、修复计算器空白并刷新页面！")) {
       //重置设备
       settings = {};
       saveSetting();
@@ -5450,6 +5669,11 @@ function f_init() {
       //重置配方
       settings_pf = {};
       saveSettingPf();
+      //参数设置也一并恢复默认：先回填默认值，并阻止关闭前把旧参数写回
+      PARAMS_SKIP_SAVE = true;
+      applyParamDefaults();
+      // 临界光子产量也回到默认自动值
+      manualGzSpeed = false;
       //刷新数据
       update_all();
       //清空localStorage
@@ -5626,11 +5850,82 @@ function f_init() {
       });
     }
   });
+
+  // 恢复上次保存的参数设置，并让这些数值真正作用到设备速度与计算
+  captureParamDefaults();
+  loadParams();
+  bindParamsAutoSave();
+  bindResetParamsButton();
+  $("#selore, #speed1_6, #fractionatorSpeed, #oilSpeed").trigger("change");
+  update_all();
 }
 
 var single_list = []; //独立生产
 var xh_list = [];
 var out_list = [];
+
+// ---------- 副产物抵扣（净需求合并） ----------
+// creditLeft: 本轮展开时，每种物品还能用「同名副产物」抵扣多少需求
+// usedCredit: 本轮实际抵扣量（正数），用于展示「由副产提供多少」
+var creditLeft = {};
+var usedCredit = {};
+
+// 从需求 n 中扣除可用的副产物额度，返回抵扣后仍需自产的需求量
+function takeCredit(name, n) {
+  if (!(n > 0)) return n;
+  var left = creditLeft[name];
+  if (!left) return n;
+  var used = left < n ? left : n;
+  creditLeft[name] = left - used;
+  usedCredit[name] = (usedCredit[name] || 0) + used;
+  return n - used;
+}
+
+// 根据当前展开结果，统计每种物品可被副产物抵扣的额度
+// 额度 = min(副产盈余, 同名正需求)
+function computeCredit() {
+  var credit = {};
+  for (var i = 0; i < out_list.length; i++) {
+    var out = out_list[i];
+    if (!(out.value < 0)) continue; // 只有负值（盈余）可抵扣
+    var demand = 0;
+    for (var j = 0; j < xh_list.length; j++) {
+      if (xh_list[j].name == out.name) {
+        demand = xh_list[j].value;
+        break;
+      }
+    }
+    if (!(demand > 0)) continue;
+    var c = Math.min(-out.value, demand);
+    if (c > 1e-9) credit[out.name] = c;
+  }
+  return credit;
+}
+
+function hasCredit(credit) {
+  for (var k in credit) {
+    if (credit[k] > 1e-9) return true;
+  }
+  return false;
+}
+
+// 抵扣结算：把已抵扣的量从副产盈余里扣掉，剩下的才是真正多余；
+// 极端情况下若「抵得比产得多」，把多抵的那部分补回需求
+function settleCredit() {
+  for (var i = 0; i < out_list.length; i++) {
+    var out = out_list[i];
+    var used = usedCredit[out.name] || 0;
+    if (!(used > 0)) continue;
+    var available = -out.value;
+    if (used > available) {
+      addXH(out.name, used - available);
+      used = available > 0 ? available : 0;
+    }
+    out.used = used;
+    out.value += used;
+    if (Math.abs(out.value) < 1e-9) out.value = 0;
+  }
+}
 
 function addXH(name, value) {
   for (var i = 0; i < xh_list.length; i++) {
@@ -5685,6 +5980,13 @@ function loadNumber(itemName, n) {
     ) {
       return;
     }
+    // 先用同名副产物抵扣需求：被抵扣的部分既不用建产线，也不用展开它的原料
+    n = takeCredit(itemName, n);
+    if (n === 0) {
+      // 需求被同名副产完全抵扣：保留一行 0 净需求，用于展示「副产抵扣」
+      addXH(itemName, 0);
+      return;
+    }
     var item = find(itemName, true); // [normalize_recipe=true]
     var info = getValue(itemName);
 
@@ -5697,6 +5999,8 @@ function loadNumber(itemName, n) {
     }
     var accType = (settings[item.id] || {}).accType || defaultAccType;
     var accValue = (settings[item.id] || {}).accValue || defaultAccValue;
+    // 临界光子不吃增产剂，界面已禁止选择「加速/增产」，这里再兜一层，防止旧存档的设置在计算里生效
+    if (isAccForbidden(item)) accValue = "无";
     var accTotal = 0;
     for (var i = 0; item.q && i < item.q.length; i++) {
       var q = item.q[i];
@@ -5844,43 +6148,37 @@ function checkResult() {
 
 //每分钟需求: 引力透镜=0.1*接收塔=0.1*光子需求量/光子产量, 光子产量: 12(透镜×200%)/15(增产Ⅰ×250%)/18(增产Ⅱ×300%)/24(增产Ⅲ×400%)
 function fixGzSpeed() {
-  let fixedGzSpeed;
+  // 先把这次的临界光子产能算出来（只算一次，避免多条配方互相污染）
+  var fixedGzSpeed;
+  if (manualGzSpeed) {
+    fixedGzSpeed = parseFloat($("#gzSpeed").val());
+  }
+  if (!(fixedGzSpeed > 0)) {
+    // 临界光子不吃增产剂（isAccForbidden），正常恒为 12/min；
+    // 保留加速档位的取值，万一以后放开限制也能直接用。
+    var gzItem = find("临界光子", true);
+    var gzAccType = (settings[gzItem.id] || {}).accType || defaultAccType;
+    var gzAccValue = (settings[gzItem.id] || {}).accValue || defaultAccValue;
+    if (isAccForbidden(gzItem)) gzAccValue = "无";
+    if (gzAccValue === "加速") {
+      if (gzAccType === "增产剂Mk.Ⅱ") fixedGzSpeed = 18;
+      else if (gzAccType === "增产剂Mk.Ⅲ") fixedGzSpeed = 24;
+      else fixedGzSpeed = 15;
+    } else {
+      fixedGzSpeed = 12;
+    }
+  }
   $(data).each(function () {
     if (this.s && this.s[0].name == "临界光子") {
-      if (this.m) {
-        for (var i = 0; i < this.m.length; i++) {
-          if (this.m[i].name == "射线接收塔") {
-            for (var j = 0; j < this.q.length; j++) {
-              if (this.q[j].name == "引力透镜") {
-                if (manualGzSpeed) {
-                  fixedGzSpeed = parseFloat($("#gzSpeed").val());
-                } else {
-                  item = find("临界光子", true);
-                  accType = (settings[item.id] || {}).accType || defaultAccType;
-                  accValue =
-                    (settings[item.id] || {}).accValue || defaultAccValue;
-                  if (accValue === "加速") {
-                    switch (accType) {
-                      case "增产剂Mk.Ⅰ":
-                        fixedGzSpeed = 15;
-                        break;
-                      case "增产剂Mk.Ⅱ":
-                        fixedGzSpeed = 18;
-                        break;
-                      case "增产剂Mk.Ⅲ":
-                        fixedGzSpeed = 24;
-                        break;
-                    }
-                  } else {
-                    fixedGzSpeed = 12;
-                  }
-                }
-                this.q[j].n = (0.1 / fixedGzSpeed).toFixed(6);
-              }
-            }
-            this.t = this.q && this.q.length ? 60 / fixedGzSpeed : 10;
+      if (!this.m) return;
+      for (var i = 0; i < this.m.length; i++) {
+        if (this.m[i].name != "射线接收塔") continue;
+        for (var j = 0; j < this.q.length; j++) {
+          if (this.q[j].name == "引力透镜") {
+            this.q[j].n = (0.1 / fixedGzSpeed).toFixed(6);
           }
         }
+        this.t = this.q && this.q.length ? 60 / fixedGzSpeed : 10;
       }
     }
   });
@@ -5888,40 +6186,60 @@ function fixGzSpeed() {
 
 function update_all() {
   var outResult = [];
-  xh_list = [];
-  out_list = [];
-  single_list = [];
 
-  fixGzSpeed();
-  for (var m = 0; m < singleMake.length; m++) {
-    var item = data[singleMake[m].id]; //配方
-    var info = getValue(item);
-    var times = parseFloat(
-      (
-        (60 * parseInt(singleMake[m].number) * info.speed) /
-        (item.t || 1)
-      ).toFixed(6)
-    );
-    // (60 * parseInt(singleMake[m].number) * info.speed) / (item.t || 1);
+  // 需求展开（可重复执行：清空结果后按当前抵扣额度重新展开）
+  function expandDemand() {
+    xh_list = [];
+    out_list = [];
+    single_list = [];
 
-    for (var i = 0; i < item.s.length; i++) {
-      single_list.push({
-        id: singleMake[m].id,
-        number: singleMake[m].number,
-        name: item.s[i].name,
-        mName: info.name,
-        value: times * (item.s[i].n || 1),
-      });
-      loadNumber(item.s[i].name, -1 * times * (item.s[i].n || 1));
+    fixGzSpeed();
+    for (var m = 0; m < singleMake.length; m++) {
+      var item = data[singleMake[m].id]; //配方
+      var info = getValue(item);
+      var times = parseFloat(
+        (
+          (60 * parseInt(singleMake[m].number) * info.speed) /
+          (item.t || 1)
+        ).toFixed(6)
+      );
+      // (60 * parseInt(singleMake[m].number) * info.speed) / (item.t || 1);
+
+      for (var i = 0; i < item.s.length; i++) {
+        single_list.push({
+          id: singleMake[m].id,
+          number: singleMake[m].number,
+          name: item.s[i].name,
+          mName: info.name,
+          value: times * (item.s[i].n || 1),
+        });
+        loadNumber(item.s[i].name, -1 * times * (item.s[i].n || 1));
+      }
+      for (var j = 0; item.q && j < item.q.length; j++) {
+        loadNumber(item.q[j].name, times * (item.q[j].n || 1));
+      }
     }
-    for (var j = 0; item.q && j < item.q.length; j++) {
-      loadNumber(item.q[j].name, times * (item.q[j].n || 1));
+    for (var m = 0; m < xqs.length; m++) {
+      var currentItem = xqs[m].item;
+      loadNumber(currentItem.name, xqs[m].number);
     }
   }
-  for (var m = 0; m < xqs.length; m++) {
-    var currentItem = xqs[m].item;
-    loadNumber(currentItem.name, xqs[m].number);
+
+  // 第一轮：不做抵扣，先摸清每种物品的副产盈余有多少
+  creditLeft = {};
+  usedCredit = {};
+  expandDemand();
+
+  // 第二轮：把副产盈余记成额度，展开时直接抵掉同名需求
+  // 例：精炼油 60/min 副产氢 30/min，此时氢需求 60 只需再补 30 → 0.5 台采集器
+  var credit = computeCredit();
+  if (hasCredit(credit)) {
+    creditLeft = credit;
+    usedCredit = {};
+    expandDemand();
   }
+  creditLeft = {};
+  settleCredit();
 
   function isXqs(name) {
     for (var m = 0; m < xqs.length; m++) {
@@ -5944,7 +6262,11 @@ function update_all() {
       var accType = (settings[item.id] || {}).accType || defaultAccType;
       var accValue = (settings[item.id] || {}).accValue || defaultAccValue;
       if (accValue == "增产" && item.noExtra) accValue = "无";
-      if (item.q.length == 0) accValue = "无";
+      // noExtra === null 表示该配方完全不吃增产剂（如「蓄电池满」），
+      // 之前只在这里判断 q.length，会和 loadNumber 里的原料展开判断不一致，
+      // 导致设备数被多除以 1.125/1.25 而原料却没减少。
+      if (item.q.length == 0 || item.noExtra === null) accValue = "无";
+      if (isAccForbidden(item)) accValue = "无";
 
       if (item.name !== "临界光子" || item.mName !== "射线接收塔") {
         // 修正产物与需求物相同时，生产设备计算偏少
@@ -6029,7 +6351,9 @@ function update_all() {
   }
 
   for (var i = 0; i < xh_list.length; i++) {
-    if (!xh_list[i].value) continue;
+    // 需求被同名副产完全抵扣时 value 为 0，但该行仍需展示（显示原始需求 + 抵扣徽章）
+    var creditUsed = usedCredit[xh_list[i].name] || 0;
+    if (!xh_list[i].value && !(creditUsed > 0)) continue;
 
     var item = find(xh_list[i].name);
     var info = getValue(xh_list[i].name);
@@ -6045,7 +6369,10 @@ function update_all() {
     // 当生产精炼油/氢/石墨烯/重氢的生产设施为空时，显示0生产设施以跳过“存在生产设施为空的配方”检验
     var outitem = {
       name: xh_list[i].name,
-      number1: xh_list[i].value.toFixed(pointLength),
+      // 需求列显示原始总需求（净需求 + 被副产抵扣的部分），未抵扣时即净需求
+      number1: (xh_list[i].value + (creditUsed > 0 ? creditUsed : 0)).toFixed(
+        pointLength
+      ),
       number2: xh_list[i].value2
         ? xh_list[i].value2.toFixed(pointLength)
         : ["精炼油", "氢", "石墨烯", "重氢"].includes(xh_list[i].name)
@@ -6071,6 +6398,13 @@ function update_all() {
       accValue: [],
       accTotal: (xh_list[i].accTotal || 0).toFixed(2),
     };
+    // 由副产物抵扣掉的需求量（creditUsed 已在循环开头取得）
+    if (creditUsed > 0) {
+      outitem.creditNote =
+        "<span class='credit-note'>副产抵扣 " +
+        creditUsed.toFixed(pointLength) +
+        "</span>";
+    }
     if (!outitem.number2) outitem.number2full = "";
     if (xh_list[i].name == "太阳帆") {
       outitem.numberOther =
@@ -6080,7 +6414,13 @@ function update_all() {
       outitem.numberOther =
         "(可供" + getIconShow("垂直发射井", outitem.number1 / 5) + ")";
     }
-    addTotal(info.name, Math.ceil(outitem.number2), settings[item.id]);
+    // 合计按真实设备数向上取整：不能用格式化后的字符串（保留 0 位小数时 "0" 会被当成 0 台，
+    // 导致「合计」整块空白），也不能用 number2 的显示值兜底。
+    addTotal(
+      info.name,
+      Math.ceil(xh_list[i].value2 > 0 ? xh_list[i].value2 : 0),
+      settings[item.id]
+    );
     // 增产剂总和
     if (info.accValue != "无") {
       // TODO: 这里调用Math.ceil未必合理，增产剂一般放在总线起始处，所以应该在最终算出的总和处调用Math.ceil
@@ -6126,6 +6466,7 @@ function update_all() {
     var accValue = (settings[item.id] || {}).accValue || defaultAccValue;
     if (accValue == "增产" && item.noExtra) accValue = "无";
     if (item.q.length == 0 || item.noExtra === null) accValue = "无";
+    if (isAccForbidden(item)) accValue = "无";
 
     ["增产剂Mk.Ⅰ", "增产剂Mk.Ⅱ", "增产剂Mk.Ⅲ"].forEach(function (one) {
       outitem.accType.push({
@@ -6144,6 +6485,8 @@ function update_all() {
     ["无", "加速", "增产"].forEach(function (one) {
       if (one != "无" && (item.q.length == 0 || item.noExtra === null)) return;
       if (one == "增产" && item.noExtra) return;
+      // 临界光子由射线接收塔直接接收，增产剂无效 → 只保留「无」
+      if (one != "无" && isAccForbidden(item)) return;
       outitem.accValue.push({
         class: one == accValue ? "m selected" : "m",
         itemName: item.name,
@@ -6161,7 +6504,7 @@ function update_all() {
   }
 
   for (var i = 0; i < out_list.length; i++) {
-    if (!out_list[i].value) continue;
+    if (!out_list[i].value && !out_list[i].used) continue;
     var item = find(out_list[i].name);
     var info = getValue(out_list[i].name);
     var outitem = {
@@ -6178,13 +6521,33 @@ function update_all() {
       m: [],
       pf: [],
     };
+    if (out_list[i].used > 0) {
+      // 只有「该物品完全不用自产」时才能说无需额外生产；
+      // 部分抵扣时仍可能有自产设备（如精炼油60+氢45：副产抵30、自己产15）。
+      var selfMade = 0;
+      for (var k = 0; k < xh_list.length; k++) {
+        if (xh_list[k].name == out_list[i].name) {
+          selfMade = xh_list[k].value2 || 0;
+          break;
+        }
+      }
+      outitem.outNote =
+        out_list[i].value === 0 && !(selfMade > 0)
+          ? "<span class='out-note'>已全部用于抵扣同名需求，无需额外生产</span>"
+          : "<span class='out-note'>其中 " +
+            out_list[i].used.toFixed(pointLength) +
+            " 已用于抵扣同名需求</span>";
+    }
     items2.push(outitem);
   }
   app.items0 = items0;
   app.xqs = xqs;
   app.items = items;
   app.items2 = items2;
-  app.total = total;
+  // 合计不显示数量为 0 的设备（例如需求被副产完全抵扣时设备数为 0）
+  app.total = total.filter(function (t) {
+    return t.value > 0;
+  });
   app.ig_names = ig_names;
   var energy = 0;
   for (var i = 0; i < total.length; i++) {

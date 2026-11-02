@@ -228,6 +228,36 @@ a.brand:hover h1 {
   background: var(--accent);
 }
 
+/* 卡片标题内的说明文字与操作按钮 */
+.card-title {
+  flex-wrap: wrap;
+}
+
+.card-title .title-hint {
+  padding: 2px 7px;
+  border: 1px dashed var(--border);
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0;
+  color: var(--text-dim);
+  opacity: 0.85;
+}
+
+.card-title .title-btn {
+  height: 26px;
+  padding: 0 12px;
+  border-radius: 999px;
+  font-size: 12px;
+  letter-spacing: 0;
+}
+
+.card-title .title-btn.done {
+  background: var(--accent-soft);
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
 /* ---------- 需求区（主操作线） ---------- */
 .demand-row {
   display: flex;
@@ -465,6 +495,28 @@ input[type="text"]:focus,
   border-radius: 4px;
 }
 
+/* ---------- 浅色主题：游戏物品图标多为白色/浅色贴图，浅底上会看不清 ----------
+   带图标的选项 chip 改用深色底（游戏 UI 槽位感），文字与传送带角标同步提亮；
+   纯文字 chip 仍保持浅色底，避免整页出现过多深色块。 */
+html[data-theme="light"] .m:has(img),
+html[data-theme="light"] .pf:has(img) {
+  background: #2f3f5c;
+  color: #e9f1ff;
+}
+
+html[data-theme="light"] .m:has(img):hover,
+html[data-theme="light"] .pf:has(img):hover {
+  background: #3b4e70;
+}
+
+html[data-theme="light"] .pf:has(img) .maxOneBeltIn { color: #7ceca8; }
+html[data-theme="light"] .pf:has(img) .maxOneBeltOut { color: #ffc878; }
+
+/* 表格里的物品大图标同理加一层极淡底，避免白图标浮在白底上 */
+html[data-theme="light"] table td > img {
+  background: #e9eef8;
+}
+
 .selected {
   background: var(--chip-selected) !important;
   color: #fff !important;
@@ -533,6 +585,23 @@ span.number2 {
 }
 
 .cell-infra { white-space: nowrap; }
+
+/* ---------- 副产物抵扣提示 ---------- */
+.credit-note,
+.out-note {
+  display: inline-block;
+  margin-left: 6px;
+  padding: 1px 6px;
+  font-size: 11px;
+  font-weight: 400;
+  line-height: 16px;
+  color: var(--accent);
+  background: var(--accent-soft);
+  border: 1px solid var(--accent);
+  border-radius: 4px;
+  white-space: nowrap;
+  vertical-align: middle;
+}
 
 .total td {
   background: var(--panel-3);
