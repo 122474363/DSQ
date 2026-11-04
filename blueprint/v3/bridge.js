@@ -1,6 +1,7 @@
 // 「手搓产线蓝图」页（blueprint/<版本>/index.html，由 dsp-handcraft 打包，源码 https://github.com/zoujack018/dsp-handcraft）嵌进本站用的小桥：
 // 1. 物品图标用本站 Scripts/data.json 里的（按 Scripts/data.js 的 GAME_ITEM_IDS 换成游戏物品 ID）；
-// 2. 页面最上面加一条：返回计算器、蓝图生成器的源码链接（在计算器的弹层里打开时，「返回」是关掉弹层）。
+// 2. 页面最上面加一条：返回计算器、蓝图生成器的源码链接（在计算器的弹层里打开时，「返回」是关掉弹层）；
+// 3. 在简易版计算器（dsqnew/）的弹层里时，每排好一张（页面发 dsphc-done）转告那边这一张做的是哪几样，那边记成已完成。
 // 页面那边：window.DSPHC.icon(物品) 返回图片地址，图标准备好后收到 dsphc-icons 事件重画（见 dsp-handcraft 的 web/src/handoff.js）。
 (function () {
   var icons = {}; // 游戏物品 ID → data:image/png;base64,…
@@ -38,6 +39,11 @@
       loadIcons(new Function('$', 'jQuery', text + '\n;return GAME_ITEM_IDS;')(stub, stub));
     })
     .catch(function () {});
+
+  window.addEventListener('dsphc-done', function (e) {
+    var d = e.detail || {};
+    if (window.parent !== window) window.parent.postMessage({ type: 'dsphc-done', targets: d.targets || [], ok: !!d.ok, kind: d.kind || null, made: d.made || null }, '*');
+  });
 
   document.addEventListener('DOMContentLoaded', function () {
     var bar = document.createElement('div');
