@@ -113,6 +113,15 @@ function loadData() {
 
 const STORE = 'dsq-calc-tabs';
 const OLD_STORE = 'dsq-calc-next'; // 没分页时的旧存档：第一次打开时搬进「总页面」
+const MODE_KEY = 'dsq-calc-mode'; // 左上角 D / S：'demand' 需求（清单照整条线算，生成过的蓝图不算、也不记）/ 'supply' 供给（扣掉生成过的，看做了什么、还差什么）
+let mode = 'supply';
+try {
+  if (localStorage.getItem(MODE_KEY) === 'demand') mode = 'demand';
+} catch {
+  /* 存储被禁用：照供给 */
+}
+/** 这一页生成过的蓝图；需求模式下当没有 */
+const builtNow = () => (mode === 'supply' ? state.built : []);
 // recipe：{ 物品: 配方 key | 'raw' 当原料 | 'ext' 外部供应 }；machineOf、sprayOf：{ 配方 key: 型号 / 'none' | 'speed' | 'extra' }，只记和顶栏不同的
 const BASE = {
   goals: [{ name: '蓝矩阵', rate: 60 }],
@@ -239,13 +248,13 @@ function ledgerOf(built) {
  * 生成过的蓝图做出的量先抵掉要的，从外面接的量算进要的；做出的够用了的（full）当外部供应再算一遍，不再往下展开
  */
 function solve() {
-  const led = ledgerOf(state.built);
+  const led = ledgerOf(builtNow());
   let rem;
   for (let full = new Set(); ; full = rem.full) {
     rem = solveWith(led, full);
     if (rem.full.size === full.size) break;
   }
-  if (!state.built.length) return rem;
+  if (!builtNow().length) return rem;
   const res = solveWith({ done: new Map(), takes: new Map() }, new Set(), true);
   res.rem = rem;
   return res;
@@ -291,7 +300,7 @@ function solveWith({ done, takes }, full, show = false) {
         }
       }
       // 生成过的蓝图从外面接的，比它做出的东西深一层；这张里自己做的几样（清单上原来没有的）照那张的配方从目标往下排
-      for (const b of state.built) {
+      for (const b of builtNow()) {
         const d = Math.min(...Object.keys(b.out).map((n) => depth.get(n) ?? Infinity)) + 1;
         if (d === Infinity) continue;
         for (const n of Object.keys(b.takes)) {
@@ -399,7 +408,7 @@ function solveWith({ done, takes }, full, show = false) {
   // 清单上原来没有的（那张蓝图里做了、这一页当原料或用不到的）也列一行（orphan）
   if (show) {
     const recsOf = new Map();
-    state.built.forEach((b, i) => {
+    builtNow().forEach((b, i) => {
       const lead = new Map();
       for (const p of b.parts) if (!lead.has(p.group)) lead.set(p.group, p.name);
       const rec = (name, rate, parent, p) => recsOf.set(name, [...(recsOf.get(name) || []), { i, rate, parent, part: p ?? null, from: Object.keys(b.out), sameAs: p && lead.get(p.group) !== name ? lead.get(p.group) : null }]);
@@ -1165,7 +1174,7 @@ function nudgePick() {
 function picked(res, fn) {
   const { rows, tops, inside } = pickOf(res);
   const goalRows = rows.filter((row) => row.goal);
-  if (!state.built.length && goalRows.length && goalRows.every((row) => tops.has(row.u))) return fn(res);
+  if (!builtNow().length && goalRows.length && goalRows.every((row) => tops.has(row.u))) return fn(res);
   const rem = res.rem || res;
   const own = new Set(rows.filter((row) => tops.has(row.u) || inside.has(row.u)).map((row) => row.name));
   // 在算出的 r 里还要这组工厂做多少：减去没选进来的配方顺带产出的、生成过的
@@ -1292,7 +1301,7 @@ function openGenerator(plan) {
   const frame = document.createElement('iframe');
   frame.title = '手搓产线蓝图';
   frame.allow = 'clipboard-write';
-  frame.src = `../blueprint/v3/index.html#plan=${encodeURIComponent(JSON.stringify(plan))}`;
+  frame.src = `generator.html#plan=${encodeURIComponent(JSON.stringify(plan))}`;
   box.replaceChildren(frame);
   box.hidden = false;
   document.body.style.overflow = 'hidden';
@@ -1303,7 +1312,11 @@ function closeBlueprint() {
   box.hidden = true;
   box.replaceChildren(); // 连页面一起关掉：还在排布的话，后台的线程也停下（再点「生成蓝图」本来就是重开一页）
   document.body.style.overflow = '';
-  if (bpDone && bpFrom === tabs[active]) markDone(builtOf(bpDone), bpDone.kind === 'beltless' ? '无带蓝图已复制' : '蓝图生成好了');
+  if (bpDone && bpFrom === tabs[active]) {
+    const msg = bpDone.kind === 'beltless' ? '无带蓝图已复制' : '蓝图生成好了';
+    if (mode === 'supply') markDone(builtOf(bpDone), msg);
+    else toast(`${msg}；需求模式不记已完成`);
+  }
   bpDone = null;
 }
 // 蓝图页最上面「返回计算器」在弹层里点时发 dsphc-close 过来；每排好一张（无带蓝图是复制了）发 dsphc-done，带着那张的目标（bridge.js，generator.html 开头引入）
@@ -1383,6 +1396,21 @@ function markDone(entry, msg) {
   state.pick = [];
   update();
   toastUndo(`${msg}；${quoteAll(Object.keys(entry.out))}标成已完成`, before, tabs[active]);
+}
+/** 左上角 D / S：换了就重算；记在浏览器里，各页共用 */
+function setMode(m) {
+  if ((m !== 'demand' && m !== 'supply') || m === mode) return;
+  mode = m;
+  try {
+    localStorage.setItem(MODE_KEY, mode);
+  } catch {
+    /* 存不了就只管这一次 */
+  }
+  renderMode();
+  update();
+}
+function renderMode() {
+  for (const b of document.querySelectorAll('#mode button')) b.setAttribute('aria-pressed', String(b.dataset.m === mode));
 }
 /** 删掉一张生成过的蓝图的记录（目标那条右边的 ×）：它的目标和里面的几样都改回这条线自己做 */
 function removeBuilt(i) {
@@ -1487,6 +1515,8 @@ document.addEventListener('click', (e) => {
       return archiveTab(i);
     case 'archive':
       return archiveTab(active);
+    case 'mode':
+      return setMode(t.dataset.m);
     case 'tab-close':
       closeMenu();
       return closeTab(i);
@@ -1699,6 +1729,7 @@ document.documentElement.style.setProperty('--cols', ICON_COLS);
 renderTabs();
 renderGoals();
 renderToolbar();
+renderMode();
 renderExt();
 try {
   loadData();

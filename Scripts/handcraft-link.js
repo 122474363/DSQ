@@ -1,9 +1,9 @@
-// 生成蓝图：在本页的弹层里打开「手搓产线蓝图」页（blueprint/<版本>/，由 dsp-handcraft 打包，源码 https://github.com/zoujack018/dsp-handcraft），
+// 生成蓝图：在本页的弹层里打开「手搓产线蓝图」页（dsqnew/generator.html，由 dsp-handcraft 打包，源码 https://github.com/zoujack018/dsp-handcraft），
 // 把这里的需求、每个物品选的配方和设备、排除的物品带过去（地址里的 #plan=，字段都按游戏 ID），那边自动排布、出蓝图。
 // 原来 blueprint.js 生成的蓝图里分拣器的位置和槽位对不上（issues #18、#36），按钮改成跳到这里。
 
-// 手搓产线蓝图页的地址：每个版本一个子目录，换新版本时改这里
-var HANDCRAFT_PAGE = 'blueprint/v3/';
+// 手搓产线蓝图页的地址（和简易版计算器放在一起）
+var HANDCRAFT_PAGE = 'dsqnew/generator.html';
 
 var HANDCRAFT_KIND = { 2303: 'assembler', 2304: 'assembler', 2305: 'assembler', 2318: 'assembler', 2302: 'smelter', 2315: 'smelter', 2319: 'smelter', 2309: 'chemical', 2317: 'chemical', 2901: 'lab', 2902: 'lab' };
 

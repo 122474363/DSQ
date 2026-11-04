@@ -130,6 +130,9 @@ button { -webkit-tap-highlight-color: transparent; }
 .brand { flex: none; display: flex; align-items: center; gap: 8px; width: 280px; padding: 0 20px; border-right: 1px solid var(--line); }
 .brand h1 { margin: 0; font-size: 15px; line-height: 20px; font-weight: 600; white-space: nowrap; }
 .brand span { font-size: 12px; color: var(--text-3); white-space: nowrap; }
+/* 左上角 D / S：需求（清单照整条线算，不记生成过的蓝图）/ 供给（扣掉生成过的，看做了什么、还差什么） */
+.brand .mode { margin-left: auto; }
+.mode button { height: 24px; min-width: 28px; padding: 0 8px; font-weight: 600; }
 .plans-row { display: flex; align-items: center; min-width: 0; padding: 0 32px; }
 .plans { display: flex; align-items: center; gap: 4px; min-width: 0; height: 100%; overflow-x: auto; scrollbar-width: none; }
 .plans::-webkit-scrollbar { display: none; }
@@ -546,7 +549,7 @@ dialog::backdrop { background: rgb(15 15 16 / 0.4); }
 </head>
 <body>
 <header class="strip">
-  <div class="brand"><h1>量产计算器</h1><span>戴森球计划</span></div>
+  <div class="brand"><h1>量产计算器</h1><span>戴森球计划</span><div class="toggle mode" id="mode" role="group" aria-label="需求 / 供给"><button type="button" data-act="mode" data-m="demand" aria-pressed="false" title="需求：清单照整条线算，不记生成过的蓝图">D</button><button type="button" data-act="mode" data-m="supply" aria-pressed="true" title="供给：扣掉生成过的蓝图，看做了什么、还差什么">S</button></div></div>
   <div class="plans-row">
     <div class="plans" id="plans" role="tablist" aria-label="各个页面"></div>
     <button class="plan-add" type="button" data-act="tab-add" title="添加页面" aria-label="添加页面"><i class="ico i-plus" aria-hidden="true"></i></button>
