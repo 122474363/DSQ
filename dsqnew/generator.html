@@ -77,7 +77,7 @@
  * 顶上一排下拉、图纸、两个弹窗用它们自己的一套颜色、字体（.stage 和 dialog 上定义），黑夜里换成深色
  */
 :root {
-  color-scheme: light dark;
+  color-scheme: light;
   --bg: #e4e9f0; /* 页面底色（图纸四周） */
   --side: #f9fbfd;
   --card: #fff;
@@ -122,41 +122,44 @@
 }
 /* 黑夜：页面、左栏、卡片、按钮用一组深浅不一的黑，不用纯黑，--k0 到 --k6 一层比一层浅（页面底 k0、左栏 k1、卡片 k3、按钮和输入框 k4、指上去 k5、选中 k6）；
    图纸和图上的线另有一套（文件最后那段 --cv-*）：画图的代码不动，按颜色把图上的深蓝、网格、细线换掉 */
-@media (prefers-color-scheme: dark) {
-  :root {
-    --k0: #0c0c0e;
-    --k1: #101012;
-    --k2: #141416;
-    --k3: #19191c;
-    --k4: #202024;
-    --k5: #28282d;
-    --k6: #313137;
-    --bg: var(--k0);
-    --side: var(--k1);
-    --card: var(--k3);
-    --raised: var(--k4);
-    --hover: #1c1c20;
-    --track: var(--k1);
-    --groove: #1d1d21;
-    --wash: rgb(255 255 255 / 0.05);
-    --knob: var(--k6);
-    --line: rgb(255 255 255 / 0.07);
-    --line-2: rgb(255 255 255 / 0.13);
-    --line-3: rgb(255 255 255 / 0.26);
-    --text: #ededef;
-    --text-2: #a6a6ad;
-    --text-3: #85858c;
-    --accent: #f0913a;
-    --accent-hover: #f5a052;
-    --on-accent: #141415;
-    --accent-ink: #f5a052;
-    --accent-soft: rgb(240 145 58 / 0.14);
-    --ok: #4cc38a;
-    --err: #e5484d;
-    --pop: 0 12px 32px rgb(0 0 0 / 0.5), 0 2px 6px rgb(0 0 0 / 0.3);
-    --paper: var(--k2);
-  }
+</style>
+<style class="dark-css" media="(prefers-color-scheme: dark)">
+:root {
+  color-scheme: dark;
+  --k0: #0c0c0e;
+  --k1: #101012;
+  --k2: #141416;
+  --k3: #19191c;
+  --k4: #202024;
+  --k5: #28282d;
+  --k6: #313137;
+  --bg: var(--k0);
+  --side: var(--k1);
+  --card: var(--k3);
+  --raised: var(--k4);
+  --hover: #1c1c20;
+  --track: var(--k1);
+  --groove: #1d1d21;
+  --wash: rgb(255 255 255 / 0.05);
+  --knob: var(--k6);
+  --line: rgb(255 255 255 / 0.07);
+  --line-2: rgb(255 255 255 / 0.13);
+  --line-3: rgb(255 255 255 / 0.26);
+  --text: #ededef;
+  --text-2: #a6a6ad;
+  --text-3: #85858c;
+  --accent: #f0913a;
+  --accent-hover: #f5a052;
+  --on-accent: #141415;
+  --accent-ink: #f5a052;
+  --accent-soft: rgb(240 145 58 / 0.14);
+  --ok: #4cc38a;
+  --err: #e5484d;
+  --pop: 0 12px 32px rgb(0 0 0 / 0.5), 0 2px 6px rgb(0 0 0 / 0.3);
+  --paper: var(--k2);
 }
+</style>
+<style>
 * { box-sizing: border-box; }
 [hidden] { display: none !important; }
 html { background: var(--bg); }
@@ -557,18 +560,20 @@ body.viewer-expanded { overflow: hidden; }
 .belt-key li span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .belt-key .howto { padding: 8px; color: #acc2da; border: 1px solid #3d6084; }
 .belt-key .howto b { display: block; margin-bottom: 2px; color: #e6f0ff; font-weight: 600; }
-@media (prefers-color-scheme: dark) {
-  .stage {
-    --ink: #ededef;
-    --ink-2: #a6a6ad;
-    --sheet: #f0913a;
-    --p-card: var(--k3);
-    --p-edge: rgb(255 255 255 / 0.12);
-    --p-edge-2: rgb(255 255 255 / 0.26);
-    --p-hover: var(--k5);
-    --p-shadow: 0 12px 32px rgb(0 0 0 / 0.5), 0 2px 6px rgb(0 0 0 / 0.3);
-  }
+</style>
+<style class="dark-css" media="(prefers-color-scheme: dark)">
+.stage {
+  --ink: #ededef;
+  --ink-2: #a6a6ad;
+  --sheet: #f0913a;
+  --p-card: var(--k3);
+  --p-edge: rgb(255 255 255 / 0.12);
+  --p-edge-2: rgb(255 255 255 / 0.26);
+  --p-hover: var(--k5);
+  --p-shadow: 0 12px 32px rgb(0 0 0 / 0.5), 0 2px 6px rgb(0 0 0 / 0.3);
 }
+</style>
+<style>
 
 /* ---------- 图纸下面：蓝图字符串、接口、检查（方角，同上面的图纸） ---------- */
 .output { display: grid; grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr) minmax(0, 1fr); gap: 16px; align-items: stretch; } /* 一排卡片一样高，底边齐，不像三张散放的纸条 */
@@ -762,131 +767,135 @@ dialog .go:focus-visible { outline: 3px solid #7fb0e8; outline-offset: 2px; }
   .find { flex: 1 1 120px; width: auto; }
   .slots { grid-template-columns: repeat(14, 54px); }
 }
-@media (prefers-color-scheme: dark) {
-  dialog {
-    --paper: var(--k3);
-    --ink: #ededef;
-    --ink-2: #a6a6ad;
-    --rule: rgb(255 255 255 / 0.13);
-    --sheet: #ededef;
-    --sheet-deep: #ffffff;
-    --line: var(--k2);
-    --alert: #ff8f87;
-    --d-card: var(--k4);
-    --d-slot: var(--k2);
-    --d-hover: var(--k5);
-    --d-on: var(--k6);
-    --d-raw: var(--k2);
-    --d-hatch: var(--k6);
-    --d-tools: rgb(32 32 36 / 0.94);
-    box-shadow: 0 18px 48px rgb(0 0 0 / 0.55);
-  }
-  dialog::backdrop { background: rgb(8 8 10 / 0.6); }
-  .tree-links .ln { stroke: #6e6e76; }
-  .tree-links .ar { fill: #6e6e76; }
-  .tile.is-hit { box-shadow: 0 0 0 2px #a6a6ad; }
+</style>
+<style class="dark-css" media="(prefers-color-scheme: dark)">
+dialog {
+  --paper: var(--k3);
+  --ink: #ededef;
+  --ink-2: #a6a6ad;
+  --rule: rgb(255 255 255 / 0.13);
+  --sheet: #ededef;
+  --sheet-deep: #ffffff;
+  --line: var(--k2);
+  --alert: #ff8f87;
+  --d-card: var(--k4);
+  --d-slot: var(--k2);
+  --d-hover: var(--k5);
+  --d-on: var(--k6);
+  --d-raw: var(--k2);
+  --d-hatch: var(--k6);
+  --d-tools: rgb(32 32 36 / 0.94);
+  box-shadow: 0 18px 48px rgb(0 0 0 / 0.55);
 }
+dialog::backdrop { background: rgb(8 8 10 / 0.6); }
+.tree-links .ln { stroke: #6e6e76; }
+.tree-links .ar { fill: #6e6e76; }
+.tile.is-hit { box-shadow: 0 0 0 2px #a6a6ad; }
+</style>
+<style>
 
 /* ---------- 黑夜：最上面返回那条、图纸、图上的线、外部供应的卡片 ----------
    图纸（右边画布）黑夜是中性黑 #121212，标题栏和右栏 #191919；图上的线和字比白天亮、不到纯白；外部供应、挑目标里的卡片灰底。
    --cv-paper 纸、--cv-chrome 标题栏和右栏、--cv-raised 按钮、--cv-hover 指上去、--cv-select 选中、--cv-edge 描边、--cv-ink / --cv-ink2 字，
    图上的线：网格（和纸的明暗差比白天那张深蓝图纸略大）、机器轮廓、细线、尺寸字、选中线路时别的物品淡下去的颜色；
    卡片：--cv-card 卡片、--cv-card-raw 原料、--cv-card-on 选中和目标、--cv-hatch 外部供应的斜纹 */
-@media (prefers-color-scheme: dark) {
-  :root {
-    --cv-paper: #121212; --cv-chrome: #191919; --cv-raised: #232323; --cv-hover: #2c2c2c; --cv-select: #353535; --cv-edge: rgb(255 255 255 / 0.11);
-    --cv-ink: #f0f0f0; --cv-ink2: #b5b5b5; --cv-grid1: #232323; --cv-grid2: #313131; --cv-line: #f2f2f2; --cv-fine: #c2c2c2; --cv-arm: #e2e2e2;
-    --cv-faint: #858585; --cv-dim: #393939; --cv-dimtext: #d2d2d2; --cv-ticks: #9a9a9a; --cv-axis: #acacac; --cv-frame: #939393; --cv-st: #dcdcdc; --cv-st2: #8f8f8f; --cv-hole: #737373;
-    --cv-card: #2a2a2a; --cv-card-raw: #202020; --cv-card-on: #373737; --cv-hatch: #373737;
-  }
-  /* bridge.js 加在页面最前面的「返回计算器」（它自己写的行内颜色是深蓝） */
-  body > div:first-child:not(.app) { color: #ededef !important; background: var(--k1) !important; border-bottom: 1px solid rgb(255 255 255 / 0.07); }
-  .sheet { --ink: var(--cv-ink); --ink-2: var(--cv-ink2); --rule: var(--cv-edge); background: var(--cv-paper); border-color: var(--cv-edge); }
-  .sheet-bar, .layer-rail { background: var(--cv-chrome); }
-  .sheet-stats { color: var(--cv-ink2); }
-  .sheet-stats > span { border-left-color: var(--cv-edge); }
-  .sheet-stats b, .empty strong, .viewer-status strong, .floor-card, .rail-tabs button, .power-pane, .route-info, .station-info, .belt-key { color: var(--cv-ink); }
-  .zoom button { color: var(--cv-ink); background: var(--cv-raised); border-color: var(--cv-edge); }
-  .zoom button:hover { background: var(--cv-hover); }
-  .zoom output { color: var(--cv-ink2); }
-  .overlays input { accent-color: var(--accent); }
-  .copy-top { color: var(--cv-paper); background: var(--cv-ink); }
-  .copy-top:hover { background: #ffffff; }
-  .like { color: var(--cv-ink); border-color: var(--cv-edge); }
-  .like:hover:not(:disabled) { background: var(--cv-hover); }
-  .sheet-alert { color: #ffd7d2; background: #2a1719; border-bottom-color: rgb(255 120 110 / 0.25); }
-  .preview { background: var(--cv-chrome); }
-  .preview-note, .viewer-status, .empty, .floor-info small, .power-pane dt, .power-pane caption, .power-pane p, .belt-key p, .belt-key .howto, .route-info dt, .st-name small, .st-cap, .st-h small, .st-note, .mc-sub, .mc-list li small, .machine-info h2 small { color: var(--cv-ink2); }
-  .preview-tabs button { color: var(--cv-ink2); background: var(--cv-raised); border-color: var(--cv-edge); }
-  .preview-tabs button[aria-pressed="true"] { color: var(--cv-paper); background: var(--cv-ink); border-color: var(--cv-ink); }
-  .drawing:focus-visible { outline-color: var(--cv-faint); }
-  .floor-card, .rail-tabs button { border-color: var(--cv-edge); }
-  .floor-card:hover, .rail-tabs button:hover { background: var(--cv-hover); }
-  .floor-card[aria-pressed="true"], .rail-tabs button[aria-selected="true"] { background: var(--cv-select); border-color: var(--cv-st); box-shadow: inset 2px 0 var(--accent); }
-  .power-pane th, .power-pane td, .belt-key .howto { border-color: var(--cv-edge); }
-  .route-info { background: var(--cv-raised); border-color: var(--cv-edge); }
-  .route-info button, .station-info header button { color: var(--cv-st); }
-  .station-info { background: color-mix(in srgb, var(--cv-chrome) 97%, transparent); border-color: var(--cv-edge); box-shadow: 0 4px 18px rgb(0 0 0 / 0.5); }
-  .st-row, .mc-recipe, .mc-list li { background: var(--cv-raised); }
-  .st-keep { color: var(--cv-st); border-color: var(--cv-edge); }
-  .st-slider { background: linear-gradient(90deg, var(--cv-ink) var(--p, 0%), var(--cv-select) var(--p, 0%)); border-color: var(--cv-edge); }
-  .st-slider::-webkit-slider-thumb { background: var(--cv-ink); }
-  .st-slider::-moz-range-thumb { background: var(--cv-ink); }
-  .st-row.is-empty { color: var(--cv-faint); }
-  .st-hole { background: var(--cv-select); }
-  .st-set-row, .st-check, .mc-tile small { color: var(--cv-st); }
-  .mc-ico { background: var(--cv-hover); border-color: var(--cv-edge); }
-  .mc-ico b { text-shadow: 0 0 2px var(--cv-paper), 0 0 2px var(--cv-paper); }
-  .mc-arrow { color: var(--cv-ink2); }
-  .sheet.is-expanded { box-shadow: 0 0 0 30px color-mix(in srgb, var(--cv-paper) 92%, transparent); }
-  @media (max-width: 850px) { .route-info { background: color-mix(in srgb, var(--cv-raised) 96%, transparent); box-shadow: 0 4px 18px rgb(0 0 0 / 0.5); } }
-  /* 图上的颜色（drawing.js、beltless.js、物流站和工厂小窗里的示意图）：按颜色换成这一套的；彩色的带子、供电黄圈不动 */
-  .sheet [fill="#112f52"] { fill: var(--cv-paper); }
-  .sheet [stroke="#112f52"] { stroke: var(--cv-paper); }
-  .sheet [stroke="#1b3d60"] { stroke: var(--cv-grid1); }
-  .sheet [stroke="#294c70"] { stroke: var(--cv-grid2); }
-  .sheet [stroke="#eef5ff"] { stroke: var(--cv-line); }
-  .sheet [fill="#eef5ff"] { fill: var(--cv-line); }
-  .sheet [stroke="#e6f0ff"] { stroke: var(--cv-ink); }
-  .sheet [fill="#e6f0ff"] { fill: var(--cv-ink); }
-  .sheet [stroke="#dbe8f7"] { stroke: var(--cv-arm); }
-  .sheet [fill="#dbe8f7"] { fill: var(--cv-arm); }
-  .sheet [stroke="#a9c4e0"] { stroke: var(--cv-fine); }
-  .sheet [fill="#a9c4e0"] { fill: var(--cv-fine); }
-  .sheet [stroke="#cfe0f2"] { stroke: var(--cv-st); }
-  .sheet [stroke="#8cadd0"] { stroke: var(--cv-ticks); }
-  .sheet [stroke="#82a2c3"] { stroke: var(--cv-frame); }
-  .sheet [fill="#bfd5ec"] { fill: var(--cv-dimtext); }
-  .sheet [fill="#a1bcd8"] { fill: var(--cv-axis); }
-  .sheet [stroke="#7f9fc2"] { stroke: var(--cv-st2); }
-  .sheet [stroke="#6f90b3"] { stroke: var(--cv-faint); }
-  .sheet [fill="#6f90b3"] { fill: var(--cv-faint); }
-  .sheet [fill="#5d7da1"] { fill: var(--cv-hole); }
-  .sheet [stroke="#3d5f84"] { stroke: var(--cv-dim); }
-  .sheet [fill="#3d5f84"] { fill: var(--cv-dim); }
-  /* 外部供应：画布同图纸；卡片灰底，左边那道类别色照原样；挑目标的格子同样灰底、上边类别色条 */
-  .tree-canvas { background: var(--cv-paper); border-color: var(--cv-edge); }
-  .tree-tools { background: color-mix(in srgb, var(--cv-chrome) 94%, transparent); border-color: var(--cv-edge); }
-  .tree-tools button { color: var(--cv-ink2); }
-  .tree-tools button:hover { color: var(--cv-ink); background: var(--cv-hover); }
-  .tree-links .ln { stroke: var(--cv-faint); }
-  .tree-links .ar { fill: var(--cv-faint); }
-  .tiers.has-focus .tree-links .ln.on { stroke: var(--cv-ink); }
-  .tiers.has-focus .tree-links .ar.on { fill: var(--cv-ink); }
-  .xt { color: var(--cv-ink); background: var(--cv-card); }
-  .xt .sub, .rc-for, .rc .rc-line { color: var(--cv-ink2); }
-  .xt.is-raw { background: var(--cv-card-raw); }
-  .xt.is-ext { background: repeating-linear-gradient(135deg, var(--cv-card) 0 5px, var(--cv-hatch) 5px 10px); }
-  .xt.is-goal { background: var(--cv-card-on); border-color: var(--accent); }
-  .xt.is-blocking .sub { color: #e0a95a; }
-  .xt .sub[data-tag]::before, .xt.is-ext .sub::before, .xt.is-goal .sub::before { color: var(--cv-ink); }
-  .rc { color: var(--cv-ink); background: var(--cv-card); }
-  .rc.is-on { background: var(--cv-card-on); }
-  .rc-state { color: var(--accent); }
-  .tile { background: var(--cv-card); }
-  .cat-key i { background: var(--cv-card); }
-  .cat-key i.k-partial { background: linear-gradient(225deg, #c4882b 0 30%, var(--cv-card) 30%); }
+</style>
+<style class="dark-css" media="(prefers-color-scheme: dark)">
+:root {
+  --cv-paper: #121212; --cv-chrome: #191919; --cv-raised: #232323; --cv-hover: #2c2c2c; --cv-select: #353535; --cv-edge: rgb(255 255 255 / 0.11);
+  --cv-ink: #f0f0f0; --cv-ink2: #b5b5b5; --cv-grid1: #232323; --cv-grid2: #313131; --cv-line: #f2f2f2; --cv-fine: #c2c2c2; --cv-arm: #e2e2e2;
+  --cv-faint: #858585; --cv-dim: #393939; --cv-dimtext: #d2d2d2; --cv-ticks: #9a9a9a; --cv-axis: #acacac; --cv-frame: #939393; --cv-st: #dcdcdc; --cv-st2: #8f8f8f; --cv-hole: #737373;
+  --cv-card: #2a2a2a; --cv-card-raw: #202020; --cv-card-on: #373737; --cv-hatch: #373737;
 }
+/* bridge.js 加在页面最前面的「返回计算器」（它自己写的行内颜色是深蓝） */
+body > div:first-child:not(.app) { color: #ededef !important; background: var(--k1) !important; border-bottom: 1px solid rgb(255 255 255 / 0.07); }
+.sheet { --ink: var(--cv-ink); --ink-2: var(--cv-ink2); --rule: var(--cv-edge); background: var(--cv-paper); border-color: var(--cv-edge); }
+.sheet-bar, .layer-rail { background: var(--cv-chrome); }
+.sheet-stats { color: var(--cv-ink2); }
+.sheet-stats > span { border-left-color: var(--cv-edge); }
+.sheet-stats b, .empty strong, .viewer-status strong, .floor-card, .rail-tabs button, .power-pane, .route-info, .station-info, .belt-key { color: var(--cv-ink); }
+.zoom button { color: var(--cv-ink); background: var(--cv-raised); border-color: var(--cv-edge); }
+.zoom button:hover { background: var(--cv-hover); }
+.zoom output { color: var(--cv-ink2); }
+.overlays input { accent-color: var(--accent); }
+.copy-top { color: var(--cv-paper); background: var(--cv-ink); }
+.copy-top:hover { background: #ffffff; }
+.like { color: var(--cv-ink); border-color: var(--cv-edge); }
+.like:hover:not(:disabled) { background: var(--cv-hover); }
+.sheet-alert { color: #ffd7d2; background: #2a1719; border-bottom-color: rgb(255 120 110 / 0.25); }
+.preview { background: var(--cv-chrome); }
+.preview-note, .viewer-status, .empty, .floor-info small, .power-pane dt, .power-pane caption, .power-pane p, .belt-key p, .belt-key .howto, .route-info dt, .st-name small, .st-cap, .st-h small, .st-note, .mc-sub, .mc-list li small, .machine-info h2 small { color: var(--cv-ink2); }
+.preview-tabs button { color: var(--cv-ink2); background: var(--cv-raised); border-color: var(--cv-edge); }
+.preview-tabs button[aria-pressed="true"] { color: var(--cv-paper); background: var(--cv-ink); border-color: var(--cv-ink); }
+.drawing:focus-visible { outline-color: var(--cv-faint); }
+.floor-card, .rail-tabs button { border-color: var(--cv-edge); }
+.floor-card:hover, .rail-tabs button:hover { background: var(--cv-hover); }
+.floor-card[aria-pressed="true"], .rail-tabs button[aria-selected="true"] { background: var(--cv-select); border-color: var(--cv-st); box-shadow: inset 2px 0 var(--accent); }
+.power-pane th, .power-pane td, .belt-key .howto { border-color: var(--cv-edge); }
+.route-info { background: var(--cv-raised); border-color: var(--cv-edge); }
+.route-info button, .station-info header button { color: var(--cv-st); }
+.station-info { background: color-mix(in srgb, var(--cv-chrome) 97%, transparent); border-color: var(--cv-edge); box-shadow: 0 4px 18px rgb(0 0 0 / 0.5); }
+.st-row, .mc-recipe, .mc-list li { background: var(--cv-raised); }
+.st-keep { color: var(--cv-st); border-color: var(--cv-edge); }
+.st-slider { background: linear-gradient(90deg, var(--cv-ink) var(--p, 0%), var(--cv-select) var(--p, 0%)); border-color: var(--cv-edge); }
+.st-slider::-webkit-slider-thumb { background: var(--cv-ink); }
+.st-slider::-moz-range-thumb { background: var(--cv-ink); }
+.st-row.is-empty { color: var(--cv-faint); }
+.st-hole { background: var(--cv-select); }
+.st-set-row, .st-check, .mc-tile small { color: var(--cv-st); }
+.mc-ico { background: var(--cv-hover); border-color: var(--cv-edge); }
+.mc-ico b { text-shadow: 0 0 2px var(--cv-paper), 0 0 2px var(--cv-paper); }
+.mc-arrow { color: var(--cv-ink2); }
+.sheet.is-expanded { box-shadow: 0 0 0 30px color-mix(in srgb, var(--cv-paper) 92%, transparent); }
+@media (max-width: 850px) { .route-info { background: color-mix(in srgb, var(--cv-raised) 96%, transparent); box-shadow: 0 4px 18px rgb(0 0 0 / 0.5); } }
+/* 图上的颜色（drawing.js、beltless.js、物流站和工厂小窗里的示意图）：按颜色换成这一套的；彩色的带子、供电黄圈不动 */
+.sheet [fill="#112f52"] { fill: var(--cv-paper); }
+.sheet [stroke="#112f52"] { stroke: var(--cv-paper); }
+.sheet [stroke="#1b3d60"] { stroke: var(--cv-grid1); }
+.sheet [stroke="#294c70"] { stroke: var(--cv-grid2); }
+.sheet [stroke="#eef5ff"] { stroke: var(--cv-line); }
+.sheet [fill="#eef5ff"] { fill: var(--cv-line); }
+.sheet [stroke="#e6f0ff"] { stroke: var(--cv-ink); }
+.sheet [fill="#e6f0ff"] { fill: var(--cv-ink); }
+.sheet [stroke="#dbe8f7"] { stroke: var(--cv-arm); }
+.sheet [fill="#dbe8f7"] { fill: var(--cv-arm); }
+.sheet [stroke="#a9c4e0"] { stroke: var(--cv-fine); }
+.sheet [fill="#a9c4e0"] { fill: var(--cv-fine); }
+.sheet [stroke="#cfe0f2"] { stroke: var(--cv-st); }
+.sheet [stroke="#8cadd0"] { stroke: var(--cv-ticks); }
+.sheet [stroke="#82a2c3"] { stroke: var(--cv-frame); }
+.sheet [fill="#bfd5ec"] { fill: var(--cv-dimtext); }
+.sheet [fill="#a1bcd8"] { fill: var(--cv-axis); }
+.sheet [stroke="#7f9fc2"] { stroke: var(--cv-st2); }
+.sheet [stroke="#6f90b3"] { stroke: var(--cv-faint); }
+.sheet [fill="#6f90b3"] { fill: var(--cv-faint); }
+.sheet [fill="#5d7da1"] { fill: var(--cv-hole); }
+.sheet [stroke="#3d5f84"] { stroke: var(--cv-dim); }
+.sheet [fill="#3d5f84"] { fill: var(--cv-dim); }
+/* 外部供应：画布同图纸；卡片灰底，左边那道类别色照原样；挑目标的格子同样灰底、上边类别色条 */
+.tree-canvas { background: var(--cv-paper); border-color: var(--cv-edge); }
+.tree-tools { background: color-mix(in srgb, var(--cv-chrome) 94%, transparent); border-color: var(--cv-edge); }
+.tree-tools button { color: var(--cv-ink2); }
+.tree-tools button:hover { color: var(--cv-ink); background: var(--cv-hover); }
+.tree-links .ln { stroke: var(--cv-faint); }
+.tree-links .ar { fill: var(--cv-faint); }
+.tiers.has-focus .tree-links .ln.on { stroke: var(--cv-ink); }
+.tiers.has-focus .tree-links .ar.on { fill: var(--cv-ink); }
+.xt { color: var(--cv-ink); background: var(--cv-card); }
+.xt .sub, .rc-for, .rc .rc-line { color: var(--cv-ink2); }
+.xt.is-raw { background: var(--cv-card-raw); }
+.xt.is-ext { background: repeating-linear-gradient(135deg, var(--cv-card) 0 5px, var(--cv-hatch) 5px 10px); }
+.xt.is-goal { background: var(--cv-card-on); border-color: var(--accent); }
+.xt.is-blocking .sub { color: #e0a95a; }
+.xt .sub[data-tag]::before, .xt.is-ext .sub::before, .xt.is-goal .sub::before { color: var(--cv-ink); }
+.rc { color: var(--cv-ink); background: var(--cv-card); }
+.rc.is-on { background: var(--cv-card-on); }
+.rc-state { color: var(--accent); }
+.tile { background: var(--cv-card); }
+.cat-key i { background: var(--cv-card); }
+.cat-key i.k-partial { background: linear-gradient(225deg, #c4882b 0 30%, var(--cv-card) 30%); }
+</style>
+<style>
 
 /* ---------- 窄屏、手机（左栏、下面的卡片；图纸、下拉、弹窗的在上面各自原样那几段里） ---------- */
 @media (max-width: 1200px) {
@@ -908,6 +917,43 @@ dialog .go:focus-visible { outline: 3px solid #7fb0e8; outline-offset: 2px; }
 }
 @media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }
 </style>
+<script>
+/* 深浅色：平常跟系统（系统设成「自动」就是日出变浅、日落变深）；深色的几段 CSS 是 style.dark-css，媒体条件就是系统深色。
+   计算器顶栏的按钮手动选的记在浏览器里（dsphc-theme，连同当时系统是深是浅），计算器和蓝图生成器都认；系统自己换了就作废、又跟系统。
+   web/calc/index.html 里有一样的一份 */
+(function () {
+  var KEY = 'dsphc-theme';
+  var mq = matchMedia('(prefers-color-scheme: dark)');
+  var mem = null; // 浏览器不让存时只管这一页
+  var sys = function () { return mq.matches ? 'dark' : 'light'; };
+  var picked = function () {
+    var o = mem;
+    try { o = JSON.parse(localStorage.getItem(KEY)); } catch (e) {}
+    if (o && (o.t === 'dark' || o.t === 'light') && o.sys === sys()) return o.t;
+    mem = null; // 系统换过了（或者没记、坏了）：作废，免得系统再换回来时又冒出来
+    try { localStorage.removeItem(KEY); } catch (e) {}
+    return null;
+  };
+  var apply = function () {
+    var t = picked();
+    var css = document.querySelectorAll('style.dark-css');
+    for (var i = 0; i < css.length; i++) css[i].media = t === 'dark' ? 'all' : t === 'light' ? 'not all' : '(prefers-color-scheme: dark)';
+    document.documentElement.setAttribute('data-theme', t || sys());
+    dispatchEvent(new Event('themechange'));
+  };
+  window.dsphcTheme = function (t) {
+    mem = t === sys() ? null : { t: t, sys: sys() };
+    try {
+      if (mem) localStorage.setItem(KEY, JSON.stringify(mem));
+      else localStorage.removeItem(KEY);
+    } catch (e) {}
+    apply();
+  };
+  mq.addEventListener('change', function () { window.dsphcTheme(sys()); });
+  addEventListener('storage', function (e) { if (e.key === KEY) apply(); });
+  apply();
+})();
+</script>
 </head>
 <body>
 <!--__SPRITE__-->

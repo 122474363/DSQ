@@ -1397,7 +1397,11 @@ function markDone(entry, msg) {
   update();
   toastUndo(`${msg}；${quoteAll(Object.keys(entry.out))}标成已完成`, before, tabs[active]);
 }
-/** 左上角 D / S：换了就重算；记在浏览器里，各页共用 */
+const MODE_TIP = {
+  demand: '需求模式：只算整条线要多少',
+  supply: '供给模式：每生成一张蓝图，它做的东西就标成已完成、从清单里扣掉，清单剩下的就是还要做的；点「已完成」旁边的 × 能撤回，别的页面做完了可以「归档」并进总页面',
+};
+/** 左上角 D / S：换了就重算、底下提示一句这个模式管什么；记在浏览器里，各页共用 */
 function setMode(m) {
   if ((m !== 'demand' && m !== 'supply') || m === mode) return;
   mode = m;
@@ -1408,6 +1412,7 @@ function setMode(m) {
   }
   renderMode();
   update();
+  toast(MODE_TIP[mode], null, mode === 'supply' ? 10000 : 0); // 供给那句长，多留一会儿
 }
 function renderMode() {
   for (const b of document.querySelectorAll('#mode button')) b.setAttribute('aria-pressed', String(b.dataset.m === mode));
@@ -1448,8 +1453,18 @@ function makeBeltless() {
   openGenerator(plan);
 }
 
-/** 底部提示；action：{ label, run } 时右边多一个按钮（如「撤销」），多留几秒 */
-function toast(msg, action) {
+/** 右上角深浅色按钮：写点了以后换成哪种（同原版的页头）；换色本身在 index.html 开头那段（window.dsphcTheme） */
+function renderTheme() {
+  const dark = document.documentElement.getAttribute('data-theme') === 'dark';
+  const b = $('#theme');
+  b.querySelector('.ico').className = `ico ${dark ? 'i-sun' : 'i-moon'}`;
+  b.querySelector('span').textContent = dark ? '浅色模式' : '深色模式';
+  b.title = `换成${dark ? '浅色' : '深色'}；平常跟系统，系统自己换深浅色时又跟系统`;
+}
+addEventListener('themechange', renderTheme);
+
+/** 底部提示；action：{ label, run } 时右边多一个按钮（如「撤销」），多留几秒；ms：话长时自己定留多久 */
+function toast(msg, action, ms = 0) {
   let t = $('.toast');
   if (!t) {
     t = document.createElement('div');
@@ -1470,7 +1485,7 @@ function toast(msg, action) {
   }
   t.hidden = false;
   clearTimeout(toast.timer);
-  toast.timer = setTimeout(() => (t.hidden = true), action ? 6000 : 3600);
+  toast.timer = setTimeout(() => (t.hidden = true), ms || (action ? 6000 : 3600));
 }
 
 // ---------- 事件 ----------
@@ -1517,6 +1532,8 @@ document.addEventListener('click', (e) => {
       return archiveTab(active);
     case 'mode':
       return setMode(t.dataset.m);
+    case 'theme':
+      return window.dsphcTheme?.(document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
     case 'tab-close':
       closeMenu();
       return closeTab(i);
@@ -1730,6 +1747,7 @@ renderTabs();
 renderGoals();
 renderToolbar();
 renderMode();
+renderTheme();
 renderExt();
 try {
   loadData();

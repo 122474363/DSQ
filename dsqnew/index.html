@@ -17,7 +17,7 @@
 <style>
 /* 界面只用中性灰（白天的偏冷一点），颜色留给游戏自己的物品图标；强调色只有一个，取戴森球外壳的金橙色，用在「生成蓝图」、选中、目标上。系统是深色就跟着深色 */
 :root {
-  color-scheme: light dark;
+  color-scheme: light;
   --bg: #f5f6f8;
   --side: #fcfcfd;
   --card: #fff;
@@ -60,39 +60,44 @@
   --u-search: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='11' cy='11' r='7'/%3E%3Cpath d='m20 20-3.5-3.5'/%3E%3C/svg%3E");
   --u-check: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 6 9 17l-5-5'/%3E%3C/svg%3E");
   --u-alert: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0zM12 9v4M12 17h.01'/%3E%3C/svg%3E");
+  --u-sun: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='12' r='4'/%3E%3Cpath d='M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41'/%3E%3C/svg%3E");
+  --u-moon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z'/%3E%3C/svg%3E");
 }
-@media (prefers-color-scheme: dark) {
-  :root {
-    --bg: #141415;
-    --side: #0f0f10;
-    --card: #19191b;
-    --raised: #232325;
-    --hover: #1d1d1f;
-    --track: #0f0f10;
-    --knob: #2a2a2d;
-    --line: rgb(237 237 237 / 0.08);
-    --line-2: rgb(237 237 237 / 0.14);
-    --line-3: rgb(237 237 237 / 0.28);
-    --text: #ededed;
-    --text-2: #a1a1a6;
-    --text-3: #85858b;
-    --accent: #f0913a;
-    --accent-hover: #f5a052;
-    --on-accent: #141415;
-    --accent-ink: #f5a052;
-    --accent-soft: rgb(240 145 58 / 0.14);
-    --sel: rgb(240 145 58 / 0.18); /* 深色底上浅色铺得太淡看不出，各加一点 */
-    --sel-hover: rgb(240 145 58 / 0.24);
-    --inc: rgb(240 145 58 / 0.08);
-    --inc-hover: rgb(240 145 58 / 0.13);
-    --inc-bar: rgb(240 145 58 / 0.6);
-    --pop: 0 12px 32px rgb(0 0 0 / 0.5), 0 2px 6px rgb(0 0 0 / 0.3);
-    --strip: #0a0a0b;
-    --strip-hover: rgb(237 237 237 / 0.06);
-    --toast-bg: #2a2a2d;
-    --toast-fg: #ededed;
-  }
+</style>
+<style class="dark-css" media="(prefers-color-scheme: dark)">
+:root {
+  color-scheme: dark;
+  --bg: #141415;
+  --side: #0f0f10;
+  --card: #19191b;
+  --raised: #232325;
+  --hover: #1d1d1f;
+  --track: #0f0f10;
+  --knob: #2a2a2d;
+  --line: rgb(237 237 237 / 0.08);
+  --line-2: rgb(237 237 237 / 0.14);
+  --line-3: rgb(237 237 237 / 0.28);
+  --text: #ededed;
+  --text-2: #a1a1a6;
+  --text-3: #85858b;
+  --accent: #f0913a;
+  --accent-hover: #f5a052;
+  --on-accent: #141415;
+  --accent-ink: #f5a052;
+  --accent-soft: rgb(240 145 58 / 0.14);
+  --sel: rgb(240 145 58 / 0.18); /* 深色底上浅色铺得太淡看不出，各加一点 */
+  --sel-hover: rgb(240 145 58 / 0.24);
+  --inc: rgb(240 145 58 / 0.08);
+  --inc-hover: rgb(240 145 58 / 0.13);
+  --inc-bar: rgb(240 145 58 / 0.6);
+  --pop: 0 12px 32px rgb(0 0 0 / 0.5), 0 2px 6px rgb(0 0 0 / 0.3);
+  --strip: #0a0a0b;
+  --strip-hover: rgb(237 237 237 / 0.06);
+  --toast-bg: #2a2a2d;
+  --toast-fg: #ededed;
 }
+</style>
+<style>
 * { box-sizing: border-box; }
 [hidden] { display: none !important; }
 html { background: var(--bg); }
@@ -104,6 +109,8 @@ button { -webkit-tap-highlight-color: transparent; }
 .i-plus { --i: var(--u-plus); }
 .i-x { --i: var(--u-x); }
 .i-search { --i: var(--u-search); }
+.i-sun { --i: var(--u-sun); }
+.i-moon { --i: var(--u-moon); }
 .i-alert { --i: var(--u-alert); }
 .i-check { --i: var(--u-check); }
 
@@ -127,10 +134,11 @@ button { -webkit-tap-highlight-color: transparent; }
 
 /* ---------- 最上面一行：名字 + 各个页面（像浏览器的标签页：选中的那页是白底卡片，别的只是字） ---------- */
 .strip { position: sticky; top: 0; z-index: 30; display: flex; align-items: stretch; height: var(--strip-h); background: var(--strip); border-bottom: 1px solid var(--line); }
-.brand { flex: none; display: flex; align-items: center; gap: 8px; width: 280px; padding: 0 20px; border-right: 1px solid var(--line); }
+.brand { flex: none; display: flex; align-items: center; gap: 6px; width: 280px; padding: 0 12px 0 20px; border-right: 1px solid var(--line); } /* 左边和左栏对齐；logo、名字、D / S 挤一点才放得下 */
 .brand h1 { margin: 0; font-size: 15px; line-height: 20px; font-weight: 600; white-space: nowrap; }
 .brand span { font-size: 12px; color: var(--text-3); white-space: nowrap; }
 /* 左上角 D / S：需求（清单照整条线算，不记生成过的蓝图）/ 供给（扣掉生成过的，看做了什么、还差什么） */
+.brand .logo { flex: none; width: 20px; height: 20px; border-radius: 4px; }
 .brand .mode { margin-left: auto; }
 .mode button { height: 24px; min-width: 28px; padding: 0 8px; font-weight: 600; }
 .plans-row { display: flex; align-items: center; min-width: 0; padding: 0 32px; }
@@ -155,6 +163,10 @@ button { -webkit-tap-highlight-color: transparent; }
 .plan.drop-on { color: var(--text); background: var(--accent-soft); }
 .plan-add { flex: none; display: grid; place-items: center; width: 32px; height: 32px; margin-left: 4px; padding: 0; color: var(--text-3); background: transparent; border: 0; border-radius: 8px; cursor: pointer; transition: background-color 0.15s var(--ease), color 0.15s var(--ease); }
 .plan-add:hover { color: var(--text); background: var(--strip-hover); }
+/* 最右边：切换原版、深浅色（同原版计算器页头那两个） */
+.strip-end { flex: none; display: flex; align-items: center; gap: 8px; margin-left: auto; padding: 0 20px 0 12px; }
+.strip-btn { display: inline-flex; align-items: center; gap: 6px; height: 28px; padding: 0 10px; font-size: 13px; color: var(--text-2); text-decoration: none; white-space: nowrap; background: transparent; border: 1px solid var(--line-2); border-radius: 8px; cursor: pointer; transition: background-color 0.15s var(--ease), color 0.15s var(--ease); }
+.strip-btn:hover { color: var(--text); background: var(--strip-hover); }
 
 /* ---------- 下面：左栏 + 右边内容 ---------- */
 .app { display: grid; grid-template-columns: 280px minmax(0, 1fr); min-height: calc(100dvh - var(--strip-h)); }
@@ -466,6 +478,7 @@ dialog::backdrop { background: rgb(15 15 16 / 0.4); }
   .brand { width: auto; padding: 0 12px 0 16px; }
   .brand span { display: none; }
   .plans-row { padding: 0 12px 0 8px; }
+  .strip-end { padding: 0 12px 0 4px; }
   .app { grid-template-columns: minmax(0, 1fr); }
   .side { position: static; height: auto; overflow: visible; border-right: 0; border-bottom: 1px solid var(--line); }
   .links { margin-top: 0; }
@@ -474,6 +487,10 @@ dialog::backdrop { background: rgb(15 15 16 / 0.4); }
   /* 手机：档按名字宽窄排，下一档露出半截就知道能滑；没选中的不放删除（没有鼠标指着） */
   .plan { flex: none; width: auto; min-width: 0; max-width: 168px; }
   .plan:not([aria-selected="true"]) .x { display: none; }
+  .strip-btn { padding: 0 7px; }
+  .strip-btn span { display: none; } /* 深浅色只留图标 */
+  #classic { display: none; } /* 手机上让给页面标签；左栏底下有「原版计算器（DSQ）」 */
+  .strip-end { padding: 0 8px 0 0; }
   .side { gap: 16px; padding: 16px; }
   .forecast { margin-top: -8px; }
   .main { gap: 12px; padding: 16px 12px 32px; }
@@ -546,13 +563,55 @@ dialog::backdrop { background: rgb(15 15 16 / 0.4); }
 .list.cards tr.is-rec td.c-fab, .list.cards tr.is-rec td.c-recipe { margin-left: 42px; }
 @media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }
 </style>
+<script>
+/* 深浅色：平常跟系统（系统设成「自动」就是日出变浅、日落变深）；深色的几段 CSS 是 style.dark-css，媒体条件就是系统深色。
+   计算器顶栏的按钮手动选的记在浏览器里（dsphc-theme，连同当时系统是深是浅），计算器和蓝图生成器都认；系统自己换了就作废、又跟系统。
+   web/index.template.html 里有一样的一份 */
+(function () {
+  var KEY = 'dsphc-theme';
+  var mq = matchMedia('(prefers-color-scheme: dark)');
+  var mem = null; // 浏览器不让存时只管这一页
+  var sys = function () { return mq.matches ? 'dark' : 'light'; };
+  var picked = function () {
+    var o = mem;
+    try { o = JSON.parse(localStorage.getItem(KEY)); } catch (e) {}
+    if (o && (o.t === 'dark' || o.t === 'light') && o.sys === sys()) return o.t;
+    mem = null; // 系统换过了（或者没记、坏了）：作废，免得系统再换回来时又冒出来
+    try { localStorage.removeItem(KEY); } catch (e) {}
+    return null;
+  };
+  var apply = function () {
+    var t = picked();
+    var css = document.querySelectorAll('style.dark-css');
+    for (var i = 0; i < css.length; i++) css[i].media = t === 'dark' ? 'all' : t === 'light' ? 'not all' : '(prefers-color-scheme: dark)';
+    document.documentElement.setAttribute('data-theme', t || sys());
+    dispatchEvent(new Event('themechange'));
+  };
+  window.dsphcTheme = function (t) {
+    mem = t === sys() ? null : { t: t, sys: sys() };
+    try {
+      if (mem) localStorage.setItem(KEY, JSON.stringify(mem));
+      else localStorage.removeItem(KEY);
+    } catch (e) {}
+    apply();
+  };
+  mq.addEventListener('change', function () { window.dsphcTheme(sys()); });
+  addEventListener('storage', function (e) { if (e.key === KEY) apply(); });
+  apply();
+})();
+</script>
 </head>
 <body>
 <header class="strip">
-  <div class="brand"><h1>量产计算器</h1><span>戴森球计划</span><div class="toggle mode" id="mode" role="group" aria-label="需求 / 供给"><button type="button" data-act="mode" data-m="demand" aria-pressed="false" title="需求：清单照整条线算，不记生成过的蓝图">D</button><button type="button" data-act="mode" data-m="supply" aria-pressed="true" title="供给：扣掉生成过的蓝图，看做了什么、还差什么">S</button></div></div>
+  <div class="brand"><img class="logo" src="../favicon.ico" alt=""><h1>量产计算器</h1><span>戴森球计划</span><div class="toggle mode" id="mode" role="group" aria-label="需求 / 供给"><button type="button" data-act="mode" data-m="demand" aria-pressed="false" title="需求模式：只算整条线要多少">D</button><button type="button" data-act="mode" data-m="supply" aria-pressed="true" title="供给模式：每生成一张蓝图，它做的东西就标成已完成、从清单里扣掉，清单剩下的就是还要做的；点「已完成」旁边的 × 能撤回，别的页面做完了可以「归档」并进总页面">S</button></div></div>
   <div class="plans-row">
     <div class="plans" id="plans" role="tablist" aria-label="各个页面"></div>
     <button class="plan-add" type="button" data-act="tab-add" title="添加页面" aria-label="添加页面"><i class="ico i-plus" aria-hidden="true"></i></button>
+  </div>
+  <div class="strip-end">
+    <!-- 原版计算器在站点根目录：只有放进 DSQ 的那份显示（tools/build-web.js --dsq 去掉 hidden） -->
+    <a class="strip-btn" id="classic" href="../" title="回到原版计算器">切换原版</a>
+    <button class="strip-btn" id="theme" type="button" data-act="theme"><i class="ico i-moon" aria-hidden="true"></i><span>深色模式</span></button>
   </div>
 </header>
 <div class="app">
