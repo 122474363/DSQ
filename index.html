@@ -6,6 +6,20 @@
   <meta name="keywords" content="戴森球计划,量产量化工具,量产量化计算器,自动化工具,生产工具" />
   <meta name="description" content="《戴森球计划》自动化量产计算器，可以全自动计算量产某个产品的具体产能需求。" />
   <script>
+    // 记住上次选的版本：选过「新版」，下次打开本站根目录自动进新版；
+    // 手动点「切换原版」后记忆改成旧版，根目录就停在这。链接带 ?ver=new / ?ver=old 可临时指定（也会记住）。
+    (function () {
+      var KEY = 'dsq-ver';
+      function get() { try { return localStorage.getItem(KEY); } catch (e) { return null; } }
+      function set(v) { try { localStorage.setItem(KEY, v); } catch (e) {} }
+      window.dsqGo = function (ver, url) { set(ver); location.href = url; }; // 点按钮：记下这次选的，再跳
+      var q = '';
+      try { q = new URLSearchParams(location.search).get('ver') || ''; } catch (e) {}
+      if (q === 'new' || q === 'old') set(q);              // 链接里指定了版本：也记住
+      if (get() === 'new') location.replace('./dsqnew/');  // 该进新版就过去（replace，别把根目录塞进后退历史）
+    })();
+  </script>
+  <script>
     // 主题初始化（在渲染前执行，避免闪烁）；默认深色
     (function () {
       var t = localStorage.getItem('dsq-theme');
@@ -22,7 +36,7 @@
   <script src="./Scripts/pako.js"></script>
   <script src="./Scripts/blueprint.js"></script>
   <script src="./Scripts/handcraft-link.js"></script>
-  <link rel="stylesheet" type="text/css" href="./Scripts/style.css?v=ui6">
+  <link rel="stylesheet" type="text/css" href="./Scripts/style.css?v=ui8">
 </head>
 
 <body>
@@ -35,30 +49,15 @@
         <h1>戴森球计划量产量化计算器</h1>
         <span class="sub">DSP Production Calculator</span>
       </a>
-      <button type="button" style="margin-left:auto" title="简易版：先选目标再生成，少一些选项" onclick="location.href='./dsqnew/'">切换简易版</button>
-      <button id="themeToggle" type="button" title="切换深浅主题">深浅主题</button>
+      <div class="ver-notice"><span class="ver-notice-tag">重要提示</span>本站已更新域名，请更新您的收藏夹！新域名：<a href="https://dsq.svlik.com/" target="_blank" rel="noopener">dsq.svlik.com</a></div>
+      <div class="header-actions">
+        <button class="ver-switch" type="button" title="新版：先选目标再生成，少一些选项；选过之后下次打开本站会直接进新版" onclick="dsqGo('new','./dsqnew/')">切换新版</button>
+        <button id="themeToggle" type="button" title="切换深浅主题">🌙 深色模式</button>
+      </div>
     </div>
   </header>
 
   <main class="container">
-
-    <!-- 转移域名提示 -->
-    <script src="./Scripts/status-bar.js"></script>
-  <script>
-    // 顶部状态提示条高度同步（避免盖住页头与表头）
-    function updateStatusbarHeight() {
-      var sb = document.getElementById('statusBar');
-      var h = (sb && !sb.classList.contains('hidden')) ? sb.offsetHeight + 'px' : '0px';
-      document.documentElement.style.setProperty('--statusbar-h', h);
-      var hd = document.querySelector('.site-header');
-      if (hd) document.documentElement.style.setProperty('--header-h', hd.offsetHeight + 'px');
-    }
-    window.addEventListener('resize', updateStatusbarHeight);
-    document.addEventListener('DOMContentLoaded', function () {
-      createStatusBar();
-      setTimeout(updateStatusbarHeight, 50);
-    });
-  </script>
 
     <!-- 生产需求 -->
     <div class="card">
@@ -464,6 +463,12 @@
         var next = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
         document.documentElement.setAttribute('data-theme', next);
         localStorage.setItem('dsq-theme', next);
+        refresh();
+      });
+      // 新版（dsqnew）里切了深浅色，这边开着的话也跟着变
+      addEventListener('storage', function (e) {
+        if (e.key !== 'dsq-theme') return;
+        document.documentElement.setAttribute('data-theme', e.newValue === 'light' ? 'light' : 'dark');
         refresh();
       });
       refresh();

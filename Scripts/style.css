@@ -337,6 +337,35 @@ button:hover {
 
 button:active { transform: translateY(1px); }
 
+/* 页头「切换新版」：红字加粗，两个版本一眼分得清 */
+/* 页头右侧按钮组 + 域名更新提示（与新版 dsqnew 页头保持一致） */
+.header-actions { display: flex; align-items: center; gap: 8px; margin-left: auto; }
+.header-actions .ver-switch { color: var(--danger); font-weight: 700; }
+.header-actions .ver-switch:hover { color: var(--danger); border-color: var(--danger); }
+.ver-notice {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding-left: 18px;
+  font-size: 13px;
+  color: var(--text-faint);
+  white-space: nowrap;
+  overflow: hidden;
+}
+.ver-notice-tag {
+  flex: none;
+  padding: 1px 8px;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--danger);
+  background: color-mix(in srgb, var(--danger) 12%, transparent);
+  border-radius: 999px;
+}
+.ver-notice a { flex: none; color: var(--danger); font-weight: 600; text-decoration: none; }
+.ver-notice a:hover { text-decoration: underline; }
+
 #btnSetting,
 #btnReset1 {
   height: 32px;
@@ -1026,6 +1055,7 @@ td:hover .op { display: inline-block; }
   .header-inner { padding: 10px 12px; }
   .brand .sub { display: none; }
   .brand h1 { font-size: 16px; }
+  .ver-notice { display: none; } /* 手机上放不下，收起来 */
   .container { padding: 0 10px; }
   .card { padding: 10px 12px; }
   .demand-row { gap: 8px 10px; }

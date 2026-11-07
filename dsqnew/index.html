@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="color-scheme" content="light dark">
-<title>量产计算器</title>
+<title>戴森球计划量产量化计算器（简易版）</title>
 <meta name="description" content="《戴森球计划》量产计算器：选目标物品和每分钟产量，算出每种设备要几台、要多少原料。">
 <link rel="icon" href="../favicon.ico">
 <link rel="preload" href="calc-icons.avif" as="image" type="image/avif">
@@ -13,607 +13,104 @@
 <script>window.$ = window.jQuery = function () {};</script>
 <script defer src="../Scripts/data.js"></script>
 <script defer src="calc-icons.js"></script>
-<script defer src="calc.js"></script>
-<style>
-/* 界面只用中性灰（白天的偏冷一点），颜色留给游戏自己的物品图标；强调色只有一个，取戴森球外壳的金橙色，用在「生成蓝图」、选中、目标上。系统是深色就跟着深色 */
-:root {
-  color-scheme: light;
-  --bg: #f5f6f8;
-  --side: #fcfcfd;
-  --card: #fff;
-  --raised: #f0f2f5;
-  --hover: #f7f8fa;
-  --track: #eef0f3;
-  --knob: #fff;
-  --line: rgb(15 23 42 / 0.08);
-  --line-2: rgb(15 23 42 / 0.15);
-  --line-3: rgb(15 23 42 / 0.3);
-  --text: #161a22;
-  --text-2: #4a5263;
-  --text-3: #687082;
-  --accent: #ee8a33;
-  --accent-hover: #e47d25;
-  --on-accent: #161a22;
-  --accent-ink: #b0510e;
-  --accent-soft: rgb(238 138 51 / 0.12);
-  --sel: var(--accent-soft); /* 清单里选上的一行 */
-  --sel-hover: color-mix(in srgb, var(--accent) 18%, transparent);
-  --inc: color-mix(in srgb, var(--accent) 5%, transparent); /* 含在选上的里面的 */
-  --inc-hover: color-mix(in srgb, var(--accent) 10%, transparent);
-  --flash: color-mix(in srgb, var(--accent) 32%, transparent);
-  --inc-bar: color-mix(in srgb, var(--accent) 45%, transparent);
-  --pop: 0 12px 32px rgb(15 23 42 / 0.1), 0 2px 6px rgb(15 23 42 / 0.06);
-  --strip: #eceef2;
-  --strip-hover: rgb(15 23 42 / 0.05);
-  --strip-h: 44px;
-  --toast-bg: #161a22;
-  --toast-fg: #fff;
-  --ui: system-ui, -apple-system, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei UI", "Microsoft YaHei", sans-serif;
-  --mono: ui-monospace, "SF Mono", "Cascadia Mono", Menlo, Consolas, monospace;
-  --ease: cubic-bezier(0.22, 1, 0.36, 1);
-  --cols: 16;
-  /* 线条图标（lucide，ISC 许可）：当遮罩用，颜色跟着文字 */
-  --u-chevron: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
-  --u-plus: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12h14M12 5v14'/%3E%3C/svg%3E");
-  --u-x: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M18 6 6 18M6 6l12 12'/%3E%3C/svg%3E");
-  --u-arrow: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12h14M12 5l7 7-7 7'/%3E%3C/svg%3E");
-  --u-search: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='11' cy='11' r='7'/%3E%3Cpath d='m20 20-3.5-3.5'/%3E%3C/svg%3E");
-  --u-check: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 6 9 17l-5-5'/%3E%3C/svg%3E");
-  --u-alert: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0zM12 9v4M12 17h.01'/%3E%3C/svg%3E");
-  --u-sun: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='12' r='4'/%3E%3Cpath d='M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41'/%3E%3C/svg%3E");
-  --u-moon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z'/%3E%3C/svg%3E");
-}
-</style>
-<style class="dark-css" media="(prefers-color-scheme: dark)">
-:root {
-  color-scheme: dark;
-  --bg: #141415;
-  --side: #0f0f10;
-  --card: #19191b;
-  --raised: #232325;
-  --hover: #1d1d1f;
-  --track: #0f0f10;
-  --knob: #2a2a2d;
-  --line: rgb(237 237 237 / 0.08);
-  --line-2: rgb(237 237 237 / 0.14);
-  --line-3: rgb(237 237 237 / 0.28);
-  --text: #ededed;
-  --text-2: #a1a1a6;
-  --text-3: #85858b;
-  --accent: #f0913a;
-  --accent-hover: #f5a052;
-  --on-accent: #141415;
-  --accent-ink: #f5a052;
-  --accent-soft: rgb(240 145 58 / 0.14);
-  --sel: rgb(240 145 58 / 0.18); /* 深色底上浅色铺得太淡看不出，各加一点 */
-  --sel-hover: rgb(240 145 58 / 0.24);
-  --inc: rgb(240 145 58 / 0.08);
-  --inc-hover: rgb(240 145 58 / 0.13);
-  --inc-bar: rgb(240 145 58 / 0.6);
-  --pop: 0 12px 32px rgb(0 0 0 / 0.5), 0 2px 6px rgb(0 0 0 / 0.3);
-  --strip: #0a0a0b;
-  --strip-hover: rgb(237 237 237 / 0.06);
-  --toast-bg: #2a2a2d;
-  --toast-fg: #ededed;
-}
-</style>
-<style>
-* { box-sizing: border-box; }
-[hidden] { display: none !important; }
-html { background: var(--bg); }
-body { margin: 0; color: var(--text); background: var(--bg); font: 14px/20px var(--ui); -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
-button, input { font: inherit; color: inherit; }
-button { -webkit-tap-highlight-color: transparent; }
-:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
-.ico { display: inline-block; flex: none; width: 16px; height: 16px; background-color: currentColor; -webkit-mask: var(--i) center / contain no-repeat; mask: var(--i) center / contain no-repeat; }
-.i-plus { --i: var(--u-plus); }
-.i-x { --i: var(--u-x); }
-.i-search { --i: var(--u-search); }
-.i-sun { --i: var(--u-sun); }
-.i-moon { --i: var(--u-moon); }
-.i-alert { --i: var(--u-alert); }
-.i-check { --i: var(--u-check); }
-
-/* 游戏图标：图集里的一格（make-icons.py），--s 是显示大小，--x / --y 是第几列第几行 */
-.ic {
-  --s: 32px;
-  display: inline-block; flex: none; width: var(--s); height: var(--s); vertical-align: middle;
-  background-image: url(calc-icons.webp);
-  background-image: image-set(url(calc-icons.avif) type("image/avif"), url(calc-icons.webp) type("image/webp"));
-  background-repeat: no-repeat; background-size: calc(var(--s) * var(--cols)) auto;
-  background-position: calc(var(--s) * var(--x, 0) * -1) calc(var(--s) * var(--y, 0) * -1);
-}
-.ic.none { background: var(--raised); border-radius: 4px; font: 500 calc(var(--s) * 0.5)/var(--s) var(--ui); text-align: center; color: var(--text-3); }
-.s18 { --s: 18px; } .s22 { --s: 22px; } .s24 { --s: 24px; } .s28 { --s: 28px; } .s36 { --s: 36px; }
-.ic.off { filter: grayscale(1); opacity: 0.45; }
-/* 物品格：主图标放在像游戏背包那样的小方格里 */
-.ibox { display: inline-grid; place-items: center; flex: none; width: 36px; height: 36px; border-radius: 8px; background: var(--raised); }
-.ibox.sm { width: 32px; height: 32px; border-radius: 6px; }
-.ibox.ext { background: transparent; border: 1px dashed var(--line-3); }
-.ibox.done { background: var(--accent-soft); } /* 已完成（生成过蓝图）的 */
-
-/* ---------- 最上面一行：名字 + 各个页面（像浏览器的标签页：选中的那页是白底卡片，别的只是字） ---------- */
-.strip { position: sticky; top: 0; z-index: 30; display: flex; align-items: stretch; height: var(--strip-h); background: var(--strip); border-bottom: 1px solid var(--line); }
-.brand { flex: none; display: flex; align-items: center; gap: 6px; width: 280px; padding: 0 12px 0 20px; border-right: 1px solid var(--line); } /* 左边和左栏对齐；logo、名字、D / S 挤一点才放得下 */
-.brand h1 { margin: 0; font-size: 15px; line-height: 20px; font-weight: 600; white-space: nowrap; }
-.brand span { font-size: 12px; color: var(--text-3); white-space: nowrap; }
-/* 左上角 D / S：需求（清单照整条线算，不记生成过的蓝图）/ 供给（扣掉生成过的，看做了什么、还差什么） */
-.brand .logo { flex: none; width: 20px; height: 20px; border-radius: 4px; }
-.brand .mode { margin-left: auto; }
-.mode button { height: 24px; min-width: 28px; padding: 0 8px; font-weight: 600; }
-.plans-row { display: flex; align-items: center; min-width: 0; padding: 0 32px; }
-.plans { display: flex; align-items: center; gap: 4px; min-width: 0; height: 100%; overflow-x: auto; scrollbar-width: none; }
-.plans::-webkit-scrollbar { display: none; }
-.plans.more { -webkit-mask-image: linear-gradient(to right, #000 calc(100% - 32px), transparent); mask-image: linear-gradient(to right, #000 calc(100% - 32px), transparent); }
-/* 每档一样宽（同浏览器），挤不下时一起变窄，再挤才左右滑；只写 flex-basis 的话 Chrome 按字宽排，短名字的档会被压扁 */
-.plan { position: relative; flex: 0 1 184px; display: flex; align-items: center; gap: 8px; width: 184px; min-width: 112px; height: 32px; padding: 0 4px 0 10px; font-size: 13px; color: var(--text-2); border: 1px solid transparent; border-radius: 8px; cursor: pointer; user-select: none; touch-action: manipulation; transition: background-color 0.15s var(--ease), color 0.15s var(--ease); }
-.plan:hover { color: var(--text); background: var(--strip-hover); }
-.plan[aria-selected="true"] { color: var(--text); background: var(--card); border-color: var(--line); box-shadow: 0 1px 2px rgb(15 23 42 / 0.06); }
-.plan .nm { flex: 1 1 auto; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.plan[aria-selected="true"] .nm { font-weight: 500; }
-.plan .x { flex: none; display: grid; place-items: center; width: 22px; height: 22px; padding: 0; color: var(--text-3); background: transparent; border: 0; border-radius: 6px; cursor: pointer; visibility: hidden; }
-.plan:hover .x, .plan:focus-within .x, .plan[aria-selected="true"] .x { visibility: visible; }
-.plan .x:hover { color: var(--text); background: var(--raised); }
-.plan input { flex: 1 1 auto; min-width: 0; height: 24px; padding: 0 6px; font-size: 13px; background: var(--card); border: 1px solid var(--accent); border-radius: 6px; outline: none; }
-/* 两个没选中的档之间一条短竖线（同浏览器）；挨着选中的、指着的不画 */
-.plan + .plan::before { content: ""; position: absolute; left: -3px; top: 9px; bottom: 9px; width: 1px; background: var(--line-2); }
-.plan[aria-selected="true"]::before, .plan[aria-selected="true"] + .plan::before, .plan:hover::before, .plan:hover + .plan::before { display: none; }
-/* 拖一页到「总页面」上归档：拖着时总页面描一圈虚线，到了上面铺金橙 */
-.plan.drop-ready { outline: 1.5px dashed var(--accent); outline-offset: -2px; }
-.plan.drop-on { color: var(--text); background: var(--accent-soft); }
-.plan-add { flex: none; display: grid; place-items: center; width: 32px; height: 32px; margin-left: 4px; padding: 0; color: var(--text-3); background: transparent; border: 0; border-radius: 8px; cursor: pointer; transition: background-color 0.15s var(--ease), color 0.15s var(--ease); }
-.plan-add:hover { color: var(--text); background: var(--strip-hover); }
-/* 最右边：切换原版、深浅色（同原版计算器页头那两个） */
-.strip-end { flex: none; display: flex; align-items: center; gap: 8px; margin-left: auto; padding: 0 20px 0 12px; }
-.strip-btn { display: inline-flex; align-items: center; gap: 6px; height: 28px; padding: 0 10px; font-size: 13px; color: var(--text-2); text-decoration: none; white-space: nowrap; background: transparent; border: 1px solid var(--line-2); border-radius: 8px; cursor: pointer; transition: background-color 0.15s var(--ease), color 0.15s var(--ease); }
-.strip-btn:hover { color: var(--text); background: var(--strip-hover); }
-
-/* ---------- 下面：左栏 + 右边内容 ---------- */
-.app { display: grid; grid-template-columns: 280px minmax(0, 1fr); min-height: calc(100dvh - var(--strip-h)); }
-.side { position: sticky; top: var(--strip-h); height: calc(100dvh - var(--strip-h)); overflow-y: auto; display: flex; flex-direction: column; gap: 24px; padding: 20px 20px 16px; background: var(--side); border-right: 1px solid var(--line); }
-.main { min-width: 0; width: 100%; max-width: 1480px; display: grid; gap: 16px; align-content: start; padding: 20px 32px 48px; }
-
-/* ---------- 左栏 ---------- */
-.group { display: grid; gap: 8px; min-width: 0; }
-.group-label { font-size: 12px; line-height: 16px; color: var(--text-3); }
-.hint { margin: 0; font-size: 12px; line-height: 18px; color: var(--text-3); }
-.goals { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
-.goal { display: grid; grid-template-columns: minmax(0, 1fr) 76px 24px; align-items: center; gap: 4px; padding: 4px; background: var(--card); border: 1px solid var(--line-2); border-radius: 12px; }
-.goal:only-child { grid-template-columns: minmax(0, 1fr) 76px; }
-.goal:only-child .rm { display: none; }
-.target-btn { display: flex; align-items: center; gap: 8px; min-width: 0; height: 40px; padding: 2px 6px 2px 2px; text-align: left; background: transparent; border: 0; border-radius: 8px; cursor: pointer; transition: background-color 0.15s var(--ease); }
-.target-btn:hover { background: var(--raised); }
-.pick-name { font-weight: 500; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.rate { position: relative; display: block; }
-.rate input { width: 100%; height: 36px; padding: 0 30px 0 8px; font-size: 15px; font-weight: 500; text-align: right; font-variant-numeric: tabular-nums; background: var(--raised); border: 1px solid transparent; border-radius: 8px; -moz-appearance: textfield; appearance: textfield; transition: border-color 0.15s var(--ease), background-color 0.15s var(--ease); }
-.rate input::-webkit-inner-spin-button, .rate input::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
-.rate input:hover { border-color: var(--line-2); }
-.rate input:focus { outline: none; border-color: var(--accent); background: var(--card); }
-.rate span { position: absolute; right: 8px; top: 8px; font-size: 12px; line-height: 20px; color: var(--text-3); pointer-events: none; }
-.rm { display: grid; place-items: center; width: 24px; height: 28px; padding: 0; color: var(--text-3); background: transparent; border: 0; border-radius: 6px; cursor: pointer; }
-.rm:hover { color: var(--text); background: var(--raised); }
-.add { display: flex; align-items: center; justify-content: center; gap: 8px; height: 36px; color: var(--text-2); background: transparent; border: 1px dashed var(--line-2); border-radius: 12px; cursor: pointer; transition: border-color 0.15s var(--ease), color 0.15s var(--ease); }
-.add:hover { color: var(--text); border-color: var(--line-3); }
-.chips { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 6px; }
-.chips:empty { display: none; }
-/* 外部供应的物品：实线（已经选了从别处运来），× 改回自己做 */
-.chips .chip { display: inline-flex; align-items: center; gap: 6px; height: 30px; padding: 0 2px 0 6px; font-size: 13px; background: var(--card); border: 1px solid var(--line-2); border-radius: 8px; }
-.chips .chip button { display: grid; place-items: center; width: 24px; height: 24px; padding: 0; color: var(--text-3); background: transparent; border: 0; border-radius: 6px; cursor: pointer; }
-.chips .chip button:hover { color: var(--text); background: var(--raised); }
-/* 珍奇矿：虚线是这条线用得上、还没用；点了变实线 */
-.chips .rare { display: inline-flex; align-items: center; gap: 6px; height: 30px; padding: 0 10px 0 6px; font-size: 13px; color: var(--text-2); background: transparent; border: 1px dashed var(--line-3); border-radius: 8px; cursor: pointer; transition: color 0.15s var(--ease), border-color 0.15s var(--ease), background-color 0.15s var(--ease); }
-.chips .rare:hover { color: var(--text); border-color: var(--text-3); }
-.chips .rare.on { color: var(--text); background: var(--card); border-style: solid; border-color: var(--line-3); }
-.chips .rare .ic { opacity: 0.6; }
-.chips .rare.on .ic, .chips .rare:hover .ic { opacity: 1; }
-.go { height: 40px; font-size: 14px; font-weight: 500; color: var(--on-accent); background: var(--accent); border: 0; border-radius: 10px; cursor: pointer; box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.25), 0 1px 2px rgb(15 23 42 / 0.08); transition: background-color 0.2s var(--ease), color 0.2s var(--ease), box-shadow 0.2s var(--ease), transform 0.12s var(--ease); }
-.go:hover { background: var(--accent-hover); }
-.go:active { transform: scale(0.98); }
-.actions { display: grid; gap: 8px; }
-/* 「生成无带蓝图」和上面一样宽、字一样居中；圆圈问号放在框里右边，指上去（手机上点一下）在按钮下面出说明，说明框和按钮一样宽 */
-.go-row { position: relative; }
-.go-2 { width: 100%; height: 40px; font-size: 14px; font-weight: 500; color: var(--text); background: var(--card); border: 1px solid var(--line-2); border-radius: 10px; cursor: pointer; transition: border-color 0.15s var(--ease), color 0.2s var(--ease), transform 0.12s var(--ease); }
-.go-2:hover { border-color: var(--line-3); }
-.go-2:active { transform: scale(0.98); }
-/* 清单里一样都没选：两个按钮是灰的（还能点，点了带到清单、各行的物品格闪两下），选上一样就亮 */
-.go[aria-disabled="true"], .go[aria-disabled="true"]:hover { color: var(--text-3); background: var(--raised); box-shadow: none; cursor: default; }
-.go-2[aria-disabled="true"], .go-2[aria-disabled="true"]:hover { color: var(--text-3); border-color: var(--line); cursor: default; }
-.go[aria-disabled="true"]:active, .go-2[aria-disabled="true"]:active { transform: none; }
-.boot .go, .boot .go-2 { transition: none; } /* 刚打开时按钮直接是该有的样子，不从灰慢慢变亮（calc.js 第一次画完去掉 boot） */
-.pick-hint:empty { display: none; }
-.pick-hint.nudge { animation: hint-nudge 1.2s var(--ease); }
-@keyframes hint-nudge { 0%, 50% { color: var(--accent-ink); } }
-.help-btn { position: absolute; top: 11px; right: 12px; display: grid; place-items: center; width: 18px; height: 18px; padding: 0; font-size: 12px; font-weight: 500; line-height: 1; color: var(--text-3); background: transparent; border: 1.25px solid var(--line-3); border-radius: 50%; cursor: help; transition: color 0.15s var(--ease), border-color 0.15s var(--ease); }
-.help-btn::before { content: ""; position: absolute; inset: -10px; } /* 圈小，手指点的范围放大一点 */
-.help-btn:hover, .go-row.open .help-btn { color: var(--text); border-color: var(--text-3); }
-.tip { display: none; position: absolute; left: 0; right: 0; top: calc(100% + 8px); z-index: 40; padding: 12px 14px; font-size: 13px; line-height: 20px; color: var(--text-2); background: var(--card); border: 1px solid var(--line); border-radius: 10px; box-shadow: var(--pop); text-wrap: pretty; }
-.tip b { display: block; margin-bottom: 4px; font-size: 14px; font-weight: 500; color: var(--text); }
-.tip span { display: block; margin-top: 8px; }
-.tip span b { display: inline; margin: 0; font-size: 13px; }
-.go-row.up .tip { top: auto; bottom: calc(100% + 8px); } /* 下面放不下、上面放得下时才往上 */
-@media (hover: hover) { .help-btn:hover + .tip { display: block; } }
-.go-row.open .tip, .help-btn:focus-visible + .tip { display: block; }
-.forecast { margin: -16px 0 0; font-size: 12px; color: var(--text-3); }
-.forecast:empty { display: none; }
-.links { margin-top: auto; display: flex; flex-wrap: wrap; gap: 4px 16px; padding-top: 16px; border-top: 1px solid var(--line); font-size: 12px; color: var(--text-3); }
-.links a { color: inherit; text-decoration: none; }
-.links a:hover { color: var(--text); text-decoration: underline; text-underline-offset: 3px; }
-
-/* ---------- 顶上一排下拉（同蓝图页的位置） ---------- */
-.toolbar { position: relative; z-index: 20; display: flex; flex-wrap: wrap; gap: 8px; }
-.pill-wrap { position: relative; }
-.pill { display: flex; align-items: center; gap: 6px; height: 32px; padding: 0 6px; font-size: 13px; white-space: nowrap; background: var(--card); border: 1px solid var(--line-2); border-radius: 8px; cursor: pointer; transition: border-color 0.15s var(--ease); }
-.pill::after { content: ""; flex: none; width: 16px; height: 16px; background: var(--text-3); -webkit-mask: var(--u-chevron) center / contain no-repeat; mask: var(--u-chevron) center / contain no-repeat; }
-.pill .pill-key { color: var(--text-3); }
-.pill-wrap:hover > .pill, .pill-wrap.open > .pill { border-color: var(--line-3); }
-.pill-menu { display: none; position: absolute; z-index: 10; top: 100%; left: 0; margin-top: 4px; min-width: 100%; max-width: calc(100vw - 16px); padding: 4px; background: var(--card); border: 1px solid var(--line); border-radius: 10px; box-shadow: var(--pop); }
-.pill-menu::before { content: ""; position: absolute; left: 0; right: 0; top: -6px; height: 6px; }
-.pill-wrap.flip > .pill-menu { left: auto; right: 0; }
-.pill-wrap.open > .pill-menu { display: block; }
-@media (hover: hover) { .pill-wrap:not(.shut):hover > .pill-menu { display: block; } }
-.menu-item { display: flex; align-items: center; gap: 8px; width: 100%; min-height: 32px; padding: 6px 8px; font-size: 13px; line-height: 20px; text-align: left; white-space: nowrap; background: transparent; border: 0; border-radius: 6px; cursor: pointer; }
-.menu-item::after { content: ""; flex: none; width: 16px; height: 16px; margin-left: 8px; background: var(--accent-ink); -webkit-mask: var(--u-check) center / contain no-repeat; mask: var(--u-check) center / contain no-repeat; visibility: hidden; }
-.menu-item:not(:has(.menu-note))::after { margin-left: auto; padding-left: 0; }
-.menu-item[aria-checked="true"] { font-weight: 500; }
-.menu-item[aria-checked="true"]::after { visibility: visible; }
-.menu-item:hover:not(:disabled), .menu-item:focus-visible { background: var(--raised); }
-.menu-item:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
-.menu-item:disabled { color: var(--text-3); cursor: default; }
-.menu-note { margin-left: auto; padding-left: 16px; font-size: 12px; font-weight: 400; color: var(--text-3); }
-.menu-head { padding: 8px 8px 4px; font-size: 12px; line-height: 16px; color: var(--text-3); white-space: nowrap; }
-.menu-head:not(:first-child) { margin-top: 4px; padding-top: 12px; border-top: 1px solid var(--line); }
-
-/* ---------- 生产清单：合计、表、原料、多余的副产物 ---------- */
-.sheet-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 32px; margin-top: 8px; }
-/* 这一页的目标都已完成：生产清单右边「已完成」和「归档」（总页面不能归档，只有「已完成」）；出来时往上浮一下 */
-.sheet-done { display: flex; align-items: center; gap: 12px; animation: rise 0.3s var(--ease); }
-@keyframes rise { from { opacity: 0; transform: translateY(4px); } }
-.done-mark { display: inline-flex; align-items: center; gap: 4px; font-size: 13px; color: var(--accent-ink); }
-.archive-btn { height: 32px; padding: 0 16px; font-size: 13px; font-weight: 500; color: var(--on-accent); background: var(--accent); border: 0; border-radius: 8px; cursor: pointer; box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.25), 0 1px 2px rgb(15 23 42 / 0.08); transition: background-color 0.15s var(--ease), transform 0.12s var(--ease); }
-.archive-btn:hover { background: var(--accent-hover); }
-.archive-btn:active { transform: scale(0.97); }
-.sheet-head h2 { margin: 0; font-size: 20px; line-height: 28px; font-weight: 500; }
-.panel { min-width: 0; background: var(--card); border: 1px solid var(--line); border-radius: 12px; }
-.sheet { display: grid; gap: 16px; min-width: 0; container: sheet / inline-size; }
-/* 合计：一格一个数（边线用负边距藏掉换行后靠边的那条）；窄了四个数排成两行两个（不喷增产剂只有三个，照常排） */
-.summary { container: summary / inline-size; }
-.stats { display: flex; flex-wrap: wrap; overflow: hidden; border-radius: 12px 12px 0 0; }
-@container summary (max-width: 680px) { .stats:has(> :nth-child(4)) > .stat { flex-basis: 34%; } }
-/* 方块都能点：指上去浅底，按下去再深一点、数字往下沉一下（按下的反馈），选中的底下一道金橙色，下面那块跟着换 */
-.stat { position: relative; flex: 1 1 160px; display: grid; gap: 4px; margin: -1px 0 0 -1px; padding: 16px 20px; font: inherit; color: inherit; text-align: left; background: transparent; border: 0; border-left: 1px solid var(--line); border-top: 1px solid var(--line); cursor: pointer; transition: background-color 0.12s var(--ease); }
-.stat:hover { background: var(--hover); }
-.stat:active { background: var(--raised); }
-.stat .v { transition: transform 0.12s var(--ease); }
-.stat:active .v { transform: translateY(1px); }
-.stat:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
-.stat[aria-selected="true"]::after { content: ""; position: absolute; left: 20px; right: 20px; bottom: 0; height: 2px; border-radius: 2px; background: var(--accent); }
-.stat[aria-selected="true"] .k { color: var(--text); }
-.stat .k { font-size: 12px; line-height: 16px; color: var(--text-3); }
-.stat .v { font-size: 13px; line-height: 32px; color: var(--text-2); white-space: nowrap; }
-.stat b { margin-right: 4px; font-size: 24px; font-weight: 500; color: var(--text); font-variant-numeric: tabular-nums; }
-/* 方块下面那块：设备数量 / 用电 / 原料 / 增产剂 */
-.tile-panel { padding: 12px 20px 16px; border-top: 1px solid var(--line); }
-.tile-panel .cap { margin: 0 0 8px; font-size: 12px; line-height: 16px; color: var(--text-3); }
-.tile-panel .units + .cap, .tile-panel .gens + .cap { margin-top: 16px; }
-.tile-panel .rows { margin-top: 0; }
-.units { display: flex; flex-wrap: wrap; gap: 8px 24px; }
-.unit { display: inline-flex; align-items: center; gap: 8px; white-space: nowrap; font-size: 13px; color: var(--text-2); }
-.unit small { margin-left: -4px; font-size: 12px; color: var(--text-3); }
-.gens { display: flex; flex-wrap: wrap; gap: 8px 40px; }
-.gen { display: inline-flex; align-items: center; gap: 12px; }
-.gen-t { display: grid; gap: 2px; }
-.gen .k { font-size: 12px; line-height: 16px; color: var(--text-3); }
-.gen .v { font-size: 13px; line-height: 28px; color: var(--text-2); white-space: nowrap; }
-.gen b { margin-right: 4px; font-size: 20px; font-weight: 500; color: var(--text); font-variant-numeric: tabular-nums; }
-.gen small { margin-left: 8px; font-size: 12px; color: var(--text-3); font-variant-numeric: tabular-nums; }
-.unit b { font-size: 15px; font-weight: 500; color: var(--text); font-variant-numeric: tabular-nums; }
-
-.list { width: 100%; border-collapse: separate; border-spacing: 0; scroll-margin-top: calc(var(--strip-h) + 16px); }
-.list th { position: sticky; top: var(--strip-h); z-index: 1; height: 36px; padding: 0 12px; font-size: 12px; font-weight: 400; color: var(--text-3); text-align: left; white-space: nowrap; background: var(--card); border-bottom: 1px solid var(--line); }
-.list th:first-child { padding-left: 16px; border-top-left-radius: 12px; }
-.list th:last-child { padding-right: 20px; border-top-right-radius: 12px; }
-.list td { padding: 8px 12px; border-bottom: 1px solid var(--line); vertical-align: middle; transition: background-color 0.15s var(--ease); }
-.list td:first-child { padding-left: 16px; }
-.list td:last-child { padding-right: 20px; }
-/* 每分钟、设备数量定宽：配方每行从同一处开始；设备数量和左边每分钟的数分开，两列数字不挤成一团 */
-.list th.c-rate, .list td.c-rate { width: 72px; padding-right: 0; }
-.list th.c-fab, .list td.c-fab { width: 224px; padding-left: 32px; padding-right: 0; }
-.list th.c-recipe, .list td.c-recipe { padding-left: 24px; }
-.count { min-width: 44px; text-align: right; }
-.list tbody tr:last-child td { border-bottom: 0; }
-.list tbody tr:hover td { background: var(--hover); }
-.list th.c-rate, .list td.c-rate { text-align: right; }
-.c-item { width: 22%; min-width: 160px; }
-.c-rate, .c-fab, .c-spray, .c-ext { width: 1%; white-space: nowrap; }
-.list td.c-ext { text-align: right; }
-.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
-/* 「外部」：虚线是这条线自己做，点了变实线（从别处运来） */
-.xtag { height: 24px; padding: 0 8px; font-size: 12px; line-height: 22px; color: var(--text-3); background: transparent; border: 1px dashed var(--line-3); border-radius: 6px; cursor: pointer; transition: color 0.15s var(--ease), border-color 0.15s var(--ease), background-color 0.15s var(--ease); }
-.xtag:hover { color: var(--text); border-color: var(--text-3); }
-.xtag.on { color: var(--text); background: var(--raised); border-style: solid; }
-/* 已完成（生成过蓝图）：实线、金橙字，点了改回这条线自己做 */
-.xtag.done { display: inline-flex; align-items: center; gap: 2px; padding: 0 8px 0 6px; color: var(--accent-ink); background: var(--accent-soft); border: 1px solid color-mix(in srgb, var(--accent) 35%, transparent); }
-.xtag.done:hover { border-color: var(--accent); }
-.xtag.done .ico { width: 14px; height: 14px; }
-/*
- * 已完成的记录（calc.js 的 recHtml）：缩在那一行下面、和它算一组（中间不画线），减掉的量、设备、配方照那张蓝图，不能改；
- * 目标那条的「已完成」右边一个 ×，删掉这张蓝图的记录
- */
-.list tr.has-rec td, .list tr.is-rec:not(.rec-last) td { border-bottom-color: transparent; }
-.list tr.has-rec td { padding-bottom: 4px; }
-.list tr.is-rec td { padding-top: 4px; padding-bottom: 4px; }
-.list tr.is-rec.rec-last td { padding-bottom: 10px; }
-.list tr.is-rec .c-item .it { gap: 10px; padding-left: 28px; }
-.list tr.is-rec .nm { font-weight: 400; color: var(--text-2); }
-.list tr.is-rec .n, .list tr.is-rec .count b { color: var(--text-2); }
-.list tr.is-rec .cell.static { color: var(--text-2); }
-.list tbody tr.is-rec:hover td { background: transparent; }
-.rec-tag { cursor: default; }
-.rec-tag:has(.rec-x) { padding-right: 2px; }
-.rec-x { display: inline-grid; place-items: center; width: 18px; height: 18px; margin-left: 4px; padding: 0; color: inherit; background: none; border: 0; border-radius: 4px; cursor: pointer; transition: background-color 0.15s var(--ease); }
-.rec-x:hover { background: color-mix(in srgb, var(--accent) 22%, transparent); }
-.xtag.done .rec-x .ico { width: 12px; height: 12px; }
-.list tr.is-ext .nm, .list tr.is-ext .n { color: var(--text-2); }
-.it { display: flex; align-items: center; gap: 12px; min-width: 0; }
-button.it { padding: 0; font: inherit; color: inherit; text-align: left; background: none; border: 0; border-radius: 8px; cursor: pointer; }
-/*
- * 选要做进蓝图的（点一行）：选上的整行铺一层金橙、左边一道金橙、物品格描一圈；它用到的含在里面（不能单选）铺浅一层，
- * 从选上的那行往下一层层亮起来（--d 是隔几层，calc.js 的 renderPick 写）；没选的照常，不淡下去。
- * 指上去左边先出一道浅的；指着选上的一行，含在它里面的几行亮一点，指着含在里面的一行，带它进来的那几行亮一点（hl）
- */
-.list tbody tr[data-item] { cursor: pointer; }
-.list td:first-child { transition: background-color 0.15s var(--ease), box-shadow 0.2s var(--ease); }
-.list tbody tr[data-item]:not(.sel, .inc):hover td:first-child { box-shadow: inset 3px 0 0 color-mix(in srgb, var(--accent) 35%, transparent); }
-.list tbody tr[data-item]:not(.inc):active td { background: var(--inc-hover); }
-.list tbody tr.inc td { background: var(--inc); transition-delay: calc(var(--d, 0) * 60ms); }
-.list tbody tr.inc td:first-child { box-shadow: inset 2px 0 0 var(--inc-bar); }
-.list tbody tr.inc, .list tbody tr.inc .it { cursor: default; }
-.list tbody tr.inc:hover td, .list tbody tr.inc.hl td { background: var(--inc-hover); transition-delay: 0s; }
-.list tbody tr.sel td { background: var(--sel); }
-.list tbody tr.sel td:first-child { box-shadow: inset 3px 0 0 var(--accent); }
-.list tbody tr.sel:hover td, .list tbody tr.sel.hl td { background: var(--sel-hover); }
-.list tbody tr.flash td { animation: flash 0.8s var(--ease); }
-@keyframes flash { 25% { background-color: var(--flash); } }
-.list .ibox { transition: background-color 0.15s var(--ease), box-shadow 0.2s var(--ease); }
-.list tbody tr.sel .ibox { background: var(--card); box-shadow: inset 0 0 0 1.5px var(--accent); }
-.list tbody tr.sel .it .nm { color: var(--accent-ink); }
-.list tbody tr:last-child td:first-child { border-bottom-left-radius: 11px; } /* 最后一行铺色不出卡片的圆角 */
-.list tbody tr:last-child td:last-child { border-bottom-right-radius: 11px; }
-/* 一样都没选就点了生成：各行的物品格闪两下 */
-.list.nudge tbody tr[data-item] .ibox { animation: nudge 0.6s var(--ease) 2; }
-@keyframes nudge { 50% { box-shadow: inset 0 0 0 1.5px var(--accent), 0 0 0 4px color-mix(in srgb, var(--accent) 30%, transparent); } }
-.it .nm { flex: none; font-weight: 500; white-space: nowrap; }
-.tag { flex: none; margin-left: -4px; font-size: 12px; line-height: 16px; color: var(--accent-ink); }
-.n { font-size: 15px; line-height: 20px; font-weight: 500; font-variant-numeric: tabular-nums; }
-.c-rate small { display: block; font-size: 12px; line-height: 16px; color: var(--text-3); font-variant-numeric: tabular-nums; }
-.fab { display: flex; align-items: center; gap: 12px; }
-.count b { display: block; font-size: 15px; line-height: 20px; font-weight: 500; font-variant-numeric: tabular-nums; }
-.count small { display: block; font: 12px/16px var(--mono); color: var(--text-3); }
-.same { font-size: 13px; color: var(--text-3); }
-/* 表里能点的格子（工厂型号、配方、增产剂）：平时像字，指上去出框；右边的小箭头表示能换，改过的是虚线框 */
-.cell { display: inline-flex; align-items: center; gap: 6px; max-width: 100%; min-height: 32px; padding: 4px 4px 4px 6px; text-align: left; white-space: nowrap; background: transparent; border: 1px solid transparent; border-radius: 8px; cursor: pointer; transition: background-color 0.15s var(--ease), border-color 0.15s var(--ease); }
-.cell::after { content: ""; flex: none; width: 16px; height: 16px; background: var(--text-3); -webkit-mask: var(--u-chevron) center / contain no-repeat; mask: var(--u-chevron) center / contain no-repeat; opacity: 0.45; transition: opacity 0.15s var(--ease); }
-.list tr:hover .cell::after, .cell:focus-visible::after, .cell.changed::after { opacity: 1; }
-.cell:hover:not(:disabled) { background: var(--card); border-color: var(--line-2); }
-.cell:disabled { cursor: default; }
-.cell:disabled::after { content: none; }
-/* 只有一种做法的配方：就是字，不能点 */
-.cell.static { cursor: default; }
-.cell.static::after { content: none; }
-.cell.static:hover { background: transparent; border-color: transparent; }
-.cell.changed { border-style: dashed; border-color: var(--accent); }
-.cell .lbl { font-size: 13px; }
-.cell .muted { color: var(--text-3); }
-.cell.recipe { gap: 2px; flex-wrap: wrap; white-space: normal; }
-.io { display: inline-flex; align-items: flex-end; margin-right: 4px; }
-.io sub { margin-left: 1px; font: 500 11px/1 var(--mono); color: var(--text-3); bottom: 0; }
-.to { --i: var(--u-arrow); margin: 0 6px 0 2px; color: var(--text-3); }
-.sec { margin-left: 8px; font-size: 12px; line-height: 16px; color: var(--text-3); font-variant-numeric: tabular-nums; white-space: nowrap; }
-.alt { margin-left: 8px; font-size: 12px; color: var(--text-3); white-space: nowrap; }
-.spray-on { color: var(--text); }
-
-.block { padding: 16px 20px 8px; }
-.block h3 { margin: 0; display: flex; align-items: center; gap: 8px; font-size: 15px; line-height: 24px; font-weight: 500; }
-.block h3 small { margin-left: 4px; font-size: 12px; font-weight: 400; color: var(--text-3); }
-.block h3 .ico { color: var(--accent-ink); }
-.block p { margin: 4px 0 0; font-size: 13px; color: var(--text-2); }
-/* 原料、副产物：一行一种，宽屏分几栏；每行底下一条细线，最后一行的线藏掉 */
-.rows { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); column-gap: 32px; margin-top: 8px; overflow: hidden; }
-.row { display: grid; grid-template-columns: 36px minmax(0, 1fr) auto; gap: 0 12px; align-items: center; min-height: 56px; margin-bottom: -1px; padding: 8px 0; text-align: left; background: transparent; border: 0; border-bottom: 1px solid var(--line); border-radius: 0; }
-button.row { width: 100%; cursor: pointer; }
-button.row:hover .nm { text-decoration: underline; text-decoration-color: var(--line-3); text-underline-offset: 3px; }
-.row .ibox { grid-row: span 2; }
-.row .nm { font-weight: 500; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.row .sub { grid-column: 2; font-size: 12px; line-height: 16px; color: var(--text-3); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.row .v { grid-column: 3; grid-row: 1 / span 2; text-align: right; }
-.row .v small { display: block; font-size: 12px; line-height: 16px; color: var(--text-3); white-space: nowrap; }
-.empty { padding: 48px 24px; text-align: center; color: var(--text-2); }
-.empty p { margin: 0 0 16px; }
-.quick { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; }
-.quick button { display: inline-flex; align-items: center; gap: 8px; height: 40px; padding: 0 16px 0 4px; background: var(--card); border: 1px solid var(--line-2); border-radius: 10px; cursor: pointer; transition: border-color 0.15s var(--ease); }
-.quick button:hover { border-color: var(--line-3); }
-.loading { margin: 0; padding: 48px 24px; text-align: center; color: var(--text-3); }
-
-/* ---------- 表里点开的菜单 ---------- */
-.menu { position: fixed; z-index: 50; min-width: 220px; max-width: min(560px, calc(100vw - 16px)); max-height: min(70vh, 520px); overflow-y: auto; padding: 4px; background: var(--card); border: 1px solid var(--line); border-radius: 10px; box-shadow: var(--pop); }
-.menu .menu-item { white-space: normal; }
-.menu .recipe-line { display: inline-flex; align-items: center; flex-wrap: wrap; gap: 2px; }
-
-/* ---------- 挑物品的弹窗：格子照游戏物品面板摆 ---------- */
-dialog { border: 0; padding: 0; border-radius: 16px; background: var(--card); color: var(--text); box-shadow: var(--pop); max-width: min(960px, calc(100vw - 32px)); width: 100%; }
-dialog::backdrop { background: rgb(15 15 16 / 0.4); }
-.dlg { display: grid; gap: 16px; padding: 20px 24px 24px; }
-.dlg-head { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
-.dlg-head h2 { margin: 0; flex: 1 1 auto; font-size: 17px; line-height: 24px; font-weight: 500; }
-.toggle { display: flex; gap: 2px; padding: 2px; background: var(--track); border-radius: 8px; }
-.toggle button { height: 28px; padding: 0 12px; font-size: 13px; color: var(--text-2); background: transparent; border: 0; border-radius: 6px; cursor: pointer; }
-.toggle button[aria-pressed="true"] { color: var(--text); background: var(--knob); box-shadow: 0 1px 2px rgb(0 0 0 / 0.08); }
-.find-wrap { position: relative; display: flex; align-items: center; }
-.find-wrap .ico { position: absolute; left: 12px; color: var(--text-3); pointer-events: none; }
-.find { width: 180px; height: 32px; padding: 0 12px 0 36px; font-size: 13px; background: var(--raised); border: 1px solid transparent; border-radius: 8px; transition: border-color 0.15s var(--ease), background-color 0.15s var(--ease); }
-.find:focus { outline: none; border-color: var(--accent); background: var(--card); }
-.close { display: grid; place-items: center; width: 32px; height: 32px; padding: 0; color: var(--text-3); background: transparent; border: 0; border-radius: 8px; cursor: pointer; }
-.close:hover { color: var(--text); background: var(--raised); }
-/* 行高取内容高度：限了高度要滚动时，一整行都是格子（overflow: hidden，最小高度算 0）的那行会被压成 9 像素 */
-.slots { display: grid; grid-template-columns: repeat(14, minmax(48px, 1fr)); grid-auto-rows: max-content; gap: 4px; overflow: auto; max-height: min(64vh, 640px); padding: 2px; }
-.tile { aspect-ratio: 1; min-width: 0; display: grid; grid-template-rows: 1fr auto; justify-items: center; align-items: center; padding: 4px 2px; font-size: 11px; line-height: 14px; text-align: center; color: var(--text-2); background: var(--raised); border: 1px solid transparent; border-radius: 8px; cursor: pointer; overflow: hidden; transition: background-color 0.15s var(--ease), border-color 0.15s var(--ease); }
-.tile .nm { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; word-break: break-all; max-width: 100%; }
-.tile:hover { color: var(--text); background: var(--card); border-color: var(--line-3); }
-.tile.is-goal { color: var(--text); background: var(--accent-soft); border-color: var(--accent); }
-.tile.is-raw { opacity: 0.4; }
-.slot { aspect-ratio: 1; border-radius: 8px; background: var(--raised); opacity: 0.45; }
-.pick-none { grid-column: 1 / -1; padding: 24px; text-align: center; color: var(--text-3); }
-
-/* 生成蓝图、生成无带蓝图：在本页的弹层里开同目录的蓝图生成器 generator.html（载入时先是本页的底色） */
-#bp-box { position: fixed; inset: 0; z-index: 2000; background: var(--bg); }
-#bp-box iframe { display: block; width: 100%; height: 100%; border: 0; }
-.toast { position: fixed; left: 50%; bottom: 24px; z-index: 2100; transform: translateX(-50%); display: flex; align-items: center; gap: 16px; max-width: calc(100vw - 32px); padding: 12px 16px; font-size: 13px; color: var(--toast-fg); background: var(--toast-bg); border: 1px solid var(--line); border-radius: 10px; box-shadow: var(--pop); }
-.toast button { flex: none; padding: 0; font-weight: 500; color: var(--accent); background: none; border: 0; cursor: pointer; }
-
-@media (max-width: 1100px) {
-  .main { padding: 20px 24px 40px; }
-  .plans-row { padding: 0 24px; }
-}
-@media (max-width: 860px) {
-  .brand { width: auto; padding: 0 12px 0 16px; }
-  .brand span { display: none; }
-  .plans-row { padding: 0 12px 0 8px; }
-  .strip-end { padding: 0 12px 0 4px; }
-  .app { grid-template-columns: minmax(0, 1fr); }
-  .side { position: static; height: auto; overflow: visible; border-right: 0; border-bottom: 1px solid var(--line); }
-  .links { margin-top: 0; }
-}
-@media (max-width: 640px) {
-  /* 手机：档按名字宽窄排，下一档露出半截就知道能滑；没选中的不放删除（没有鼠标指着） */
-  .plan { flex: none; width: auto; min-width: 0; max-width: 168px; }
-  .plan:not([aria-selected="true"]) .x { display: none; }
-  .strip-btn { padding: 0 7px; }
-  .strip-btn span { display: none; } /* 深浅色只留图标 */
-  #classic { display: none; } /* 手机上让给页面标签；左栏底下有「原版计算器（DSQ）」 */
-  .strip-end { padding: 0 8px 0 0; }
-  .side { gap: 16px; padding: 16px; }
-  .forecast { margin-top: -8px; }
-  .main { gap: 12px; padding: 16px 12px 32px; }
-  .stat { padding: 12px 16px; }
-  .stat b { font-size: 20px; }
-  .tile-panel { padding: 12px 16px; }
-  .units { gap: 8px 16px; }
-  .stat[aria-selected="true"]::after { left: 16px; right: 16px; }
-  .block { padding: 12px 16px 4px; }
-  .slots { grid-template-columns: repeat(14, 52px); }
-  .find-wrap { flex: 1 1 140px; }
-  .find { width: 100%; }
-  .dlg { padding: 16px; }
-}
-/* 清单很宽（窗口大约 1550 像素以上；.main 最宽 1480）：格子之间放宽，数和设备不挤在左边 */
-@container sheet (min-width: 1200px) {
-  .list th, .list td { padding-left: 20px; padding-right: 20px; }
-  .list th:first-child, .list td:first-child { padding-left: 20px; }
-  .list th:last-child, .list td:last-child { padding-right: 24px; }
-  .list th.c-rate, .list td.c-rate { width: 96px; padding-right: 0; }
-  .list th.c-fab, .list td.c-fab { width: 264px; padding-left: 48px; padding-right: 0; }
-  .list th.c-recipe, .list td.c-recipe { padding-left: 32px; }
-  .list td { padding-top: 10px; padding-bottom: 10px; }
-}
-/* 清单本身变窄（看的是清单的宽度，不是窗口：左栏在不在差 270 像素）：先收紧、不写秒数（配方本来就能折行） */
-@container sheet (max-width: 800px) {
-  .list th, .list td { padding-left: 8px; padding-right: 8px; }
-  .list th:first-child, .list td:first-child { padding-left: 12px; }
-  .list th:last-child, .list td:last-child { padding-right: 16px; }
-  .list th.c-rate, .list td.c-rate { width: 56px; padding-right: 0; }
-  .list th.c-fab, .list td.c-fab { width: 200px; padding-left: 20px; padding-right: 0; }
-  .list th.c-recipe, .list td.c-recipe { padding-left: 16px; }
-  .c-item { width: auto; min-width: 140px; }
-  .list .sec { display: none; }
-}
-/* 再窄（清单 660 像素以下，手机、左栏旁边很挤的时候），或者表格比清单宽（喷了增产剂、设备名字长时窗口 1000 像素上下）：
- * calc.js 的 fitSheet 给表格加 cards，每一行变成一块，图标下面对齐；选上的铺色、左边那道放到整块上 */
-.list.cards thead { display: none; }
-.list.cards, .list.cards tbody, .list.cards td { display: block; }
-.list.cards tr { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 4px 12px; padding: 12px 16px; border-bottom: 1px solid var(--line); }
-.list.cards tbody tr:last-child { border-bottom: 0; }
-.list.cards td, .list.cards td:first-child, .list.cards td:last-child, .list.cards td.c-fab { width: auto; min-width: 0; padding: 0; border: 0; background: transparent !important; }
-.list.cards td.c-item { grid-column: 1; }
-.list.cards td.c-rate { grid-column: 2; align-self: center; }
-.list.cards td.c-fab, .list.cards td.c-recipe { grid-column: 1 / -1; margin-left: 48px; }
-.list.cards td.c-fab:has(+ .c-spray) { grid-column: 1; }
-.list.cards td.c-spray { grid-column: 2; align-self: center; }
-.cards .count { min-width: 0; padding-left: 7px; text-align: left; } /* 和下面配方格子里的字对齐（格子有 6 像素内边距加 1 像素边） */
-.list.cards td.c-recipe:has(+ .c-ext) { grid-column: 1; }
-.list.cards td.c-ext { grid-column: 2; align-self: center; }
-.cards .cell { white-space: normal; flex-wrap: wrap; }
-.list.cards .cell::after { opacity: 1; }
-.list.cards .sec { display: inline; }
-.list.cards td:first-child { box-shadow: none !important; }
-.list.cards tbody tr { transition: background-color 0.15s var(--ease), box-shadow 0.2s var(--ease); }
-.list.cards tbody tr:last-child { border-radius: 0 0 11px 11px; }
-.list.cards tbody tr[data-item]:not(.inc):active { background: var(--inc-hover); }
-.list.cards tbody tr.inc { background: var(--inc); box-shadow: inset 2px 0 0 var(--inc-bar); transition-delay: calc(var(--d, 0) * 60ms); }
-.list.cards tbody tr.inc.hl { background: var(--inc-hover); transition-delay: 0s; }
-.list.cards tbody tr.sel { background: var(--sel); box-shadow: inset 3px 0 0 var(--accent); }
-.list.cards tbody tr.sel.hl { background: var(--sel-hover); }
-.list.cards tbody tr.flash { animation: flash 0.8s var(--ease); }
-/* 已完成的记录：整块缩进，和上面那一行算一组 */
-.list.cards tr.has-rec, .list.cards tr.is-rec:not(.rec-last) { border-bottom-color: transparent; }
-.list.cards tr.has-rec { padding-bottom: 4px; }
-.list.cards tr.has-rec td, .list.cards tr.is-rec td { padding: 0; }
-.list.cards tr.is-rec { padding: 4px 16px 4px 44px; }
-.list.cards tr.is-rec.rec-last { padding-bottom: 12px; }
-.list.cards tr.is-rec .c-item .it { padding-left: 0; }
-.list.cards tr.is-rec td.c-fab, .list.cards tr.is-rec td.c-recipe { margin-left: 42px; }
-@media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }
-</style>
+<script defer src="calc.js?v=tabs2"></script>
+<link rel="stylesheet" href="style.css?v=1">
 <script>
-/* 深浅色：平常跟系统（系统设成「自动」就是日出变浅、日落变深）；深色的几段 CSS 是 style.dark-css，媒体条件就是系统深色。
-   计算器顶栏的按钮手动选的记在浏览器里（dsphc-theme，连同当时系统是深是浅），计算器和蓝图生成器都认；系统自己换了就作废、又跟系统。
+/* 记住上次选的版本：上次点过「切换原版」，这次再直接进新版的地址就回原版去；
+   点「切换新版」时又会记住新版。链接带 ?ver=new / ?ver=old 可临时指定（也会记住）。 */
+(function () {
+  var KEY = 'dsq-ver';
+  function get() { try { return localStorage.getItem(KEY); } catch (e) { return null; } }
+  function set(v) { try { localStorage.setItem(KEY, v); } catch (e) {} }
+  window.dsqGo = function (ver, url) { set(ver); location.href = url; };
+  var q = '';
+  try { q = new URLSearchParams(location.search).get('ver') || ''; } catch (e) {}
+  if (q === 'new' || q === 'old') set(q);
+  if (get() === 'old') location.replace('../');
+})();
+</script>
+<script>
+/* 深浅色：与原版（站点根目录）共用 dsq-theme —— 在哪个版本里切了，另一个版本进来也是同一个深浅色。
+   样式都在 style.css 里，深色变量由 <html data-theme="dark"> 命中（见 style.css 里 html[data-theme="dark"] 那一段）。
    web/index.template.html 里有一样的一份 */
 (function () {
-  var KEY = 'dsphc-theme';
+  var KEY = 'dsq-theme';      // 与原版（站点根目录）共用：进哪个版本都是同一个深浅色
+  var LEGACY = 'dsphc-theme'; // 本目录的蓝图生成器还认这个旧格式（带「当时系统深浅」），照旧写一份
   var mq = matchMedia('(prefers-color-scheme: dark)');
-  var mem = null; // 浏览器不让存时只管这一页
   var sys = function () { return mq.matches ? 'dark' : 'light'; };
-  var picked = function () {
-    var o = mem;
-    try { o = JSON.parse(localStorage.getItem(KEY)); } catch (e) {}
-    if (o && (o.t === 'dark' || o.t === 'light') && o.sys === sys()) return o.t;
-    mem = null; // 系统换过了（或者没记、坏了）：作废，免得系统再换回来时又冒出来
-    try { localStorage.removeItem(KEY); } catch (e) {}
+  var saved = function () {
+    var t = null;
+    try { t = localStorage.getItem(KEY); } catch (e) {}
+    if (t === 'dark' || t === 'light') return t;
+    try {
+      var o = JSON.parse(localStorage.getItem(LEGACY)); // 旧存档：当时系统深浅还对得上才算数
+      if (o && (o.t === 'dark' || o.t === 'light') && o.sys === sys()) return o.t;
+    } catch (e) {}
     return null;
   };
-  var apply = function () {
-    var t = picked();
-    var css = document.querySelectorAll('style.dark-css');
-    for (var i = 0; i < css.length; i++) css[i].media = t === 'dark' ? 'all' : t === 'light' ? 'not all' : '(prefers-color-scheme: dark)';
-    document.documentElement.setAttribute('data-theme', t || sys());
+  var apply = function (t) {
+    t = t === 'dark' || t === 'light' ? t : saved() || 'dark'; // 没选过就深色，和原版一致
+    document.documentElement.setAttribute('data-theme', t);
+    try {
+      localStorage.setItem(KEY, t);
+      localStorage.setItem(LEGACY, JSON.stringify({ t: t, sys: sys() }));
+    } catch (e) {}
     dispatchEvent(new Event('themechange'));
   };
-  window.dsphcTheme = function (t) {
-    mem = t === sys() ? null : { t: t, sys: sys() };
-    try {
-      if (mem) localStorage.setItem(KEY, JSON.stringify(mem));
-      else localStorage.removeItem(KEY);
-    } catch (e) {}
-    apply();
-  };
-  mq.addEventListener('change', function () { window.dsphcTheme(sys()); });
+  window.dsphcTheme = function (t) { apply(t); };
   addEventListener('storage', function (e) { if (e.key === KEY) apply(); });
   apply();
 })();
 </script>
 </head>
 <body>
-<header class="strip">
-  <div class="brand"><img class="logo" src="../favicon.ico" alt=""><h1>量产计算器</h1><span>戴森球计划</span><div class="toggle mode" id="mode" role="group" aria-label="需求 / 供给"><button type="button" data-act="mode" data-m="demand" aria-pressed="false" title="需求模式：只算整条线要多少">D</button><button type="button" data-act="mode" data-m="supply" aria-pressed="true" title="供给模式：每生成一张蓝图，它做的东西就标成已完成、从清单里扣掉，清单剩下的就是还要做的；点「已完成」旁边的 × 能撤回，别的页面做完了可以「归档」并进总页面">S</button></div></div>
-  <div class="plans-row">
-    <div class="plans" id="plans" role="tablist" aria-label="各个页面"></div>
-    <button class="plan-add" type="button" data-act="tab-add" title="添加页面" aria-label="添加页面"><i class="ico i-plus" aria-hidden="true"></i></button>
-  </div>
-  <div class="strip-end">
-    <!-- 原版计算器在站点根目录：只有放进 DSQ 的那份显示（tools/build-web.js --dsq 去掉 hidden） -->
-    <a class="strip-btn" id="classic" href="../" title="回到原版计算器">切换原版</a>
-    <button class="strip-btn" id="theme" type="button" data-act="theme"><i class="ico i-moon" aria-hidden="true"></i><span>深色模式</span></button>
+<header class="site-header" id="siteHeader">
+  <div class="header-inner">
+    <a class="brand" href="./index.html" title="刷新本页">
+      <img class="logo" src="../favicon.ico" alt="logo" />
+      <h1>戴森球计划量产量化计算器</h1>
+      <span class="sub">DSP Production Calculator</span>
+    </a>
+    <div class="ver-notice"><span class="ver-notice-tag">重要提示</span>本站已更新域名，请更新您的收藏夹！新域名：<a href="https://dsq.svlik.com/" target="_blank" rel="noopener">dsq.svlik.com</a></div>
+    <div class="header-actions">
+      <button class="ver-switch" type="button" title="原版：更多选项与细节，和主站计算器一样；选过之后下次打开本站会直接进原版" onclick="dsqGo('old','../')">切换原版</button>
+      <button id="themeToggle" type="button" data-act="theme" title="切换深浅主题">🌙 深色模式</button>
+    </div>
   </div>
 </header>
+
+
+
+<!-- 页签行：自己一条，不跟 banner 粘在一起——左边 D / S 计算模式，右边像浏览器标签页一样的各个页面 -->
+<div class="tabs-bar" id="tabsBar">
+  <div class="toggle mode" id="mode" role="group" aria-label="需求 / 供给">
+    <button type="button" data-act="mode" data-m="demand" aria-pressed="false" title="需求模式：只算整条线要多少">需求模式</button>
+    <button type="button" data-act="mode" data-m="supply" aria-pressed="true" title="供给模式：每生成一张蓝图，它做的东西就标成已完成、从清单里扣掉，清单剩下的就是还要做的；点「已完成」旁边的 × 能撤回，别的页面做完了可以「归档」并进总页面">供给模式</button>
+  </div>
+  <div class="plans" id="plans" role="tablist" aria-label="各个页面"></div>
+  <button class="plan-add" type="button" data-act="tab-add" title="添加页面" aria-label="添加页面"><i class="ico i-plus" aria-hidden="true"></i></button>
+</div>
+<script>
+/* 页头、页签行的高度随字号 / 缩放变化，量一次写进 --header-h / --tabs-h / --strip-h（吸顶都靠它） */
+(function () {
+  var h = document.getElementById('siteHeader');
+  var t = document.getElementById('tabsBar');
+  if (!h || !t) return;
+  var apply = function () {
+    var a = h.offsetHeight, b = t.offsetHeight, root = document.documentElement.style;
+    root.setProperty('--header-h', a + 'px');
+    root.setProperty('--tabs-h', b + 'px');
+    root.setProperty('--strip-h', (a + b) + 'px');
+  };
+  apply();
+  if (window.ResizeObserver) {
+    var ro = new ResizeObserver(apply);
+    ro.observe(h);
+    ro.observe(t);
+  }
+  addEventListener('resize', apply);
+})();
+</script>
 <div class="app">
   <aside class="side" aria-label="目标和设置">
     <div class="group">
@@ -641,7 +138,7 @@ dialog::backdrop { background: rgb(15 15 16 / 0.4); }
     </div>
     <p class="forecast" id="forecast"></p>
     <footer class="links">
-      <a href="https://dsq.svlik.com/" target="_blank" rel="noopener">原版计算器（DSQ）</a>
+      <a href="../?ver=old">原版计算器（DSQ）</a>
       <a href="https://github.com/zoujack018/dsp-handcraft" target="_blank" rel="noopener">源代码</a>
       <span>QQ 群 53309723</span>
     </footer>

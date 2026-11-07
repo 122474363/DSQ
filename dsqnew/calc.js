@@ -113,7 +113,7 @@ function loadData() {
 
 const STORE = 'dsq-calc-tabs';
 const OLD_STORE = 'dsq-calc-next'; // 没分页时的旧存档：第一次打开时搬进「总页面」
-const MODE_KEY = 'dsq-calc-mode'; // 左上角 D / S：'demand' 需求（清单照整条线算，生成过的蓝图不算、也不记）/ 'supply' 供给（扣掉生成过的，看做了什么、还差什么）
+const MODE_KEY = 'dsq-calc-mode'; // 页签行左边的 D / S：'demand' 需求（清单照整条线算，生成过的蓝图不算、也不记）/ 'supply' 供给（扣掉生成过的，看做了什么、还差什么）
 let mode = 'supply';
 try {
   if (localStorage.getItem(MODE_KEY) === 'demand') mode = 'demand';
@@ -773,7 +773,7 @@ function renderTabs(force = false) {
     .map((t, i) => {
       const g = t.state.goals.find((x) => x.name);
       const close = i ? `<button class="x" type="button" data-act="tab-archive" data-i="${i}" tabindex="-1" aria-label="归档${esc(t.name)}" title="归档：目标并进总页面">${X_ICON}</button>` : '';
-      return `<div class="plan" role="tab" tabindex="0" aria-selected="${i === active}" data-act="tab" data-i="${i}" draggable="${i > 0}" title="${esc(t.name)}（双击改名，右键更多${i ? '，拖到总页面上归档' : ''}）">${g ? ic(g.name, 's18') : ''}<span class="nm">${esc(t.name)}</span>${close}</div>`;
+      return `<div class="plan" role="tab" tabindex="0" aria-selected="${i === active}" data-act="tab" data-i="${i}" draggable="${i > 0}" title="${esc(t.name)}（双击改名，右键更多${i ? '，拖到别处换顺序、拖到总页面上归档' : ''}）">${g ? ic(g.name, 's18') : ''}<span class="nm">${esc(t.name)}</span>${close}</div>`;
     })
     .join('');
   hintPlans();
@@ -1456,9 +1456,9 @@ function makeBeltless() {
 /** 右上角深浅色按钮：写点了以后换成哪种（同原版的页头）；换色本身在 index.html 开头那段（window.dsphcTheme） */
 function renderTheme() {
   const dark = document.documentElement.getAttribute('data-theme') === 'dark';
-  const b = $('#theme');
-  b.querySelector('.ico').className = `ico ${dark ? 'i-sun' : 'i-moon'}`;
-  b.querySelector('span').textContent = dark ? '浅色模式' : '深色模式';
+  const b = $('#themeToggle');
+  if (!b) return;
+  b.textContent = dark ? '☀️ 浅色模式' : '🌙 深色模式';
   b.title = `换成${dark ? '浅色' : '深色'}；平常跟系统，系统自己换深浅色时又跟系统`;
 }
 addEventListener('themechange', renderTheme);
@@ -1669,35 +1669,83 @@ document.addEventListener('focusin', (e) => {
   if (e.target.closest?.('.help-btn')) placeTip();
 });
 
-// 把一页拖到「总页面」上：归档（拖着时总页面描一圈虚线，到了上面铺金橙）
-let dragTab = 0;
+// 标签页：拖着能换顺序；拖到「总页面」上是归档（拖着时总页面描一圈虚线，到了上面铺金橙）
+let dragTab = 0; // 正在拖的那一页（索引）
+let dropIndex = -1; // 松手要插到哪一格前面（还没把拖的这页拿掉时的下标）
 const totalTab = () => $('#plans .plan[data-i="0"]');
+/** 清掉拖动时的落点提示（拖着那一页的半透明另外留着，直到松手） */
+function clearDropMarks() {
+  totalTab()?.classList.remove('drop-ready', 'drop-on');
+  for (const p of document.querySelectorAll('#plans .plan')) p.classList.remove('drop-before', 'drop-after');
+}
 document.addEventListener('dragstart', (e) => {
-  const i = Number(e.target.closest?.('#plans .plan')?.dataset.i);
+  const p = e.target.closest?.('#plans .plan');
+  const i = Number(p?.dataset.i);
   if (!(i > 0)) return;
   dragTab = i;
+  dropIndex = -1;
+  p.classList.add('dragging');
   e.dataTransfer.effectAllowed = 'move';
   e.dataTransfer.setData('text/plain', tabs[i].name);
   totalTab()?.classList.add('drop-ready');
 });
 document.addEventListener('dragend', () => {
   dragTab = 0;
-  totalTab()?.classList.remove('drop-ready', 'drop-on');
+  dropIndex = -1;
+  clearDropMarks();
+  for (const p of document.querySelectorAll('#plans .plan.dragging')) p.classList.remove('dragging');
 });
 $('#plans').addEventListener('dragover', (e) => {
-  const on = dragTab > 0 && e.target.closest('.plan') === totalTab();
-  totalTab()?.classList.toggle('drop-on', on);
-  if (!on) return;
+  if (!(dragTab > 0)) return;
+  const p = e.target.closest('.plan');
+  if (!p) return;
   e.preventDefault();
   e.dataTransfer.dropEffect = 'move';
+  const i = Number(p.dataset.i);
+  clearDropMarks();
+  if (i === dragTab) {
+    // 落在自己身上：不换位置
+    dropIndex = -1;
+    totalTab()?.classList.add('drop-ready');
+    return;
+  }
+  if (i === 0) {
+    // 落在「总页面」上：松手就归档
+    dropIndex = 0;
+    totalTab().classList.add('drop-ready', 'drop-on');
+    return;
+  }
+  const r = p.getBoundingClientRect();
+  const after = e.clientX > r.left + r.width / 2;
+  dropIndex = after ? i + 1 : i;
+  p.classList.add(after ? 'drop-after' : 'drop-before');
 });
 $('#plans').addEventListener('drop', (e) => {
-  if (!(dragTab > 0) || e.target.closest('.plan') !== totalTab()) return;
+  if (!(dragTab > 0)) return;
   e.preventDefault();
-  const i = dragTab;
+  const from = dragTab;
+  const to = dropIndex;
   dragTab = 0;
-  archiveTab(i);
+  dropIndex = -1;
+  clearDropMarks();
+  if (to === 0) return archiveTab(from); // 落在总页面上 = 归档
+  if (to < 1) return;
+  moveTab(from, to);
 });
+
+/** 把第 from 页挪到第 to 格前（to 是拖动时看到的下标，这时这页还没从数组里拿走；第 0 页「总页面」永远排最前） */
+function moveTab(from, to) {
+  if (from < 1 || !tabs[from]) return;
+  if (to > from) to -= 1; // 先拿走这一页，落在它右边的落点都往前进一格
+  if (to === from || to < 1) return;
+  const cur = tabs[active];
+  save();
+  const [moved] = tabs.splice(from, 1);
+  tabs.splice(to, 0, moved);
+  active = tabs.indexOf(cur);
+  renderTabs(true);
+  save();
+}
 
 // 页面：双击改名，右键出菜单（重命名、复制、归档、删除），键盘回车切换、F2 改名
 document.addEventListener('dblclick', (e) => {
