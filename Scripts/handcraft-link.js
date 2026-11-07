@@ -1,8 +1,9 @@
 // 生成蓝图：在本页的弹层里打开「手搓产线蓝图」页（dsqnew/generator.html，由 dsp-handcraft 打包，源码 https://github.com/zoujack018/dsp-handcraft），
 // 把这里的需求、每个物品选的配方和设备、排除的物品带过去（地址里的 #plan=，字段都按游戏 ID），那边自动排布、出蓝图。
 // 原来 blueprint.js 生成的蓝图里分拣器的位置和槽位对不上（issues #18、#36），按钮改成跳到这里。
+// 「生成蓝图[无带流]」也开这一页，方案里标上 beltless：那边先只填好，点「生成蓝图」照那边的设置出无带蓝图。
 
-// 手搓产线蓝图页的地址（和简易版计算器放在一起）
+// 手搓产线蓝图页的地址（和新版计算器放在一起）
 var HANDCRAFT_PAGE = 'dsqnew/generator.html';
 
 var HANDCRAFT_KIND = { 2303: 'assembler', 2304: 'assembler', 2305: 'assembler', 2318: 'assembler', 2302: 'smelter', 2315: 'smelter', 2319: 'smelter', 2309: 'chemical', 2317: 'chemical', 2901: 'lab', 2902: 'lab' };
@@ -17,8 +18,8 @@ var HANDCRAFT_MAKERS = {
   研究站: { type: 15, factories: [2901, 2902] },
 };
 
-/** 本站当前的方案 → 带给手搓产线蓝图页的方案 */
-function handcraftPlan() {
+/** 本站当前的方案 → 带给手搓产线蓝图页的方案；beltless：「生成蓝图[无带流]」 */
+function handcraftPlan(beltless) {
   var ids = GAME_ITEM_IDS;
   var plan = { from: '量产量化计算器', targets: [], ext: [], recipes: {} };
   var unknown = [];
@@ -98,16 +99,20 @@ function handcraftPlan() {
   // 参数配置里的「运输站集装物流：传送带堆叠层数」→ 物流站出货叠几层
   var pile = parseInt($('#speed1_5').val());
   if (pile >= 1 && pile <= 4) plan.pile = String(pile);
+  if (beltless) {
+    plan.beltless = true;
+    if ($('#onlyConveyorBeltMk3').prop('checked')) plan.belt = '3'; // 蓝图配置里的「只使用三级传送带」
+  }
   return { plan: plan, unknown: unknown, noId: noId };
 }
 
-/** 「生成蓝图」按钮：在本页的弹层里打开手搓产线蓝图页（那边点「返回」关掉弹层，计算器原样还在） */
-function openHandcraft() {
+/** 「生成蓝图」按钮：在本页的弹层里打开手搓产线蓝图页（那边点「返回」关掉弹层，计算器原样还在）；beltless：「生成蓝图[无带流]」 */
+function openHandcraft(beltless) {
   if (!xqs || !xqs.length) {
     cocoMessage.warning('先添加需求，再生成蓝图', 3000);
     return;
   }
-  var r = handcraftPlan();
+  var r = handcraftPlan(beltless);
   var noId = r.noId.filter(function (n) { return r.unknown.indexOf(n) < 0; });
   if (noId.length) cocoMessage.warning('这些还没有游戏 ID，蓝图页会少了它们：' + noId.join('、') + '<br/>（data.js 里配方写 gameId、产物写 itemId）', 5000);
   if (r.unknown.length) cocoMessage.warning('这些需求在蓝图页里找不到对应物品，已跳过：' + r.unknown.join('、'), 4000);

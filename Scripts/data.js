@@ -7281,7 +7281,11 @@ function getRecipe() {
 }
 
 
-function generateBlueprint1() { // 无带流蓝图
+// 生成蓝图[无带流]：也跳到手搓产线蓝图页，标成无带的（Scripts/handcraft-link.js）。原来的生成方法改名留在下面，不再接到按钮上
+function generateBlueprint1() {
+  openHandcraft(true);
+}
+function generateBlueprint1Legacy() { // 无带流蓝图
   if (!location.href.startsWith("https")) {
     cocoMessage.warning("请使用 https 协议访问以启用复制到剪切板功能");
     return;
