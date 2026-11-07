@@ -259,7 +259,7 @@ button { -webkit-tap-highlight-color: transparent; }
 .go-row.open .tip, .help-btn:focus-visible + .tip { display: block; }
 .forecast { margin: -16px 0 0; font-size: 12px; color: var(--text-3); }
 .forecast:empty { display: none; }
-.links { margin-top: auto; display: flex; flex-wrap: wrap; gap: 4px 16px; padding-top: 16px; border-top: 1px solid var(--line); font-size: 12px; color: var(--text-3); }
+.links { margin-top: auto; display: flex; flex-wrap: wrap; gap: 4px 16px; padding-top: 16px; border-top: 1px solid var(--line); font-size: 12px; color: var(--text-3); text-autospace: no-autospace; } /* no-autospace：关掉 Chrome 自动在中英文之间加的细空隙，「此新版由dsp-handcraft创建」要连在一起 */
 .links a { color: inherit; text-decoration: none; }
 .links a:hover { color: var(--text); text-decoration: underline; text-underline-offset: 3px; }
 

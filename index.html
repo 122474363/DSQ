@@ -433,6 +433,24 @@
               src="//www.svlik.com/t/dsq/img/ZSM.jpg" alt="赞赏码二维码" loading="lazy" width="180" height="180" /><span
               class="qr-pop-tip">扫码打赏 · 点击可看大图</span></span></span>
       </p>
+      <!-- 版本选择器：清单和逻辑全在根目录 old.js 里，各历史版本快照共用这一份；挂载点是上面「更新说明」里的 [data-version-bar] -->
+<!-- 版本选择器 old.js：清单/渲染/跳转都在根目录 old.js 里。下面这段在根目录、在任何 /版本号/ 目录、
+     甚至 /t/dsq/0.1.2.3/ 这种多级目录下都能自动找到它，所以把整个目录挪进版本号文件夹不用改这里。 -->
+<script>
+(function () {
+  var seg = location.pathname.replace(/[^/]*$/, '').split('/').filter(Boolean);
+  var up = /^\d+\.\d+\.\d+\.\d+$/.test(seg[seg.length - 1] || '') ? '../' : './';
+  var tries = 0;
+  function add(src) {
+    var s = document.createElement('script');
+    s.src = src;
+    s.defer = true;
+    s.onerror = function () { if (++tries < 2) add(up + '../old.js'); };
+    (document.head || document.documentElement).appendChild(s);
+  }
+  add(up + 'old.js');
+})();
+</script>
     </footer>
 
   </main>
@@ -443,7 +461,8 @@
         var includes = $('[data-include]');
         jQuery.each(includes, function () {
           var file = 'quote/' + $(this).data('include') + '.html';
-          $(this).load(file);
+          // 加个时间戳，改完 quote/*.html 不用 Ctrl+F5 也能立刻看到最新版
+          $(this).load(file + '?_=' + Date.now());
         });
       });
     </script>
