@@ -125,6 +125,11 @@ button { -webkit-tap-highlight-color: transparent; }
 /* ---------- 顶部页头：与完整版（站点根目录）一致——毛玻璃、36px logo、18px 标题、32px 按钮 ---------- */
 .site-header {
   position: sticky; top: 0; z-index: 30;
+  /* 字体跟原版页头完全一致（原版 body 用 "Segoe UI", "Microsoft YaHei", ...）。
+     不能用全站默认的 var(--ui)：它以 system-ui 开头，Windows 上会解析成 Segoe UI Variable，
+     英文副标题和数字会明显变宽（实测 "DSP Production Calculator" 11px 宽 138.7px vs 原版 127.7px）。 */
+  font-family: "Segoe UI", "Microsoft YaHei", "PingFang SC", sans-serif;
+  line-height: 1.6; /* 同原版 body 的行高，h1 / 副标题的行距才和原版一样 */
   background: color-mix(in srgb, var(--bg) 82%, transparent);
   -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);
   border-bottom: 1px solid var(--line);
@@ -133,7 +138,7 @@ button { -webkit-tap-highlight-color: transparent; }
 .header-inner { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 12px 14px; }
 .site-header .brand { flex: none; display: flex; align-items: center; gap: 12px; width: auto; min-width: 0; padding: 0; border-right: 0; color: var(--text); text-decoration: none; }
 .site-header .brand .logo { flex: none; width: 36px; height: 36px; border-radius: 0; }
-.site-header .brand h1 { margin: 0; font-size: 18px; line-height: 24px; font-weight: 700; letter-spacing: 0.5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.site-header .brand h1 { margin: 0; font-size: 18px; font-weight: 700; letter-spacing: 0.5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .site-header .brand .sub { font-size: 11px; color: var(--text-3); letter-spacing: 1.5px; text-transform: uppercase; white-space: nowrap; }
 .header-actions { display: flex; align-items: center; gap: 8px; margin-left: auto; }
 .header-actions button { height: 32px; padding: 0 14px; color: var(--text); font-size: 13px; white-space: nowrap; background: var(--card); border: 1px solid var(--line-2); border-radius: 6px; cursor: pointer; transition: border-color 0.2s ease, color 0.2s ease; }

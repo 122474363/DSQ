@@ -14,7 +14,7 @@
 <script defer src="../Scripts/data.js"></script>
 <script defer src="calc-icons.js"></script>
 <script defer src="calc.js?v=tabs2"></script>
-<link rel="stylesheet" href="style.css?v=1">
+<link rel="stylesheet" href="style.css?v=2">
 <script>
 /* 记住上次选的版本：上次点过「切换原版」，这次再直接进新版的地址就回原版去；
    点「切换新版」时又会记住新版。链接带 ?ver=new / ?ver=old 可临时指定（也会记住）。 */
@@ -81,9 +81,9 @@
 
 
 
-<!-- 页签行：自己一条，不跟 banner 粘在一起——左边 D / S 计算模式，右边像浏览器标签页一样的各个页面 -->
+<!-- 页签行：自己一条，不跟 banner 粘在一起——左边 需求模式 / 供给模式 计算模式，右边像浏览器标签页一样的各个页面 -->
 <div class="tabs-bar" id="tabsBar">
-  <div class="toggle mode" id="mode" role="group" aria-label="需求 / 供给">
+  <div class="toggle mode" id="mode" role="group" aria-label="需求模式 / 供给模式">
     <button type="button" data-act="mode" data-m="demand" aria-pressed="false" title="需求模式：只算整条线要多少">需求模式</button>
     <button type="button" data-act="mode" data-m="supply" aria-pressed="true" title="供给模式：每生成一张蓝图，它做的东西就标成已完成、从清单里扣掉，清单剩下的就是还要做的；点「已完成」旁边的 × 能撤回，别的页面做完了可以「归档」并进总页面">供给模式</button>
   </div>
