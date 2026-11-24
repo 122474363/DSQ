@@ -5122,9 +5122,13 @@ function getPfs(name) {
   for (var i = 0; i < data.length; i++) {
     var item = data[i];
     for (var j = 0; j < item.s.length; j++) {
-      if (item.s[j].name == name) {
+      // 只保留「抵消同名投入/产出后仍能净产出 name」的配方：
+      // 重氢分馏塔（氢1 → 重氢0.01 + 氢0.99，氢净 -0.01）因此不会出现在氢的备选里，
+      // X 射线裂解（投入氢、产出更多氢）这类有效的循环配方不受影响。
+      if (item.s[j].name == name && getRecipeForItem(name, item)) {
         var pf = $.extend(true, {}, item);
         pfs.push(pf);
+        break;
       }
     }
   }
@@ -5259,72 +5263,134 @@ function getPfTitle(item, info) {
   return title.join(" ");
 }
 
+// ---------- 配方净配平（Issue #45 修复） ----------
+// 浮点容差：0.99 - 1 这类运算会有 -0.010000000000000009 的误差，
+// 抵消后 |n| 小于该容差的项视为 0 删除（例如 0.3 产出 vs 0.1 + 0.2 投入）。
+var RECIPE_EPSILON = 1e-9;
+
+// 在配方副本上补齐 n、抵消同名投入和产出，返回配平后的副本（不动原数据）
+function normalizeRecipe(item) {
+  var o = $.extend(true, {}, item);
+  if (!o.q) o.q = [];
+  if (!o.s) o.s = [];
+  var i;
+  for (i = 0; i < o.s.length; i++) o.s[i].n = o.s[i].n || 1;
+  for (i = 0; i < o.q.length; i++) o.q[i].n = o.q[i].n || 1;
+
+  for (i = 0; i < o.s.length; i++) {
+    for (var j = 0; j < o.q.length; j++) {
+      if (o.s[i].name == o.q[j].name) {
+        var to_cancel = Math.min(o.s[i].n, o.q[j].n);
+        o.s[i].n -= to_cancel;
+        o.q[j].n -= to_cancel;
+      }
+    }
+  }
+
+  o.s = o.s.filter(function (x) { return Math.abs(x.n) > RECIPE_EPSILON; });
+  o.q = o.q.filter(function (x) { return Math.abs(x.n) > RECIPE_EPSILON; });
+  return o;
+}
+
+// 判断某条配方能否净产出 name：
+// 能则返回配平后的配方（产出字段已合并到顶层，和 find 的返回形态一致），否则返回 null。
+function getRecipeForItem(name, item) {
+  if (!item || !item.s) return null;
+  var o = normalizeRecipe(item);
+  for (var j = 0; j < o.s.length; j++) {
+    if (o.s[j].name == name && o.s[j].n > RECIPE_EPSILON) {
+      $.extend(o, o.s[j]);
+      return o;
+    }
+  }
+  return null;
+}
+
+// 从原始配方克隆一份，并把产出项 name 的字段合并到顶层（find(name) 不带配平时的返回形态）
+function rawCloneWithOutput(item, name) {
+  var o = $.extend(true, {}, item);
+  if (!o.q) o.q = [];
+  for (var j = 0; j < o.s.length; j++) {
+    if (o.s[j].name == name) {
+      $.extend(o, o.s[j]);
+      break;
+    }
+  }
+  return o;
+}
+
+// 配方稳定签名（替代数字下标存档，Issue #45 已知限制的长期修复）：
+// 设备 + 时长 + 排序后的投入/产物「名称:数量」。与 data 数组顺序无关，
+// 重排、插入新配方都不会让旧存档错位。已验证 190 条配方签名零重复。
+function recipeSig(r) {
+  function norm(arr) {
+    return (arr || [])
+      .map(function (x) { return x.name + ":" + (x.n || 1); })
+      .sort()
+      .join(",");
+  }
+  return r.m + "|" + (r.t || 1) + "|" + norm(r.q) + "|" + norm(r.s);
+}
+
 //找到这个物品的配方(同时赋值s[XX]里的 t 和 n )
 // cancel out input and output when [normalize_recipe=true]
 function find(name, normalize_recipe) {
-  function get(item) {
-    var o = $.extend(true, {}, item);
-    if (normalize_recipe) {
-      // set undefined values to 1
-      for (var i = 0; i < o.s.length; i++) {
-        o.s[i].n = o.s[i].n || 1;
-      }
-      for (var i = 0; i < o.q.length; i++) {
-        o.q[i].n = o.q[i].n || 1;
-      }
-
-      // try to cancel out same components
-      for (var i = 0; i < o.s.length; i++) {
-        var s_name = o.s[i].name;
-        for (var j = 0; j < o.q.length; j++) {
-          if (s_name == o.q[j].name) {
-            // cancel out
-            var to_cancel = Math.min(o.s[i].n, o.q[j].n);
-            o.s[i].n -= to_cancel;
-            o.q[j].n -= to_cancel;
-          }
-        }
-      }
-
-      // remove those canceled to be zero
-      var o_s = o.s;
-      o.s = [];
-      for (var i = 0; i < o_s.length; i++) {
-        if (o_s[i].n === 0) continue;
-        o.s.push(o_s[i]);
-      }
-      var o_q = o.q;
-      o.q = [];
-      for (var i = 0; i < o_q.length; i++) {
-        if (o_q[i].n === 0) continue;
-        o.q.push(o_q[i]);
-      }
-    }
-
-    for (var j = 0; j < o.s.length; j++) {
-      if (o.s[j].name == name) {
-        $.extend(o, o.s[j]);
-        return o;
-      }
-    }
-
-    cocoMessage.warning("重氢分馏塔无法用于生产氢气。", 3000);
-    throw new Error("配方错误！可能是因为该配方净输出为负。");
-  }
-
+  // 1) 先看配方存档。settings_pf 新格式存配方签名（recipeSig），旧格式存 data 数字下标。
+  //    数字下标在数据数组重排后会错位，读取到有效的旧存档时自动迁移为签名；
+  //    任何校验失败（越界、别的物品的配方、净产出无效、签名失配——比如数据更新
+  //    改了配方参数）都清掉存档、持久化，再回落到默认配方。
   var pf = settings_pf[name];
-  if (pf) {
-    return get(data[parseInt(pf)]);
+  if (pf !== undefined && pf !== null && pf !== "") {
+    var saved = null, savedOk = null;
+    if (typeof pf === "number" || (typeof pf === "string" && /^\d+$/.test(pf))) {
+      // 旧格式：数字下标
+      var idx = parseInt(pf);
+      saved = typeof idx === "number" && isFinite(idx) ? data[idx] : null;
+      savedOk = saved && saved.s ? getRecipeForItem(name, saved) : null;
+      if (savedOk) {
+        // 一次性迁移：数字下标 → 配方签名，用户的选择不丢失
+        settings_pf[name] = recipeSig(saved);
+        saveSettingPf();
+      }
+    } else {
+      // 新格式：按签名在 data 中定位配方（与数组顺序无关）
+      var sigStr = String(pf);
+      for (var i = 0; i < data.length; i++) {
+        if (data[i].s && recipeSig(data[i]) === sigStr) { saved = data[i]; break; }
+      }
+      savedOk = saved && saved.s ? getRecipeForItem(name, saved) : null;
+    }
+    if (savedOk) {
+      return normalize_recipe ? savedOk : rawCloneWithOutput(saved, name);
+    }
+    delete settings_pf[name];
+    saveSettingPf();
+    cocoMessage.warning("「" + name + "」的配方存档无效，已重置为默认配方。", 3000);
   }
 
+  // 2) 没有有效存档：取第一条能净产出 name 的配方
+  var hasAny = false;
   for (var i = 0; i < data.length; i++) {
-    var item = data[i];
-    for (var j = 0; j < item.s.length; j++) {
-      if (item.s[j].name == name) {
-        return get(item);
+    var d = data[i];
+    var hit = false;
+    for (var j = 0; j < d.s.length; j++) {
+      if (d.s[j].name == name) { hit = true; break; }
+    }
+    if (hit) {
+      hasAny = true;
+      var r = getRecipeForItem(name, d);
+      if (r) {
+        return normalize_recipe ? r : rawCloneWithOutput(d, name);
       }
     }
   }
+
+  if (hasAny) {
+    // 有配方但全部净产出无效（或净产出为负）：报通用的错误，不再写死「氢气」的提示
+    throw new Error('没有可用于生产"' + name + '"的有效配方。');
+  }
+  // 数据里根本没有这个物品的配方：保持原来的 undefined 语义（由调用方决定怎么提示）
+  return undefined;
 }
 
 function f_add3(name) {
@@ -6582,7 +6648,11 @@ function selectAccValue(id, accValue) {
 function selectPf(name, value) {
   let old_settings_pf = $.extend(true, {}, settings_pf);
   try {
-    settings_pf[name] = parseInt(value);
+    // 下拉框传入的是运行时下标（f_initData 里 item.id = i），这里转成稳定签名再存，
+    // 数据数组重排后存档依然有效；data[idx] 不存在时保持旧的 NaN 语义（find 会清理）
+    var idx = parseInt(value);
+    var item = data[idx];
+    settings_pf[name] = item ? recipeSig(item) : parseInt(value);
     update_all();
   } catch (e) {
     settings_pf = old_settings_pf;
